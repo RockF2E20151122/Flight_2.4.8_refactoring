@@ -1,0 +1,108 @@
+
+<header class="flight-header">
+	<h1>值机</h1>
+	<i class="returnico" id="js_return"></i> 
+</header>
+<div class="flight-header-blank"></div>
+<div id="list_wrap">
+
+</div>
+<script type="text/template" id="list_tpl">
+
+    <div class="pd5">
+		<%for(var i = 0, l = fcinfos.length; i < l; i++){ var _fcinfos = fcinfos[i]; //单条订单%>
+			<div class="flight-zjlist js_fcinfos" data-oid="<%= _fcinfos.oid %>" data-aircde="<%= _fcinfos.aircde %>" data-dacode="<%= _fcinfos.dacode %>" data-aacode="<%= _fcinfos.aacode %>" data-depdat="<%= _fcinfos.depdat %>" data-ahtyp="<%= _fcinfos.ahtyp %>" data-cinsta="<%= _fcinfos.cinsta %>" >
+				<div class="flight-zjlist-hd">
+					<%= _fcinfos.airname %> <%= _fcinfos.fno %>
+				</div>
+				<div class="flight-zjlist-info">
+					<p><span class="f-r"><%= _fcinfos.aasname %> <%= _fcinfos.aabld %> </span><span><%= _fcinfos.dasname %> <%= _fcinfos.dabld %></span></p>
+					<p><span class="f-r"><%= _fcinfos.arrname %></span><span><%= _fcinfos.depname %></span></p>
+					<p class="flight-zjlist-time"><span class="f-r"><%= cDate.parse(_fcinfos.arrdat).format("H:i") %></span><span><%= cDate.parse(_fcinfos.depdat).format("H:i") %></span><i class="flight-icon-flight3"></i></p>
+					<p><span class="f-r"><%= cDate.parse(_fcinfos.arrdat).format("n月j日") %> <%= cDate.weekday(_fcinfos.arrdat) %></span><span><%= cDate.parse(_fcinfos.depdat).format("n月j日") %> <%= cDate.weekday(_fcinfos.arrdat) %></span></p>
+				</div>
+				
+					<% if(_fcinfos.cinsta != 1){ %>
+					<div class="flight-zjlist-person">
+						<p>登机人：</p>
+						<%if(_fcinfos.ciplst){ //如果乘客列表存在
+							var _cinsta = _fcinfos.cinsta //大状态		1,都不支持 2,可选坐 3,可值机
+							for(var j = 0, l2 = _fcinfos.ciplst.length; j < l2; j++ ){	
+								var _ciplst = _fcinfos.ciplst[j], //单条乘客
+								__boksetsta = _ciplst.boksetsta,  //小状态	1,已选座 2,未选座 3,选座处理中 4,已值机
+								__isccin = _ciplst.isccin,		//是否可取消值机
+								__setno = _ciplst.setno			//座位号
+						%>
+							<p class="js_psg" data-index="<%= j %>" data-psgnam="<%= _ciplst.psgnam %>" data-tno="<%= _ciplst.tno %>" data-ctype="<%= _ciplst.ctype %>">
+								<span class="name"> <%=_ciplst.psgnam %> </span>
+								<% if(+_cinsta === 2){ //如果只支持选座，判断乘客小状态%>
+									<% if(+__boksetsta === 1){//已预约选座，显示‘预约座位号’+座位号,btn不显示%>
+									
+										<span>预约座位号：<%= __setno %></span>
+										
+									<% }else if(+__boksetsta === 2){//未选座，文案无，btn显示值机 %>
+									
+										<span class="btn js_checkin_btn data-type="in">值机</span>
+										
+									<% }else if(+__boksetsta === 3){ //正预约选座，显示‘预约座位中...’，btn不显示%>
+										
+										<span>预约座位中...</span>
+										
+									<% } %>
+								<% }else if(+_cinsta === 3){	//如果支持值机，判断小状态 %>
+									<% if(+__boksetsta === 1){	//如果已预约选座，显示‘预约座位号’+座位号,btn显示值机%>
+									
+										<span>预约座位号：<%= __setno %></span>
+										<span class="btn js_checkin_btn data-type="in">值机</span>
+										
+									<% }else if(+__boksetsta === 2){//未预约选座，文案无，btn显示值机 %>
+									
+										<span class="btn js_checkin_btn data-type="in">值机</span>
+										
+									<% }else if(+__boksetsta === 3){//正预约选座，显示‘预约座位中’...，btn  值机 %>
+									
+										<span>预约座位中...</span>
+										<span class="btn js_checkin_btn data-type="in">值机</span>
+										
+									<% }else if(+__boksetsta === 4){//已值机，再判断小状态 %>
+									
+										<span>值机座位号：<%= __setno %></span>
+										<% if(__isccin){ 	//如果可以取消，btn显示取消%>
+											<span class="btn btn1 js_checkout_btn data-type="out">取消值机</span>
+										<% }else{ 			//不可取消，显示值机成功%>
+											<span class="btn btn2">值机成功</span>
+										<% } %>
+										
+									<% } %>
+								<% } %>
+									
+							</p>
+						<% }} %>
+					</div>
+					<%}else{ %>
+						<div class="flight-zjlist-cnttips">
+							<p class="fnt-c"> <%= _fcinfos.Resmsg %> </p>
+						</div>
+					<% }%>
+				
+			</div>
+			
+		<%}%>
+        
+    </div>
+	
+	<div class="flight-zjlist-fromother js_unctripcheck_btn">不在携程买的机票，点此办理值机。</div>
+    <div class="flight-footer-blank"></div>
+    <div class="flight-footer js_flight_tab">
+        <ul>
+            <li class="ft1" data-type="index">机票查询</li>
+            <li class="ft2" data-type="schedule">航班动态</li>
+            <li class="ft3 current" data-type="checkin">值机</li>
+        </ul>
+    </div>
+     
+
+</script>
+
+
+

@@ -1,0 +1,25 @@
+<script type="text/template" id="insure_tpl">
+    <div class="flight-section" data-flag="<%=flag %>" data-len="<%=insurances ? insurances.length : 0 %>">
+        <%
+        var peo = pCount;
+        var isMust = (+flag & 4) != 4 ? false : true;
+        if (!insurances || insurances.length <= 0) {
+        %>
+        <span class="flight-rhtlab fgray" id="not_support_insure">不支持购买保险</span><label class="flight-labq">保险</label>
+        <%  } else {
+        if(order){
+           peo= (+order.selInsure) <= 0 ? 0 : pCount;
+        } %>
+        <label id="jsinsure" class="flight-labq" data-id="<%=insurances[0].productId %>" data-typeid="<%=insurances[0].typeId %>">保险</label>
+        <div class="flight-ins">
+            <p id="insure_detail" data-unitprice="<%=insurances[0].price %>" data-ocount="<%= insurances[0].min %>" data-qty="<%=((+insurances[0].min) * (+peo)) %>" data-pcount="<%=pCount%>" data-mininsure="<%=(+insurances[0].min)%>">
+                &yen;<%=insurances[0].price %><%=(+insurances[0].type==1 || +insurances[0].type==2 || +insurances[0].type==4) ? "航意险" : "" %> X <em><i><%=((+insurances[0].min)*(+peo)) %></i></em>份
+            </p>
+            <%if(isMust){%> 
+              <p class="clr-999" data-selinsure="1" id="insure_must">该航班每位乘客至少需购买<%=insurances[0].min %>份保险</p>
+            <%} %>
+        </div>
+        <div id="insure_switch" class="flight-section-swt"></div>
+        <% }  %>
+    </div>
+</script>

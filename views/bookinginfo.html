@@ -1,0 +1,1043 @@
+﻿<style>
+    .fpay
+    {
+        height: 46px;
+        line-height: 46px;
+    }
+    .selected-start
+    {
+        /*用于选票日历，选取日期垂直居中*/
+        display: -webkit-box;
+        -webkit-box-orient: horizontal;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
+        display: -moz-box;
+        -moz-box-orient: horizontal;
+        -moz-box-pack: center;
+        -moz-box-align: center;
+        display: -o-box;
+        -o-box-orient: horizontal;
+        -o-box-pack: center;
+        -o-box-align: center;
+        display: -ms-box;
+        -ms-box-orient: horizontal;
+        -ms-box-pack: center;
+        -ms-box-align: center;
+        display: box;
+        box-orient: horizontal;
+        box-pack: center;
+        box-align: center;
+    }
+    .click_close {
+        position: absolute;
+        width: 36px;
+        height: 34px;
+        top: 0;
+        right: 10px;
+        overflow: hidden;
+    }
+    @-webkit-keyframes close {
+        0% {
+            height: 36px;
+            overflow: hidden;
+        }
+        100% {
+            height: 0px;
+            overflow: hidden;
+            border-top: none;
+            border-bottom: none;
+        }
+    }
+
+    .close_animate {
+        -webkit-animation:close 1s ease-in-out both;
+    }
+
+    .cui-error-tips{
+      /*alert重复订单内容过长，强制换行*/
+      word-break: break-all;
+    }
+    
+    /*报销凭证头部样式*/
+    .delivery-header {
+      border: none;
+      background: none;    
+    }
+    
+    /* 旅行套餐相关样式*/
+    .black-text {
+      color: black;  
+    }
+    .package-desc {
+        color: #999;
+        padding: 10px;
+        font-size: 12px;
+     }
+    .package-desc a {
+        color: #099fde;
+    }
+    /*
+    .package-desc a:nth-of-type(1):after {
+        content: ' 和';
+        color: black;    
+    }
+    */
+    .ins-link-after:after {
+        content: ' 和';
+        color: #999; 
+    }
+    .flight-add-psg {
+        border-top: 1px solid #ccc;
+        background: #fff;
+        padding-left: 44px;
+        position: relative;
+        margin-top: -1px;
+    }
+    .js_del_icon {
+        left: 10px;
+        position: absolute;
+        height: 22px;
+        margin-top: -11px;
+        top: 50%;
+    }
+    .flight-btn-addps {
+        list-style:none;
+        padding-right: 15px;
+    }
+    .flight-icon-add {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: none;
+        position: relative;
+        margin-bottom: -8px;
+        margin-right: 10px;
+    }
+    .flight-icon-add:before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 20px;
+        height: 2px;
+        margin-top: -4px;
+        margin-left: -12px;
+        background: #099fde;
+    }
+    .flight-icon-add:after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 2px;
+        height: 20px;
+        margin-top: -13px;
+        margin-left: -3px;
+        background: #099fde;
+    }
+    #js_addPass_btn {
+        height: 42px;
+        margin-top: -1px;
+        padding-right:10px;
+        border:none;
+        border-top:1px solid #bcbcbc;
+        border-bottom:1px solid #bcbcbc;
+    }
+
+    #js_addPass_btn > span {
+        display:inline-block;
+        border: 1px solid #dbdbdb;
+        border-radius:3px;
+        padding:0 7px;
+        color: #099fde;
+        margin-top:5px;
+        height:30px;
+        line-height: 30px;
+    }
+    .flight-ipt-etp3 {
+        line-height: 20px; 
+        height: 20px;
+        font-size: 12px;   
+    }
+    #linkTel {
+        height: 100%;
+        width: calc(100% - 70px);
+    }
+
+    .flight-infoinput input {
+        width: calc(100% - 80px);
+    }
+
+    .flight-infoinput input.js_firstName {
+        width: calc(100% - 120px);
+    }
+
+    .flight-clrval {
+        position:absolute;
+        width:50px;
+        height:30px;
+        line-height:30px;
+        text-align:center;
+        right:0;
+        top: 50%;
+        margin-top: -18px;
+        background:#fff;
+        color:#099fde;
+        font-size:12px;
+        z-index: 999;
+    }
+
+    .js_firstName_container .cui-focus-close {
+        right: 20px;
+    }
+
+</style>
+        <div id="ctn"></div>
+<header class="flight-header js_fixed">
+    <a href="tel:4000086666" class="icon_phone i_bef __hreftel__" id="js_phone"></a>
+    <h1>
+        订单填写</h1>
+    <i class="returnico" id="js_return"></i>
+</header>
+<div class="flight-header-blank">
+    &nbsp;</div>
+<!--航班信息-->
+<section class="flight" id="flightInfo">
+</section>
+<!--登机人-->
+<article class="pd5" id="flightBox" style="display: none;">
+    <section class="flight">
+        <div class="error-tips mt10 js_hide" data-role="passenger"></div>
+        <div class="flight-sectiontitle pd10" id="passenger-info-header"></div>
+        <div class="flight-tips-etp2" style="display:none;">12岁以下登机人须有成人陪同登机<div class="click_close"><i class="close">关闭</i></div></div>
+        <ul class="flight-listsim3" id="passengerInfo"></ul>
+        <ul id="addPassenger"></ul>
+        <ul class="flight-listsim3 mtm1">
+            <li id="js_addPass_btn" class="flight-btn-addps"><span class="fr">添加更多乘机人</span></li>
+        </ul>
+        <div id="WaringMessage" class="fnt-c pd10 js_hide">一张订单最多添加九个乘机人</div>
+        <!--div id="js_addPass_btn" class="flight-btn-addps">+继续添加乘机人</!--div-->
+    </section>
+    <div class="flight-bxinfo mt10">
+        <div class="flight-section">
+            <div class="error-tips mt10 js_hide" data-role="tel">请输入手机号码!</div>
+            <div class="flight-section">
+                <label>联系手机</label>
+                <input id="linkTel" data-role="tel" class="flight-linktel" placeholder="用于接收短信" type="tel" maxlength="25">
+            </div>
+        </div>
+
+
+        <div class="flight-section" id="insure"></div>
+        <!--  <section id="package"></section>--><!--俺只管自己d，乃们自己看着改吧-->
+        <div class="flight-section flight-arrdown3" id="package"></div>
+   </div>
+
+
+            <section class="flight" id="deliverybox"></section>
+            <!--是否使用消费券-->
+            <section class="flight" id="couponsbox"></section>
+            <!--惠飞宝说明-->
+            <section class="flight" id="hfb_box"></section>
+            <!--旅行套餐说明-->
+            <section class="mt10" id="lxtc_box"></section>
+            <!--国内公告-->
+            <section class="mt10" id="notice_box"></section>
+            <section class="flight"></section>
+            <section class="package-desc js_hide" id="package-desc">
+                <p>订单包含机票、附加选购产品、机场建设费、燃油费、税费。点击下一步表示已阅读并同意<br> <a id="insuranceLink" class="ins-link-after" href="javascript:void(0);">航空意外险保险条款</a> <a href="javascript:void(0)" id="travalPackageDesc">旅行套餐产品服务条款</a></p>
+            </section>
+</article>
+<section class="fpay" id="paybox">
+    <div class="money">
+        <span class="btn">支付</span>应付总价：<em class="fs">--</em>
+        <span class="order-detail-btn">明细</span>
+    </div>
+</section>
+<section id="order-detail" class="order-detail"></section>
+<script type="text/template" id="passenger-info-header-tpl">
+    <span>乘机人信息</span>
+    <p class="clr-999 fnt-12">(成人<%=ticketsCnt[0]%>人<span class="<%=supportChild ? '' : 'js_hide' %>"> 儿童<%=ticketsCnt[1]%>人</span><span class="<%=supportBaby ? '' : 'js_hide' %>"> 婴儿<%=ticketsCnt[2]%>人</span> <%=!supportChild && !supportBaby ? '儿童/婴儿不可订' : !supportChild ? '儿童不可订' : !supportBaby ? '婴儿不可订' : '' %>)</p>
+    <span id="js_selectPass_btn" class="flight-selectinfo<%=showSelBtn ? '' : ' js_hide' %>">选择登机人</span>
+</script>
+<script type="text/template" id="order-detail-tpl">
+    <ul>
+        <%
+        var policy = null, childPolicy = null, babyPolicy = null;
+        for (var i = 0, len = items.length; i < len; i++) {
+            policy = items[i].policy;
+            childPolicy = policy.childPolicy;
+            babyPolicy = policy.babyPolicy;
+        %>
+        <li>
+            <div class="order-detail-title<%=items.length > 1 ? '' : ' js_hide'%>"><%=i == 0 ? '去程' : '返程'%></div>
+            <ul>
+                <%
+                if (ticketsCnt[0] > 0) {
+                %>
+                <li>
+                    <ul>
+                        <li>
+                            <span>成人票</span>
+                            <span class="fr clr-ff9a14">
+                                <em>¥</em><%=policy.price%>x<%=ticketsCnt[0]%>人
+                            </span>
+                        </li>
+                        <li>
+                            <span>机建+燃油</span>
+                            <span class="fr clr-ff9a14">
+                                <em>¥</em><%=(policy.tax + policy.fuelCost)%>x<%=ticketsCnt[0]%>人
+                            </span>
+                        </li>
+                    </ul>
+                </li>
+                <%
+                }
+                if (ticketsCnt[1] > 0) {
+                %>
+                <li>
+                    <ul>
+                        <li>
+                            <span>儿童票</span>
+                            <span class="fr clr-ff9a14">
+                                <em>¥</em><%=childPolicy.price%>x<%=ticketsCnt[1]%>人
+                            </span>
+                        </li>
+                        <li>
+                            <span>机建+燃油</span>
+                            <span class="fr clr-ff9a14">
+                                <em>¥</em><%=(childPolicy.tax + childPolicy.fuelCost)%>x<%=ticketsCnt[1]%>人
+                            </span>
+                        </li>
+                    </ul>
+                </li>
+                <%
+                }
+                if (ticketsCnt[2] > 0) {
+                %>
+                <li>
+                    <ul>
+                        <li>
+                            <span>婴儿票</span>
+                            <span class="fr clr-ff9a14">
+                                <em>¥</em><%=(babyPolicy.price)%>x<%=ticketsCnt[2]%>人
+                            </span>
+                        </li>
+                    </ul>
+                </li>
+                <%
+                }
+                %>
+            </ul>
+        </li>
+        <%
+        }
+        %>
+    </ul>
+    <ul>
+        <%
+        if (insurance) {
+        %>
+        <li><span>保险</span><span class="fr clr-ff9a14"><em>¥</em><%=insurance.amount%>x<%=insurance.count%>份</span></li>  
+        <%  
+        }
+        if (delivery) {
+        %>
+        <li><span>配送费</span><span class="fr clr-ff9a14"><em>¥</em><%=delivery.amount%></span></li>
+        <%
+        }
+        if (coupon) {
+        %>
+        <li><span>优惠券</span><span class="fr clr-ff9a14"><em>-¥</em><%=coupon.amount%></span></li>
+        <%
+        }
+        if (reduce) {
+        %>
+        <li><span>优惠立减</span><span class="fr clr-ff9a14"><em>-¥</em><%=reduce.amount%></span></li>
+        <%
+        }
+        %>
+    </ul>
+</script>
+<script type="text/template" id="infoboxtpl">
+<% if(!user || user.IsNonUser==true) {
+if(!_sales || !_sales.sid || (+_sales.sid != 1575 && +_sales.sid != 1867)){
+    var fRbt=(+items[0].policy.rebateAmt)*(+pCount);
+    if(items.length>1 && +items[1].policy.rebateAmt>0 && selectedFlight.arrive){
+        fRbt+=(+items[1].policy.rebateAmt)*(+pCount);
+    }
+%>
+    <div class="js_flight-top" id="js_flight-top"></div>
+     <div class="flight-loginline-fixed pos-rl js_fixed">
+        <div class="flight-loginline">
+            <button class="flight-loginbtn">马上登录</button>
+            <p><%if(items[0].policy.rebateAmt>0){%>登录后预订才可获得返现<%}else{%>登录后预订更便捷<%}%></p>
+        </div>
+    </div>
+
+ <%} }%>
+<%
+var basicInfo = items[0].basicInfo;
+var policy = items[0].policy;
+var ckind = (basicInfo.ctinfo && basicInfo.ctinfo.ckind) ? basicInfo.ctinfo.ckind : "N";
+var weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+var dateStr = cDate.parse(basicInfo.dTime).format("Y-m-d");
+var weekStr = '周' + weekdays[new Date(dateStr).getDay()];
+var logoSrc = 'http://pic.c-ctrip.com/flight_intl/airline_logo/40x35/';
+var rebateAmt = items[0].policy.rebateAmt ? parseInt(items[0].policy.rebateAmt) : 0;
+rebateAmt += (items.length > 1 && items[1].policy.rebateAmt) ? parseInt(items[1].policy.rebateAmt) : 0;
+dateStr = dateStr.substring(5);
+dateStr = dateStr.replace('-', '月') + '日';
+%>
+<div class="flight-bkinfo">
+    <div class="flight-bkinfo-journey">
+        <div class="flight-bkinfo-from">
+            <p class="flight-bkinfo-date">
+                <i class="flight-icon-go" style="<%=(items.length > 1 ? '' : 'display: none;')%>">去</i>
+                <span><%= dateStr + ' ' + weekStr%></span>
+            </p>
+            <p class="flight-bkinfo-time"><%=cDate.parse(items[0].basicInfo.dTime).format("H:i") %></p>
+            <p class="flight-bkinfo-airport"><%=basicInfo.dcname %><%=basicInfo.daname %><%=basicInfo.dTerminal%></p>
+        </div>
+        <div class="flight-bkinfo-end">
+            <p class="flight-bkinfo-date">
+                <span><%= dateStr + ' ' + weekStr%></span>
+            </p>
+            <p class="flight-bkinfo-time"><%=cDate.parse(basicInfo.aTime).format("H:i") %></p>
+            <p class="flight-bkinfo-airport"><%=basicInfo.acname %><%=basicInfo.aaname %><%=basicInfo.aTerminal%></p>
+        </div>
+        <div class="flight-bkinfo-direction">
+            <div class="line"></div>
+            <div class="flight">
+                <!-- <i class="flight-icon-flt"><b>&nbsp;</b><em>&nbsp;</em></i> -->
+            </div>
+
+            <%if(items[0].stopCities && items[0].stopCities.length){%>
+            <div class="jingting">经停&nbsp;<%=items[0].stopCities[0].name%></div>
+            <%}%>
+        </div>
+    </div>
+    <div class="flight-bkinfo-fltinfo">
+        <img src="<%=logoSrc + basicInfo.flightNo.substring(0, 2) + '.png'%>">
+        <span><%= (basicInfo.aname + '' + basicInfo.flightNo)%></span>
+        <span class="clr-eee">|</span>
+        <span><%=basicInfo.planeType %><%=(ckind=="S"?"小型机":ckind=="M"?"中型机":ckind=="L"?"大型机":"") %></span>
+        <span class="clr-eee">|</span>
+        <span class="<%=basicInfo.hasMeal ? '' : 'js_hide' %>">有餐饮</span>
+        <span class="clr-eee">|</span>
+        <% if(+basicInfo.puncRate !== 0) {%>
+        <span>准点率:<%=basicInfo.puncRate %>%</span>
+            <%}%>
+    </div>
+    <%
+    if (items.length > 1) {
+    basicInfo = items[1].basicInfo;
+    policy = items[1].policy;
+    dateStr = cDate.parse(basicInfo.dTime).format("Y-m-d");
+    ckind = (basicInfo.ctinfo && basicInfo.ctinfo.ckind) ? basicInfo.ctinfo.ckind : "N";
+                %>
+    <div class="flight-bkinfo-journey">
+        <div class="flight-bkinfo-from">
+            <p class="flight-bkinfo-date">
+                <i class="flight-icon-back">返</i>
+                <span><%= dateStr + ' ' + weekStr%></span>
+            </p>
+            <p class="flight-bkinfo-time"><%=cDate.parse(basicInfo.dTime).format("H:i") %></p>
+            <p class="flight-bkinfo-airport"><%=basicInfo.dcname %><%=basicInfo.daname %><%=basicInfo.dTerminal%></p>
+        </div>
+        <div class="flight-bkinfo-end">
+            <p class="flight-bkinfo-date">
+                <span><%= dateStr + ' ' + weekStr%></span>
+            </p>
+            <p class="flight-bkinfo-time"><%=cDate.parse(basicInfo.aTime).format("H:i") %></p>
+            <p class="flight-bkinfo-airport"><%=basicInfo.acname %><%=basicInfo.aaname %><%=basicInfo.aTerminal%></p>
+        </div>
+        <div class="flight-bkinfo-direction">
+            <div class="line"></div>
+            <div class="flight">
+                <!-- <i class="flight-icon-flt"><b>&nbsp;</b><em>&nbsp;</em></i> -->
+            </div>
+            <%if(items[1].stopCities && items[1].stopCities.length){%>
+            <div class="jingting">经停&nbsp;<%=items[1].stopCities[1].name%></div>
+            <%}%>
+        </div>
+    </div>
+    <div class="flight-bkinfo-fltinfo">
+        <img src="<%=logoSrc + basicInfo.flightNo.substring(0, 2) + '.png'%>">
+        <span><%= (basicInfo.aname + '' + basicInfo.flightNo)%></span>
+        <span class="clr-eee">|</span>
+        <span><%=basicInfo.planeType %><%=(ckind=="S"?"小型机":ckind=="M"?"中型机":ckind=="L"?"大型机":"") %></span>
+        <span class="clr-eee">|</span>
+        <span class="<%=basicInfo.hasMeal ? '' : 'js_hide' %>">有餐饮</span>
+        <span class="clr-eee">|</span>
+        <% if(+basicInfo.puncRate !== 0) {%>
+        <span>准点率:<%=basicInfo.puncRate %>%</span>
+        <%}%>
+    </div>
+    <%
+    }
+    %>
+    <% 
+    basicInfo = items[0].basicInfo;
+    policy = items[0].policy;
+    ckind = (basicInfo.ctinfo && basicInfo.ctinfo.ckind) ? basicInfo.ctinfo.ckind : "N";
+    dateStr = cDate.parse(basicInfo.dTime).format("Y-m-d");
+    dateStr = dateStr.substring(5);
+    dateStr = dateStr.replace('-', '月') + '日';
+    if (items.length > 1) {
+            %>
+    <div class="flight-bkinfo-wfzj">
+        <p>往返总价</p>
+        <span class="clr-ff9a14 fnt-18 fnt-b">¥<%=(policy.price + (policy.tax || 0) + (policy.fuelCost || 0) + items[1].policy.price + (items[1].policy.tax || 0) + (items[1].policy.fuelCost || 0))%></span>
+    </div>
+            <%
+    }
+    %>
+
+    <div class="flight-bkinfo-price">
+        <i class="flight-icon-go" style="<%=(items.length > 1 ? '' : 'display: none;') %>">去</i>
+        <span><%=policy.classForDisp==1 ? "高端" : policy.classForDisp==2 ? "超值" : policy.classForDisp == 3 ? "豪华" : ""%><%=policy.class == 3 ? "头等舱" : policy.class == 2 ? "商务舱" : "经济舱"%> <%= (+policy.discount >= 10 ? '全价' : (policy.discount > 0 ? (policy.discount + '折') : '')) %>:</span>
+        <span class="clr-ff9a14">¥<%=policy.price %></span>
+        <span class="clr-c4c4c4<%=items.length > 1 ? ' js_hide' : '' %>">+</span>
+        <span>机建燃油:</span>
+        <span class="clr-ff9a14">¥<%=(policy.tax + policy.fuelCost) %></span>
+        <span class="clr-c4c4c4<%=items.length > 1 ? ' js_hide' : '' %>">=</span>
+        <span class="clr-ff9a14 fnt-18<%=items.length > 1 ? ' js_hide' : '' %>">¥<%=(policy.price + policy.tax + policy.fuelCost) %></span>
+    </div>
+    <%
+    if (items.length > 1) {
+    basicInfo = items[1].basicInfo;
+    policy = items[1].policy;
+    ckind = (basicInfo.ctinfo && basicInfo.ctinfo.ckind) ? basicInfo.ctinfo.ckind : "N";
+    dateStr = cDate.parse(basicInfo.dTime).format("Y-m-d");
+    dateStr = dateStr.substring(5);
+    dateStr = dateStr.replace('-', '月') + '日';
+    %>
+    <div class="flight-bkinfo-price">
+        <i class="flight-icon-back">返</i>
+        <span><%=policy.classForDisp==1 ? "高端" : policy.classForDisp==2 ? "超值" : policy.classForDisp == 3 ? "豪华" : ""%><%=policy.class == 3 ? "头等舱" : policy.class == 2 ? "商务舱" : "经济舱"%> <%= (+policy.discount >= 10 ? '全价' : (policy.discount > 0 ? (policy.discount + '折') : '')) %>:</span>
+        <span class="clr-ff9a14">¥<%=policy.price %></span>
+        <span class="js_hide">+</span>
+        <span>机建燃油:</span>
+        <span class="clr-ff9a14">¥<%=(policy.tax + policy.fuelCost) %></span>
+        <span class="js_hide">=</span>
+        <span class="clr-ff9a14 fnt-18 js_hide">¥<%=(policy.price + policy.tax + policy.fuelCost) %></span>
+            </div>
+    <%
+    }
+    %>
+    <div class="flight-bkinfo-tgq">
+        <span class="flight-arrdown f-r">查看退改签</span>
+        <span class="flight-icon-fan" style="<%=(rebateAmt > 0 ? '' : 'visibility: hidden;') %>">返<%=rebateAmt%></span>
+        <div class="flight-rtntips js_hide">
+            <%
+            if (rebateAmt) {
+                if (items.length > 1) { %>
+                    往返程每人最多可使用<%=rebateAmt %>元消费券，其中去程航班每人<%=(items[0].policy.rebateAmt || 0)%>元，返程航班每人<%=(items[1].policy.rebateAmt || 0) %>元，订单成交并发送验证码给微信“携程旅行网”官号，在实际乘坐第一个航班起飞后的7天内可获得与使用消费券等额的现金返还。
+                <%
+                } else {
+%>
+                    <%=(items[0].policy.rebateAmtDescription.replace(/使用+\d{10/g,'使用'+rebateAmt))||("每位乘客最多可使用"+rebateAmt+"元消费券，订单成交并发送验证码给微信“携程旅行网”官号，在实际乘坐第一个航班起飞后的7天内可获得与使用消费券等额的现金返还。")%><br/>
+                <%
+                }
+            %>
+            <%
+            }
+        %>
+        </div>
+        <div class="flight-pnttips js_hide">
+        <%
+            for (var i = 0, len = items.length; i < len; i++) {
+                if (items.length > 1) {%>
+                    <div class='flight-rmk-title'><%= i == 0 ? '去程' : '返程' %></div>
+                <%}
+                if( typeof(items[i].rmk)!="undefined" && items[i].rmk!=null){
+                     if (items[i].rmk.ticketRmk) {
+            %>  
+                   
+            <h4>购票限制：</h4>
+                <p><%=items[i].rmk.ticketRmk%></p>
+                <%}%>
+            <h4>退改签：</h4>
+                <p>退票条件：<%=items[i].rmk.refNote%></p>
+                <p>更改条件：<%=items[i].rmk.rerNote%></p>
+                <p>签转条件：<%=items[i].rmk.endNote%></p>
+                <% }%>
+                <%if(items[i].policy.gift && +items[i].policy.gift>0){%>
+                <h4>送礼品卡&yen;<%=items[i].policy.gift%></h4>
+                <p><%=items[i].policy.giftDescription%></p>
+            <%}%>
+                <%if(items[i].basicInfo.IsK){%>
+            <h4>K位说明：</h4>
+                <p>携程会为您向航空公司申请该价格。<br />
+                1.申请的舱位受航班销售情况随时可能发生变化，不能保证一定有座位<br />
+                2.申请的舱位不可下暂缓订单，确认时间和送票时间增加1小时左右<br />
+                3.非工作时间内（周一~周五 9:00前、16:30后，法定假日）预订机票，需要等待到工作时间进行确认<br />
+                4.申请的舱位退改签方面的限制更多，具体请查看相应的退改签规则 。</p>
+            <%}%>
+                <%}%>
+        </div>
+    </div>
+</div>
+</script>
+<script type="text/template" id="passengerInfotpl">
+    <li class="flight-arrrht"><i class="flight-icon-add"></i><span id="js_selectPass_btn">添加乘机人</span></li>
+    <%  if(typeof passengers != "undefined" ){
+            console.log(policy);
+    var ADULT = 1, CHILD = 2, BABY = 3;
+    for(var i in passengers){
+    var p =passengers[i];
+    var birth = (p.defaIdCard && p.defaIdCard.type == 1) ? p.defaIdCard.no.substring(6, 14) : p.birth;
+    var age = getAge(birth);
+    var psgType = age >= 12 ? ADULT : (age >= 2 ? CHILD : BABY);
+    var ticketType = p.ticketType ? p.ticketType : 1;
+    var adultTicketDis = !policy.isApplyChild;
+    var childTicketDis = !policy.childPolicy;
+    var babyTicketDis = !policy.babyPolicy;
+    var childCanBuy = !!(policy.childPolicy || policy.isApplyChild);
+    var babyCanBuy = !!(policy.babyPolicy || policy.isApplyChild || (policy.childPolicy && policy.childPolicy.isApply));
+    console.log('======hasChildOrBaby' + hasChildOrBaby);
+    if(+p.selected==1 && !p.edit){
+        var cNameReg = /^[\u4e00-\u9fa5]{1,14}$/;
+        var ename = p.ename || (p.firstName + "/" + p.lastName); 
+        if (ename && ename.indexOf('/') && cNameReg.test(ename.split('/')[0])) {
+            ename = ename.replace('/', '');
+        }
+    %>
+    <li>
+        <div class="flight-listsim3-table flight-arrrht2">
+            <span class="flight-infodel2" data-id="<%=p.inforId %>" data-index="<%=i %>">&nbsp;</span>
+            <ul data-id="<%=p.inforId %>" data-index="<%=i %>">
+                <li><%=p.defaIdCard.type == 1 ? p.cname : ename %></li>
+                <li class="clr-666"><%=p.defaIdCard ? p.defaIdCard.name : ""%>&nbsp;<%=p.defaIdCard ? p.defaIdCard.no : "" %></li>
+            </ul>
+        </div>
+        <div class="flight-ipt-etp2" data-psgidx=<%= i%> style="<%= (psgType !== ADULT || (psgType === ADULT && hasChildOrBaby)) ? "" : "display: none" %>;">
+                <ul>
+                    <li class="<%=(ticketType === 1) ? "flight-check-checked" : (adultTicketDis ? "flight-check-dis flight-check-def" : "flight-check-def")%>" data-type="1" style="<%= (childCanBuy || babyCanBuy || (psgType === ADULT && hasChildOrBaby))  ? "" : "display:none;" %>;">
+                        <span>成人票&nbsp;</span>
+                        <span class="clr-ff9a14">
+                            <%= (psgType === ADULT || !adultTicketDis) ? generatePriceStr() : '该价格不支持儿童、婴儿购买成人票' %>
+                        </span>
+                    </li>
+                    <li class="<%=childTicketDis ? "flight-check-dis" : (ticketType === 2 ? "flight-check-checked" : "flight-check-def")%>" data-type="2" style="<%= (psgType !== ADULT && (childCanBuy || babyCanBuy)) ? "" : "display:none;" %>;" >
+                        <span class="f-r flight-arrdown<%=childTicketDis ? ' js_hide' : ''%>" >购票须知</span>
+                        <span>儿童票&nbsp;</span>
+                        <span class="clr-ff9a14">
+                            <%= childTicketDis ? '该价格不支持购买儿童票' : generatePriceStr('childPolicy')%>
+                        </span>
+                        <div class="flight-pnttips" style="display: none;">
+                            <h4>退改签：</h4>
+                            <p>退票条件：<%=policy.childPolicy ? policy.childPolicy.refRerEndNote.refNote : ""%></p>
+                            <p>更改条件：<%=policy.childPolicy ? policy.childPolicy.refRerEndNote.rerNote : ""%></p>
+                            <p>签转条件：<%=policy.childPolicy ? policy.childPolicy.refRerEndNote.endNote : ""%></p>
+                            <h4><%=note.title %>:</h4>
+                            <%=note.lines.join('') %>
+                        </div>
+                    </li>
+                    <li class="<%=babyTicketDis ? "flight-check-dis" : (ticketType === 3 ? "flight-check-checked" : "flight-check-def")%>" data-type="3" style="<%= (psgType == BABY && babyCanBuy) ? "" : "display:none;" %>;">
+                        <span class="f-r flight-arrdown<%=babyTicketDis ? ' js_hide' : ''%>">购票须知</span>
+                        <span>婴儿票&nbsp;</span>
+                        <span class="clr-ff9a14">
+                            <%= babyTicketDis ? '该价格不支持购买婴儿票' : generatePriceStr('babyPolicy')%>
+                        </span>
+                        <div class="flight-pnttips" style="display: none;">
+                            <h4>退改签：</h4>
+                            <p>退票条件：<%=policy.babyPolicy ? policy.babyPolicy.refRerEndNote.refNote : ""%></p>
+                            <p>更改条件：<%=policy.babyPolicy ? policy.babyPolicy.refRerEndNote.rerNote : ""%></p>
+                            <p>签转条件：<%=policy.babyPolicy ? policy.babyPolicy.refRerEndNote.endNote : ""%></p>
+                            <h4><%=note.title %>:</h4>
+                            <%=note.lines.join('') %>
+                        </div>
+                    </li>
+                    <% if (psgType === CHILD) {%>
+                        <div class="flight-ipt-etp3" style="<%= (!policy.childPolicy && !policy.isApplyChild) ? "line-height:20px;" : "line-height:20px;display:none;"%>">
+                            该价格儿童不可订，请选择其他舱位
+                        </div>
+                    <% } else if (psgType === BABY) {%>
+                        <div class="flight-ipt-etp3" style="<%= (!policy.babyPolicy && !policy.isApplyChild && (policy.childPolicy && !policy.childPolicy.isApply || !policy.childPolicy)) ? "line-height:20px;" : "line-height:20px;display:none;"%>">
+                            该价格婴儿不可订，请选择其他舱位
+                        </div>
+                    <%} %>
+                </ul>
+            </div>
+    </li>
+ <%} }}%>
+
+</script>
+
+<!--===================== AddPassengerTpl Start ===============-->
+<script type="text/template" id="addPassenger_tpl">
+    <%
+    var index = 0;
+    var psg = passenger;
+    console.log("===============" + needDelIcon);
+    for (var i = 0; i < passengers.length; i++) {
+        var p = passengers[i];
+        if (p && p.selected == 1) {
+            index++;
+            var ADULT = 1, CHILD = 2, BABY = 3;
+            var selindex=0;
+            var birth = p.defaIdCard.type == 1 ? p.defaIdCard.no.substring(6, 14) : p.birth;
+            var age = birth ? getAge(birth) : 12;
+            var psgType = (age >= 12 || age == -1) ? ADULT : (age >= 2 ? CHILD : BABY);
+            var ticketType = p.ticketType ? p.ticketType : 1;
+            var adultTicketDis = !policy.isApplyChild;
+            var childTicketDis = !policy.childPolicy;
+            var babyTicketDis = !policy.babyPolicy;
+            var childCanBuy = !!(policy.childPolicy || policy.isApplyChild);
+            var babyCanBuy = !!(policy.babyPolicy || policy.isApplyChild || (policy.childPolicy && policy.childPolicy.isApply));
+            var isIdCard = (typeof p.defaIdCard == "undefined") || !p.defaIdCard || p.defaIdCard.type == 1;
+    
+    %>
+    <ul class="flight-listsim2 flight-add-psg" data-Id="<%=p.inforId%>" style="<%=needDelIcon ? 'padding-left: 44px;' : 'padding-left: 15px;'%>">
+    <li class="pdlr10 js_hide">第<%=selCount || 1 %>位乘机人</li>
+    <li data-Id="<%=p.inforId%>">
+        <div class="flight-infoinput">
+            <ul data-Id="<%=p.inforId%>">
+                <li class="<%=(p.defaIdCard.type == 1) ? '' : 'js_hide'%>" id="cname-container-<%=p.inforId%>">
+                    <div class="flight-infoinput-pdl">
+                        <label id="readmeAction" class="flight-labq">姓名</label>
+                        <input type="text" placeholder="所持证件姓名" class="js_newName" value="<%=p.cname || '' %>">
+                    </div>
+                </li>
+                <li class="<%=(p.defaIdCard.type != 1) ? '' : ' js_hide'%>">
+                    <div class="flight-infoinput">
+                        <ul>
+                            <li>
+                                <div class="flight-infoinput-pdl js_firstName_container">
+                                    <label>姓</label>
+                                    <input placeholder="中文或英文" type="text" class="js_firstName js_enName" value="<%=p.firstName || '' %>">
+                                    <i class="flight-labq"></i>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flight-infoinput-pdl">
+                                    <label>名</label>
+                                    <input placeholder="中文或英文" type="text" class="js_lastName js_enName" value="<%=p.lastName || '' %>">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </li>
+    <span class="flight-infodel2 js_del_icon" style="<%=needDelIcon ? '' : 'display:none;'%>" data-id="<%= p.inforId%>" data-index="<%=i%>">&nbsp;</span>
+    <!--span class="flight-clrval<%=(selCount == 1) ? '' : ' js_hide'%>" data-id="<%=p.inforId%>" data-index="i">清空</!--span-->
+    <li data-id="<%= p.inforId%>">
+        <div class="flight-infoinput">
+            <ul data-id="<%= p.inforId%>">
+                <li>
+                    <div class="flight-infoinput-pdl">
+                        <select id="sel_idCard" name="select-choice-1" style="display: none;">
+                            <% for(var j = 0; j<p.idcards.length; j++) { if( p.idcards[j].choose) {selindex=j} %>
+                            <option <%= p.idcards[j].choose ? "selected" : ""%> value="<%= p.idcards[j].type %>" data-no="<%= p.idcards[j].no %>"><%=p.idcards[j].name %></option>
+                            <%}%>
+                        </select>
+                        <label class="flight-arrdown" data-Id="<%=p.inforId%>"><%= ((typeof p.defaIdCard != "undefined") && p.defaIdCard) ? (p.defaIdCard.name.length>4?p.defaIdCard.name.substring(0,4):p.defaIdCard.name) :"" %></label>
+                        <input type="text" placeholder="所持证件号码" class="js_no"  data-index="<%=selindex %>" value= "<%= ((typeof p.defaIdCard != "undefined") && p.defaIdCard) ? p.defaIdCard.no :"" %>">
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </li>
+    <li data-id="<%= p.inforId%>" id="js_blk_birth" style="<%= isIdCard ? "display:none;" : "" %>; ">
+        <div class="flight-infoinput"><ul data-id="<%= p.inforId%>"><li>
+            <div class="flight-infoinput-pdl">
+                <label>出生日期</label>
+                <input type='tel' maxlength='8' placeholder="格式：19851223"  data-index="0,0,0" class="js_birth"  value="<%= (typeof p.birth != "undefined" ? p.birth :"") %>">
+            </div>
+        </li></ul></div>
+    </li> 
+    <li data-id="<%= p.inforId%>"  style="<%= psgType !== ADULT && (psgType == CHILD && childCanBuy || psgType == BABY && babyCanBuy) ? "" : "display: none;" %>">
+        <div class="flight-ipt-etp2" data-psgidx="<%= i%>">
+            <ul>
+                <li class="<%=(ticketType === 1) ? "flight-check-checked" : (adultTicketDis ? "flight-check-dis flight-check-def" : "flight-check-def")%>" data-type="1" style="<%= (childCanBuy || babyCanBuy)  ? "" : "display:none;" %>">
+                    <span>成人票&nbsp;</span>
+                    <span class="clr-ff9a14">
+                        <%= adultTicketDis ? '该价格不支持儿童购买成人票' : generatePriceStr()%>
+                    </span>
+                </li>
+                <li class="<%=childTicketDis ? "flight-check-dis" : (ticketType === 2 ? "flight-check-checked" : "flight-check-def")%>" data-type="2" style="<%= (childCanBuy || babyCanBuy) ? "" : "display:none;" %>;" >
+                    <span class="f-r flight-arrdown<%=childTicketDis ? ' js_hide' : ''%>">购票须知</span>
+                    <span>儿童票&nbsp;</span>
+                    <span class="clr-ff9a14">
+                        <%= childTicketDis ? '该价格不支持购买儿童票' : generatePriceStr('childPolicy')%>
+                    </span>
+                    <div class="flight-pnttips" style="display: none;">
+                        <h4>退改签：</h4>
+                        <p>退票条件：<%=policy.childPolicy ? policy.childPolicy.refRerEndNote.refNote : ""%></p>
+                        <p>更改条件：<%=policy.childPolicy ? policy.childPolicy.refRerEndNote.rerNote : ""%></p>
+                        <p>签转条件：<%=policy.childPolicy ? policy.childPolicy.refRerEndNote.endNote : ""%></p>
+                        <h4><%=note.title %>:</h4>
+                        <%=note.lines.join('') %>
+                    </div>
+                </li>
+                <li class="<%=babyTicketDis ? "flight-check-dis" : (ticketType === 3 ? "flight-check-checked" : "flight-check-def")%>" data-type="3" style="<%= (psgType == BABY && babyCanBuy) ? "" : "display:none;" %>">
+                    <span class="f-r flight-arrdown<%=babyTicketDis ? ' js_hide' : ''%>">购票须知</span>
+                    <span>婴儿票&nbsp;</span>
+                    <span class="clr-ff9a14">
+                        <%= babyTicketDis ? '该价格不支持购买婴儿票' : generatePriceStr('babyPolicy')%>
+                    </span>
+                    <div class="flight-pnttips" style="display: none;">
+                        <h4>退改签：</h4>
+                        <p>退票条件：<%=policy.babyPolicy ? policy.babyPolicy.refRerEndNote.refNote : ""%></p>
+                        <p>更改条件：<%=policy.babyPolicy ? policy.babyPolicy.refRerEndNote.rerNote : ""%></p>
+                        <p>签转条件：<%=policy.babyPolicy ? policy.babyPolicy.refRerEndNote.endNote : ""%></p>
+                        <h4><%=note.title %>:</h4>
+                        <%=note.lines.join('') %>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </li>
+   <li class="flight-ipt-etp3<%=psgType == CHILD && !childCanBuy || psgType == BABY && !babyCanBuy ? '' : ' js_hide' %>" style="line-height: 20px;font-size:12px;margin-top: -1px;">
+        该舱位<%=psgType == CHILD ? '儿童' : '婴儿'%>不可订，请选择其他舱位
+    </li>
+                </ul>
+    <%}}%>
+
+</script>
+<!--===================== AddPassengerTpl End ===============-->
+
+
+<script type="text/template" id="couponstpl">
+<%if(couponBalance && +couponBalance>0 && user && user.IsNonUser==false && (+items[0].policy.rebateAmt>0 || ( items.length>1 && +items[1].policy.rebateAmt>0 ))){
+    var fRbt=(+items[0].policy.rebateAmt)*(+CRCount);
+    if(items.length>1&&items[1].policy.rebateAmt){
+        fRbt+=(+items[1].policy.rebateAmt)*(+CRCount)
+    }
+    var realRbt= (+couponBalance)>(+fRbt)?(+fRbt): (+couponBalance);
+    if (realRbt>0) {
+
+%>
+<div class="flight-section flight-section-bgnone mtm1">
+    <label id="jsViewCoupons" class="flight-labq">消费券</label>
+    <div class="flight-xfq">
+        <p>使用¥<%=realRbt %></p>
+        <p class="clr-999">儿童/婴儿票不参与返现</p>
+    </div>
+    <div id="coupons_switch" data-rbt="<%=realRbt %>" class="flight-section-swt"></div>
+</div>
+<%}} %>
+</script>
+<script type="text/template" id="paytpl">
+<%if(flag && ((+flag)&1)==1||1==1){
+var payAmt = 0;
+var policy = items[0].policy;
+var ticketType = 1;
+var hasBack = items.length>1 && selectedFlight.arrive;
+for (var i = 0, len = passengers.length; i < len; i++) {
+    ticketType = typeof passengers[i].ticketType == 'undefined' ? 1 : passengers[i].ticketType;
+    policy = ticketType == 1 || ticketType == -1 ? items[0].policy : (ticketType == 2 ? items[0].policy.childPolicy : items[0].policy.babyPolicy);
+    if (policy) {
+        payAmt +=  policy.price + policy.fuelCost + policy.tax;
+    }
+
+    if(hasBack){
+        policy = ticketType == 1 || ticketType == -1 ? items[1].policy : (ticketType == 2 ? items[1].policy.childPolicy : items[1].policy.babyPolicy);
+        if (policy) {
+            payAmt += policy.price + policy.fuelCost + policy.tax;
+        }
+    }
+}
+
+if (passengers.length == 0 && pCount == 1) {
+    payAmt += items[0].policy.price + items[0].policy.fuelCost + items[0].policy.tax;
+    if (hasBack) {
+       payAmt += items[1].policy.price + items[1].policy.fuelCost + items[1].policy.tax;
+    }
+}
+
+var isMust=(+flag & 4)!=4?false:true;
+if(insurances  && insurances.length>0 &&!ispackage&&(order.selInsure||isMust==true)){
+    var p=insurances[0];
+    if(+p.price>0 && +p.min>0){
+        payAmt+=((+p.price)*(+p.min))*pCount;
+    }
+ }
+ console.log(payAmt);
+ if (pkglist&&pkglist.length&&ispackage) {
+     payAmt+=((+pkgprice)*(+pkgcount));
+ }
+ if(post && post.fee && +post.fee>0){
+	payAmt+=(+post.fee);
+ }
+%>
+<div class="money js_fixed" style="background: #ff9a14" id="paybtn" data-oamt="<%= payAmt %>" data-amt="<%= payAmt %>" >
+    <span class="btn" style="font-weight:lighter;font-size:15px">下一步</span>
+    <div id="price-list-btn">
+        <span class="fnt-13 clr-fff" style="font-weight:lighter;font-size:13px;" >订单总额：</span>
+        <em>&yen;</em><em class="fs" data-amt="<%=payAmt%>" style="font-weight:lighter;font-size:18px;" ><%=payAmt == 0 ? '----' : payAmt%></em>
+        <span class="order-detail-btn">明细</span>
+    </div>
+</div>
+
+
+<%} %>
+</script>
+<script type="text/template" id="hfbtpl">
+<%if((+items[0].basicInfo.flag & 2)==2){%>
+ <div class="b_people fbgy compd safe clearfix">
+  <span class="fgray">携程会为您向航空公司申请该价格，但不能确保一定申请成功。</span>
+ </div>
+<%} %>
+</script>
+
+
+
+<!-- add国内公告 wyren@ctrip.com 2014-4-11 -->
+<script type="text/template" id="notice_tpl">
+<%if(notice){
+    notice=notice.replace(/\n/g,'<br/>');
+    %>
+    <p class="flight-tips-btm">须知：<br/><%=notice%></p>
+<%} %>
+</script>
+<!-- edit按钮阀switch wyren@ctrip.com 2014.3.31 -->
+<script type="text/template" id="deliverytpl">
+    <div class="error-tips mt10 js_hide" data-role="delivery"></div>
+<ul class="flight-listsim4 delivery-header">
+    <li>
+        <div class="flight-infoinput flight-infoinput-blk">
+            <label>报销凭证</label>
+            <div class="flight-blk">&nbsp;</div>
+              <div class="flight-switch">
+                <div id="invoice_switch" >
+                </div>
+              </div>
+        </div>
+    </li>
+</ul>
+    <div id="js_address_box" class="<%= !type || (+type)<=1 ? "clahead" : "" %>">
+        <!--发票抬头-->
+        <div id="js_invoice_box" class="mtm1<%= !needinv ? " clahead" : "" %>"></div>
+        <!--配送方式-->
+        <div class="js_del_tab"></div>
+        <!--配送费选项-->
+        <div class="js_del_cost"></div>
+        <!--收件信息 -->
+        <div class="js_del_box"></div>
+    </div>
+
+    <div id="gift-card-tips" class="flight-tips-btm mt10<%=type != 32 ? ' js_hide': '' %>">携程礼品卡(任我游)适用于支付携程旅行网预付类酒店、惠选酒店、团购产品、 旅游度假产品。</div>
+</script>
+<script type="text/template" id="invoice_box">
+    <ul class="flight-listsim3">
+        <li style="padding-right:32px;">
+            <div class="flight-listsim3-table">
+                <label>发票抬头</label>
+                <input type="text" value='<%=title%>' id="js_invoice_title" maxlength="50" placeholder="请填写个人或公司名称">
+            </div>
+            <i id="invoice_title_plus" class="flight-icon-plus">+</i>
+        </li>
+    </ul>
+</script>
+<script type="text/template" id="deliverytpl_tab">
+    <ul class="flight-listsim3 mtm1">
+        <li class="<%= len <= 1  ? '' : 'flight-arrrht'%>">
+            <div class="flight-listsim3-table">
+                <label >配送方式</label>
+                <span>	<%= type == 16 ? "机场自取" : type == 2 ? "邮寄" : "快递"%></span>
+            </div>
+        </li>
+    </ul>
+</script>
+<script type="text/template" id="deliverytpl_cost">
+    <ul class="flight-listsim3 mtm1<%=type == 32 ? '' : ' js_hide' %>">
+        <li>
+            <div class="flight-listsim3-table">
+                <label>配送费</label>
+                    <% 
+                    if(rc===0){ //重复地址判断==》不免费
+                        paytype = typeof paytype == 'undefined' ? 0 : paytype;
+                    %>
+                        <span class="flight-psf">
+                        <%for (var i = 0; i < pays.length; i++) { %>
+                            <% 
+                                if (pays[i].paytype == 3) {%>
+                                    <i data-paytype="<%=pays[i].paytype%>" class="<%= (pays[i].paytype == paytype) ? "current" : "" %>">免费（钻石会员专享）</i>
+                                <%} else if (pays[i].paytype == 1) {%>
+                                    <i data-paytype="<%=pays[i].paytype%>" class="<%= (pays[i].paytype == paytype) ? "current" : "" %>"><%=pays[i].amount%>积分兑换</i>
+                                <%} else if (pays[i].paytype == 2) {%>
+                                    <i data-paytype="<%=pays[i].paytype%>" class="<%= (pays[i].paytype == paytype) ? "current" : "" %>">¥<%=fee %><em>送<%=pays[i].amount %>元礼品卡</em></i>
+                                <%} else if (pays[i].paytype == 0){%>
+                                    <i data-paytype="<%=pays[i].paytype%>" class="<%= (pays[i].paytype == paytype) ? "current" : "" %>">¥<%=fee %></i>
+                                <%}
+                            %>
+                        <%}
+                    }else{ //重复地址判断==》免费
+                    %>
+                        <span data-paytype="<%=paytype%>">免费
+                    <%} %>
+                </span>
+            </div>
+        </li>
+    </ul>
+</script>
+<script type="text/template" id="deliverytpl_mail_1">
+    <ul class="flight-listsim3 mtm1">
+        <li>
+            <div class="flight-listsim3-table">
+                <label>收件人</label>
+                <input class="js_recipient" data-role="delivery" type="text" value="<%=recipient %>" placeholder="请填写真实姓名" >
+            </div>
+        </li>
+        <li id="selectCity"  class="flight-arrrht">
+            <div class="flight-listsim3-table">
+                <label>所在地区</label>
+                <span><%=prvnName + ctyName + dstrName%></span>
+            </div>
+        </li>
+        <li>
+            <div class="flight-listsim3-table">
+                <label>详细地址</label>
+                <input class="js_addr" data-role="delivery" type="text"  placeholder="请填写详细地址" value="<%=addr %>">
+            </div>
+        </li>
+        <li>
+            <div class="flight-listsim3-table">
+                <label>邮政编码</label>
+                <input class="js_zip" data-role="delivery" maxlength=6 type="text" value="<%=zip %>" placeholder="请填写邮政编码">
+            </div>
+        </li>
+    </ul>
+</script>
+<script type="text/template" id="deliverytpl_mail_2">
+    <ul class="flight-listsim3 mtm1" >
+        <li class="flight-arrrht">
+            <div class="flight-listsim3-table">
+                <label>配送地址</label>
+                <ul id="js_addrList">
+                    <li><%=recipient||"" %></li>
+                    <li class="clr-666"><%= prvnName +ctyName + dstrName + addr || "请选择邮寄地址" %></li>
+                    <li class="clr-666"><%=zip||"" %></li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</script>
+<script type="text/template" id="deliverytpl_zq">
+    <ul class="flight-listsim3 mtm1">
+        <li id="done-address" class="flight-arrrht">
+            <div class="flight-listsim3-table">
+                <label>取票柜台</label>
+               <ul><li> <%= typeof name != "undefined" ? name : "" %> </li></ul>
+            </div>
+        </li>
+        <li id="date-picker"   class="flight-arrrht">
+            <div class="flight-listsim3-table">
+                <label>取票日期</label>
+                <span  id="zq-inairport-data"><%= typeof time != "undefined" ? cDate.parse(time).format("Y-m-d") : "" %></span>
+            </div>
+        </li>
+        <li id="date-zqtime" class="flight-arrrht">
+            <div class="flight-listsim3-table">
+                <label>取票时间</label>
+                <span><%= typeof time != "undefined" ? cDate.parse(time).format("H:i") : "" %></span>
+            </div>
+        </li>
+    </ul>
+</script>
+

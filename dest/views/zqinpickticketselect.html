@@ -1,0 +1,39 @@
+<header>
+    <h1>选择配送方式</h1><i id="js_return" class="returnico"></i>
+</header>
+<section class="cont_pd_wrap intrip delivy s_tickets">
+    <ul class="cfbox" id="js_listbox">
+
+        <li class="light<%if(selected && selected.type && selected.type == 1){ %> current<%} %>" data-type="1">
+            <hgroup>
+                    <h2>不需要报销凭证</h2>
+                    <h3>凭有效证件直接办理登机手续</h3>     
+            </hgroup>
+        </li>
+
+        <%if(items[2]){ %>
+        <li class="light<%if(selected && selected.type && selected.type == 2){ %> current<%} %>" data-type="2">
+            <hgroup>
+                    <h2>邮寄报销凭证</h2>
+                    <h3>飞机起飞后，会将报销凭证邮寄给您</h3>     
+            </hgroup>
+        </li>
+        <%} %>
+        <%if(items[16] && items[16].addrs && items[16].addrs.length){ %>
+        <li class="light<%if(selected && selected.type && selected.type == 16){ %> current<%} %>" data-type="16">
+            <hgroup>
+                    <h2>机场自取</h2>
+                    <h3>请您在机场指定地点自行领取</h3>     
+            </hgroup>
+        </li>
+        <%} %>
+        <%if(items[8] && items[8].addrs && items[8].addrs.length){ %>
+        <li class="light<%if(selected && selected.type && selected.type == 8){ %> current<%} %>" data-type="8">
+            <hgroup>
+                    <h2>市内自取</h2>
+                    <h3>请您在市内指定地点直接领取</h3>     
+            </hgroup>
+        </li>
+        <%} %>
+    </ul>
+</section>

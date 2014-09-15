@@ -1,0 +1,251 @@
+<!-- 乘机人头部信息模板 -->
+<script type="text/template" id="passenger-info-header-tpl">
+    <p class="flight-psinfo-t1">乘机人信息</p>
+    <p class="flight-psinfo-t2">(成人<%=ticketsCnt[0]%>人<span class="<%=supportChild ? '' : 'js_hide' %>"> 儿童<%=ticketsCnt[1]%>人</span><span class="<%=supportBaby ? '' : 'js_hide' %>"> 婴儿<%=ticketsCnt[2]%>人</span> <%=!supportChild && !supportBaby ? '儿童/婴儿不可订' : !supportChild ? '儿童不可订' : !supportBaby ? '婴儿不可订' : '' %>)</p>
+    <div class="flight-psinfo-sltbtnpd">
+        <span id="js_selectPass_btn" class="flight-psinfo-sltbtn<%=showSelBtn ? '' : ' js_hide' %>">选择乘机人</span>
+    </div>
+</script>
+
+<!-- 新未登录状态乘机人模板 -->
+<script type="text/template" id="addPassenger_tpl">
+    <%
+    var index = 0;
+    for (var i = 0; i < passengers.length; i++) {
+        var p = passengers[i];
+        if (p && p.selected == 1) {
+            index++;
+            var ADULT = 1, CHILD = 2, BABY = 3;
+            var selindex=0;
+            var birth = p.defaIdCard.type == 1 ? p.defaIdCard.no.replace(/\s/, '').substring(6, 14) : p.birth;
+            var age = birth ? getAge(birth) : 12;
+            var psgType = (age >= 12 || age == -1) ? ADULT : (age >= 2 ? CHILD : BABY);
+            var ticketType = p.ticketType ? p.ticketType : 1;
+
+            var canBuyAdultTicket = !!policy.isApplyChild;
+            var hasChildTicket = !!policy.childPolicy;
+            var hasBabyTicket = !!policy.babyPolicy;
+
+            var childCanBuy = hasChildTicket || canBuyAdultTicket;
+            var babyBuyChild = !!(policy.childPolicy && policy.childPolicy.isApply);
+            var babyCanBuy = hasBabyTicket || babyBuyChild || canBuyAdultTicket;
+
+            var isShowBaby = (psgType == BABY && hasBabyTicket);
+            var isShowChild = (psgType == BABY && babyBuyChild) || (psgType == CHILD && hasChildTicket);
+            var isShowAdult = canBuyAdultTicket && (isShowBaby || isShowChild);
+            
+            var isIdCard = (typeof p.defaIdCard == "undefined") || !p.defaIdCard || p.defaIdCard.type == 1;
+            var language = p.language ? p.language : 'CN'; 
+            language = isIdCard ? 'CN' : language;
+
+            var formatBirth = typeof p.birth != "undefined" ? p.birth : "";
+            if (formatBirth) {
+              formatBirth = formatBirth.slice(0, 4) + '年' + formatBirth.slice(4, 6) + '月' + formatBirth.slice(6, 8) + '日';
+            }
+    %>
+    <li data-id="<%= p.inforId%>" class="<%=needDelIcon ? '' : 'flight-psinfo-fstps'%>">
+        <div class="flight-infoinput">
+            <span class="flight-infodel2 js_del_icon" style="<%=needDelIcon ? '' : 'display:none;'%>" data-id="<%= p.inforId%>" data-index="<%=i%>">&nbsp;</span>
+            <ul>
+                <li id="cname-container-<%=p.inforId%>" class="js_canme-container" style="<%=(language == 'CN') ? '' : 'display: none;'%>">
+                    <div class="flight-infoinput-pdl">
+                        <label class="flight-labq">姓名</label>
+                        <input placeholder="所持证件姓名" class="js_newName" value="<%=p.cname || '' %>">
+                        <span class="flight-langswt" style="<%=isIdCard ? 'display:none;' : ''%>">
+                            <em data-lan="CN" class="flight-langswt-selected">中</em>
+                            <em data-lan="EN">En</em>
+                        </span>
+                    </div>
+                </li>
+                <li class="js_ename-container" style="<%=(language == 'CN') ? 'display: none;' : ''%>">
+                    <div class="flight-infoinput-pdl">
+                        <label class="flight-labq">姓</label>
+                        <input placeholder="英文或拼音：Chen"  class="js_firstName js_enName" value="<%=p.firstName || '' %>">
+                        <span class="flight-langswt">
+                            <em data-lan="CN">中</em>
+                            <em data-lan="EN" class="flight-langswt-selected">En</em>
+                        </span>
+                    </div>
+                </li>
+                <li class="js_ename-container" style="<%=(language == 'CN') ? 'display: none;' : ''%>">
+                    <div class="flight-infoinput-pdl">
+                        <label>名</label>
+                        <input type="text" placeholder="英文或拼音：Xiaoming" class="js_lastName js_enName" value="<%=p.lastName || '' %>">
+                    </div>
+                </li>
+                <li>
+                    <div class="flight-infoinput-pdl">
+                        <select id="sel_idCard-<%=p.inforId%>" name="select-choice-1" style="display: none;">
+                            <% var type = 1;
+                            for(var j = 0; j<p.idcards.length; j++) { if( p.idcards[j].choose) {selindex=j;type = p.idcards[j].type;} %>
+                            <option <%= p.idcards[j].choose ? "selected" : ""%> value="<%= p.idcards[j].type %>" data-no="<%= p.idcards[j].no %>"><%=p.idcards[j].name %></option>
+                            <%}%>
+                        </select>
+                        <label class="flight-arrdown" data-Id="<%=p.inforId%>"><%= ((typeof p.defaIdCard != "undefined") && p.defaIdCard) ? (p.defaIdCard.name.length>4?p.defaIdCard.name.substring(0,4):p.defaIdCard.name) :"" %></label>
+                        <input type="text" placeholder="所持证件号码" class="js_no"  data-type="<%=type%>" data-index="<%=selindex %>" value= "<%= ((typeof p.defaIdCard != "undefined") && p.defaIdCard) ? p.defaIdCard.no :"" %>"> 
+                        <%if (!canBuyAdultTicket && psgType !== ADULT && isIdCard) {
+                            var tipType = ((psgType == CHILD && !childCanBuy) || (psgType == BABY && !babyCanBuy)) ? 'flight-errtips-red' : 'flight-errtips-blue';
+                        %>
+                            <div class="form-tips <%=tipType%>">
+                                <i class="flight-errtips-icon"></i>
+                                <%if (tipType == 'flight-errtips-red') {%>
+                                    <em>该价格<%=(psgType == CHILD) ? '儿童' : '婴儿'%>不可订，请选择其他舱位</em>
+                                <%} else {%>
+                                    <em>该价格不支持<%=(psgType == CHILD) ? '儿童' : '婴儿'%>购买成人票</em></em>
+                                <%}%>
+                                 
+                            </div>
+                        <%} else if (isIdCard && (psgType == CHILD && !hasChildTicket || psgType == BABY && !hasBabyTicket)){%>
+                            <div class="form-tips flight-errtips-blue">
+                                <i class="flight-errtips-icon"></i>
+                                <em>该价格不支持购买<%= (psgType == CHILD) ? '儿童' : '婴儿'%>票</em>
+                            </div>
+                        <%}%>
+                    </div>
+                </li> 
+                <li style="<%= isIdCard ? "display:none;" : "" %>">
+                    <div class="flight-infoinput-pdl" data-id="<%= p.inforId%>" id="js_blk_birth">
+                        <label>出生日期</label>
+                        <input type='text' maxlength='8' readonly="true" placeholder="格式：1980年01月01日"  data-key="<%=p.birth + ''%>" data-index="0,0,0" class="js_birth"  value="<%= formatBirth %>">
+                        <%if (!canBuyAdultTicket && psgType !== ADULT && !isIdCard) {
+                            var tipType = ((psgType == CHILD && !childCanBuy) || (psgType == BABY && !babyCanBuy)) ? 'flight-errtips-red' : 'flight-errtips-blue';
+                        %>
+                            <div class="form-tips <%=tipType%>">
+                                <i class="flight-errtips-icon"></i>
+                                <%if (tipType == 'flight-errtips-red') {%>
+                                    <em>该价格<%=(psgType == CHILD) ? '儿童' : '婴儿'%>不可订，请选择其他舱位</em>
+                                <%} else {%>
+                                    <em>该价格不支持<%=(psgType == CHILD) ? '儿童' : '婴儿'%>购买成人票</em></em>
+                                <%}%>
+                                 
+                            </div>
+                        <%} else if (psgType == CHILD && !hasChildTicket || psgType == BABY && !hasBabyTicket){%>
+                            <div class="form-tips flight-errtips-blue">
+                                <i class="flight-errtips-icon"></i>
+                                <em>该价格不支持购买<%= (psgType == CHILD) ? '儿童' : '婴儿'%>票</em>
+                            </div>
+                        <%}%>
+                    </div>
+                </li>
+                 
+                <li data-id="<%= p.inforId%>"  style="<%= psgType !== ADULT && (isShowAdult || isShowChild || isShowBaby) ? "" : "display: none;" %>">
+                    <div class="flight-iptetp" data-psgidx="<%= i%>">
+                        <span class="<%=(ticketType === 1) ? "flight-iptetp-current" : ""%>" data-type="1" style="<%= isShowAdult ? "" : "display:none;" %>">
+                            <em class="fnt-14">成人票</em>
+                            <br>
+                            <em class="fnt-12">总计</em>
+                            <em class="fnt-14 clr-ff7d13"><%=generatePriceStr()%></em>
+                        </span>
+                        <span class="<%=(ticketType === 2) ? "flight-iptetp-current" : ""%>" data-type="2" style="<%= isShowChild ? "" : "display:none;" %>;">
+                            <em class="fnt-14">儿童票</em>
+                            <br>
+                            <em class="fnt-12">总计</em>
+                            <em class="fnt-14 clr-ff7d13"><%=generatePriceStr('childPolicy')%></em>
+                        </span>
+                        <span class="<%=(ticketType === 3) ? "flight-iptetp-current" : ""%>" data-type="3" style="<%= isShowBaby ? "" : "display:none;" %>">
+                            <em class="fnt-14">婴儿票</em>
+                            <br>
+                            <em class="fnt-12">总计</em>
+                            <em class="fnt-14 clr-ff7d13"><%=generatePriceStr('babyPolicy')%></em>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+            <span class="flight-psinfo-no <%=(index == selCount) ? 'flight-psinfo-no-current' : ''%>" style="<%=selCount == 1 ? 'display:none;' : ''%>">
+                <em><%=index%></em>
+            </span>
+        </div>
+    </li>
+    <%
+    }
+    }%>
+
+</script>
+
+<!-- 登录状态乘机人模板 -->
+<script type="text/template" id="passengerInfotpl">
+    <%  if(typeof passengers != "undefined" ){
+    var ADULT = 1, CHILD = 2, BABY = 3;
+    for(var i in passengers){
+    var p =passengers[i];
+    var birth = (p.defaIdCard && p.defaIdCard.type == 1) ? p.defaIdCard.no.substring(6, 14) : p.birth;
+    var age = getAge(birth);
+    var psgType = age >= 12 ? ADULT : (age >= 2 ? CHILD : BABY);
+    var ticketType = p.ticketType ? p.ticketType : 1;
+
+    var canBuyAdultTicket = !!policy.isApplyChild;
+    var hasChildTicket = !!policy.childPolicy;
+    var hasBabyTicket = !!policy.babyPolicy;
+
+    var childCanBuy = hasChildTicket || canBuyAdultTicket;
+    var babyBuyChild = !!(policy.childPolicy && policy.childPolicy.isApply);
+    var babyCanBuy = hasBabyTicket || babyBuyChild || canBuyAdultTicket;
+
+    var isShowBaby = (psgType == BABY && hasBabyTicket);
+    var isShowChild = (psgType == BABY && babyBuyChild) || (psgType == CHILD && hasChildTicket);
+    var isShowAdult = canBuyAdultTicket && (isShowBaby || isShowChild);
+
+    var isIdCard = (typeof p.defaIdCard == "undefined") || !p.defaIdCard || p.defaIdCard.type == 1;
+    var language = p.language ? p.language : 'CN'; 
+    language = isIdCard ? 'CN' : language;
+
+    if(+p.selected==1){
+        var ename = p.ename || (p.firstName + "/" + p.lastName); 
+    %>
+    <li data-id="<%= p.inforId%>" >
+        <div class="flight-listsim3-table">
+            <span class="flight-infodel2" data-id="<%=p.inforId %>" data-index="<%=i %>">&nbsp;</span>
+            <ul class="flight-arrrht2" data-id="<%=p.inforId %>" data-index="<%=i %>">
+                <li><%=(language == 'CN') ? p.cname : ename %></li>
+                <li class="clr-666"><%=p.defaIdCard ? p.defaIdCard.name : ""%>&nbsp;<%=p.defaIdCard ? p.defaIdCard.no : "" %></li>
+            </ul>
+       
+            <% if (psgType === CHILD && !childCanBuy) {%>
+                <div class="form-tips flight-errtips-red">
+                    <i class="flight-errtips-icon"></i>
+                    <em>该价格儿童不可订，请选择其他舱位</em>
+                </div>
+            <% } else if (psgType === BABY && !babyCanBuy) {%>
+                <div class=" form-tips flight-errtips-red">
+                    <i class="flight-errtips-icon"></i>
+                    <em>该价格婴儿不可订，请选择其他舱位</em>
+                </div>
+            <%} else if (!canBuyAdultTicket && psgType !== ADULT) {%>
+                <div class="form-tips flight-errtips-blue">
+                    <i class="flight-errtips-icon"></i>
+                    <em>该价格不支持<%=(psgType == CHILD) ? '儿童' : '婴儿'%>购买成人票</em>
+                </div>
+            <%} else if (psgType == CHILD && !hasChildTicket || psgType == BABY && !hasBabyTicket) {%>
+                <div class="form-tips flight-errtips-blue">
+                    <i class="flight-errtips-icon"></i>
+                    <em>该价格不支持购买<%= (psgType == CHILD) ? '儿童' : '婴儿'%>票</em>
+                </div>
+            <%}%>
+
+        
+            <div class="flight-iptetp" data-id="<%= p.inforId%>" data-psgidx="<%= i%>" style="<%= psgType !== ADULT && (isShowChild || isShowBaby) ? "" : "display: none;" %>">
+                <span class="<%=(ticketType === 1) ? "flight-iptetp-current" : ""%>" data-type="1" style="<%= isShowAdult  ? "" : "display:none;" %>">
+                    <em class="fnt-14">成人票</em>
+                    <br>
+                    <em class="fnt-12">总计</em>
+                    <em class="fnt-14 clr-ff7d13"><%=generatePriceStr()%></em>
+                </span>
+                <span class="<%=(ticketType === 2) ? "flight-iptetp-current" : ""%>" data-type="2" style="<%= isShowChild ? "" : "display:none;" %>;">
+                    <em class="fnt-14">儿童票</em>
+                    <br>
+                    <em class="fnt-12">总计</em>
+                    <em class="fnt-14 clr-ff7d13"><%=generatePriceStr('childPolicy')%></em>
+                </span>
+                <span class="<%=(ticketType === 3) ? "flight-iptetp-current" : ""%>" data-type="3" style="<%= isShowBaby ? "" : "display:none;" %>">
+                    <em class="fnt-14">婴儿票</em>
+                    <br>
+                    <em class="fnt-12">总计</em>
+                    <em class="fnt-14 clr-ff7d13"><%=generatePriceStr('babyPolicy')%></em>
+                </span>
+            </div>
+        </div>
+    </li>
+    
+ <%} }}%>
+</script>
+

@@ -1,0 +1,40 @@
+<header class="flight-header">
+    <h1>值机成功</h1>
+    <i class="returnico" id="js_return"></i> 
+</header>
+<div class="flight-header-blank"></div>
+
+<div class="pd10">
+	<div class="flight-zjres">
+		<div class="flight-zjres-cnt">
+            <i class="flight-icon-scs"></i>
+            <span class="fnt-18">值机成功！</span>
+        </div>
+        <div id="checkin_success_box">
+
+        </div>
+	</div>
+</div>
+
+<!--值机信息template模块-->
+<script type="text/template" id="checkin_success_tpl">
+    <ul class="flight-zjtable3">
+        <li class="flight-arrrht">
+            <p class="fnt-15 clr-333">
+                <%=flightCompany%><%=flightNo%>
+            </p>
+            <p class="fnt-13 clr-666">
+                <%=passengerName%>&nbsp;<%=currSpace==null?'':(currSpace==='M'?'下层':'上层')%><%=seatNo%>
+            </p>
+        </li>
+    </ul>
+    
+    <%if(cattion){
+        var replaceCattion=cattion.replace(/\n/g,'<br/>');%>
+        <div class="flight-zjres-tips">
+            温馨提示：<br/>
+            <%=replaceCattion%>
+        </div>
+    <%}%>
+    
+</script>

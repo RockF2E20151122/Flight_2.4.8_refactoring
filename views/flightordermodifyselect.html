@@ -1,0 +1,36 @@
+﻿<article  class="p10" id="flightordermodifyselect_box">
+
+</article>
+<script type="text/template" id="flightordermodifyselect_tpl">
+    <h3 class="flt_greytit1">选择[第<%=segid %>程] 改签登机人</h3>
+        <ul class="list_st_border mb10 list_psgs">
+                <%for(var i=0;i<psgs.length;i++) {%>
+                    <%if((psgs[i].uiflag & 2)==2) {%>
+						<li class="js_psgs <%= selectp.passengerList && selectp.passengerList[segid-1] && selectp.passengerList[segid-1][i] ? "checkbox_b_checked" : "" %>" data-index=" <%= i %> ">
+							<label class="checkbox_wrap_b">
+								<i></i><%=psgs[i].name %>
+							</label >  
+						</li>
+                       
+                    <%}else {%>
+						<li class="flt_discheck" data-index="<%=i %>">
+							<label class="checkbox_wrap_b"><i></i>
+								<%=psgs[i].name %>
+							</label > 
+							<%if(psgs[i].status){%>
+								<mark class="fr"><%=psgs[i].status %></mark>
+							<%} %>
+						</li>
+                    <%} %>
+                <%} %>                
+        </ul>
+        <h3 class="flt_greytit1">[第<%=segid %>程] 目标航班起飞日</h3>
+         <ul class="list_st_border mb10">
+            <%if(selectp.changeTime && selectp.changeTime[segid-1] && selectp.changeTime[segid-1].takedate) {%>               
+                <li class="greyfont arr_r" id="js_departDate">起飞日期<mark class="fr flt_rlink flt_rshow"><%=cDate.parse(selectp.changeTime[segid-1].takedate).format('Y-m-d') %></mark></li>
+            <%}else{ %>
+                <li class="greyfont arr_r" id="js_departDate">起飞日期<mark class="fr flt_rlink">选择改签后的航班起飞日期</mark></li>
+            <%} %>
+        </ul>
+        <button id="flightordermodifyselect_submit" class="btn_blue mtb" value="">完成</button>
+</script>

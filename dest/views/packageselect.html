@@ -1,0 +1,41 @@
+<header style="position: absolute">
+    <h1>
+        套餐选择
+    </h1>
+    <i class="returnico" id="js_return"></i>
+</header>
+<div class="flight-header-blank">
+</div>
+<!--S H5机票_机票查询-->
+<div class="pd10" id="packageList">
+</div>
+<!--E H5机票_机票查询-->
+<script type="text/template" id="packageTmp">
+    <ul class="flight-list-table2">
+        <%_.each(pkglist,function(p,index){
+        var mins = p.packageinfo.psgs.filter(function (psg, idex) {
+        return psg.psgtype == 1;
+        });
+        var min=mins.length?mins[0].min:1;
+        %>
+        <li class="<%=p.basicinfo.pkgtype==pkgtype?'selected':'' %>" data-type=
+            <%=p.basicinfo.pkgtype %>><i class="flight-icon-rgt">&nbsp;</i> <span><%=p.basicinfo.pkgname %></span> <span class="clr-ff9a14">&yen;<%=p.price %>×<%=min*selCount %>份</span>
+        </li>
+        <%}) %>
+    </ul>
+    <div class="flight-tiplinks">
+        <%
+        var insure=pkglist.filter(function(p,index){
+        return p.basicinfo.pkgtype==1;
+        });
+        var lp=pkglist.filter(function(p,index){
+        return p.basicinfo.pkgtype==2;
+        });
+        if(lp.length){ %>
+        <span class="f-r" id="liping" data-url=<%=lp[0].basicinfo.pkgdescurl %>>携程礼品卡说明</span>
+        <%} %>
+        <%if(insure.length){ %>
+        <span id="insure" data-url=<%=insure[0].basicinfo.pkgdescurl %>>航空意外险说明</span>
+        <%} %>
+    </div>
+</script>

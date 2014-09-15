@@ -1,0 +1,101 @@
+<header>
+    <b class="icon_home i_bef" id="js_home"></b>
+    <a href="tel:4000086666" class="icon_phone i_bef __hreftel__" id="js_phone"></a>
+    <h1>订单完成</h1><i id="js_return" class="returnico"></i>
+</header>
+<menu class="cont_pd_wrap" id="infobox"></menu>
+<script type="text/template" id="infotpl">
+<%if(orderId && +orderId>0){
+    if(orders.length===1){%>
+    <!--只有一单-->
+    <div class="cont_box_white order_ok" data-days="<%=days %>">
+        <i class="icon_ok i"></i>
+        <%if(flag && +flag==1){%>恭喜您，预订成功！该价格需要向航空公司申请，但不能确保一定申请成功。
+        <%}else{%>
+            恭喜您预订成功！
+        <%}%>
+    </div>
+    <div class="orderno arr_r orderid" data-id="<%=orderId %>">
+        <p>订单编号:<strong id="number"><%=orderId %></strong></p>
+        <p>相关信息将会通过短信与您确认！</p>
+    </div>
+    <%}else{%>
+    <!--拆单显示-->
+    <div class="pd5">
+        <div class="flight-bkrst">
+            <i class="flight-icon-scs">&nbsp;</i>
+            <p>您的订单已经成功提交！</p>
+            <p>我们会尽快处理。</p>
+            <p class="flight-bkrst-tips">本次预订由不同票点分多张订单出票，报销凭证配送及出行不受影响。</p>
+        </div>
+        <ul class="flight-bkrst-list">
+            <%var price=0; 
+              for(var i=0,len=orders.length;i<len;i++){
+                  price+=(+orders[i].price);
+              }%>
+            <li class="title">
+                <div class="f-r">
+                总额：<dfn class="clr-ff9a14">&yen;</dfn><span class="fnt-b clr-ff9a14"><%=price%></span>
+                </div>
+                <%=dcity%>&nbsp;-&nbsp;<%=acity%>
+                <%if(wanfan){%>
+                &nbsp;&nbsp;往返
+                <%}%>
+            </li>
+            <%
+            for(var i=0,len=orders.length;i<len;i++){
+                var psgTyp;
+                switch(orders[i].otype){
+                    case 0:
+                        psgTyp='未知';
+                        break;
+                    case 1:
+                        psgTyp='成人';
+                        break;
+                    case 2:
+                        psgTyp='儿童';
+                        break;
+                    case 3:
+                        psgTyp='婴儿';
+                        break;
+                    case 4:
+                        psgTyp='老人';
+                        break;
+                    default:
+                        psgTyp='';
+                        break;
+                }
+            %>
+            <li class="orderid" data-id="<%=orders[i].oid%>"><%=psgTyp%><%=orders[i].segno===0?'单程':(orders[i].segno===1?'去程':'返程')%>：<%=orders[i].oid%></li>
+            <%
+            }
+            %>
+        </ul>
+    </div>
+    <%}%>
+
+    <%if(ext && app && days && user && !user.IsNonUser && (!_sales || !_sales.sid || (+_sales.sid!=1575 && +_sales.sid != 1867))){%>
+    <!--申请返现窗口-->
+    <ul class="fanxian apply-fanxian">
+        <li class="bold">申请返现</li>
+        <li>发送验证码<i class="cblue">"<i><%=ext %></i>"</i>给<i class="cblue">"携程旅行网"</i>微信账号申请返现</li>
+        <li class="bold sq">返现提示<i class="sqbtn"><input type="button" class="btn_fx"  data-app="<%=app %>"  value="下载微信" /></i></li>
+        <li>
+            <p>1. 在微信中查找“携程旅行网”加关注</p>
+            <p>2. 在聊天输入框中输入验证码<i class="cblue">"<i><%=ext %></i>"</i>后发送</p><br />
+            <h5>您还可以在机票订单详情页查看返现状态</h5>
+            <h5>注意：请在航班起飞后<i><%=days %></i>天内完成申请</h5>
+        </li>
+    </ul>
+    <% 
+    }%>
+    <%if(!user || user.IsNonUser==true) {
+    if(!_sales || !_sales.sid || (+_sales.sid!=1575 && +_sales.sid != 1867)){
+    %>
+    <!--注册引导-->
+    <div id="reg" data-href="/webapp/myctrip/index.html#account/reg?from=/webapp/myctrip/" class="cont_box mt10">
+            仅需一步，注册携程会员，即可享受<i class="corange">1000</i>积分和<i class="corange">800</i>携程消费券哦。
+        <button class="btn_blue mt10">立即注册</button>
+    </div><%}}%>
+<%} %>
+</script>

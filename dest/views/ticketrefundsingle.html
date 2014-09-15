@@ -1,0 +1,45 @@
+<article class="p10" id="ticketRefund_box">
+</article>
+
+<script type="text/template" id="ticketRefund_onePath_tpl">
+    <section class="list_st_border mb10">
+                <h3 class="flt_tit"><small>单程</small><%=orderDetail.flightInfos[0].dCty %>--<%=orderDetail.flightInfos[orderDetail.flightInfos.length-1].aCty %></h3>
+                <dl class="p10 flt_dl">
+                    <dt class="greyfont">退票条件</dt>
+                    <dd>
+                        <%=
+                        (typeof(flightInfos[0]["refNote"])!="undefined" && flightInfos[0]["refNote"] !="" )?
+                        ((flightInfos[0]["refNote"])+((typeof(segs[0]["remark"])!="undefined" && segs[0]["remark"]!="" )?("<br/>"+segs[0]["remark"]):""))
+                        :(segs[0].psgs[0].refundpolicy).replace('\n',' <br/>') 
+                        %>
+                    </dd>
+                </dl>
+        </section>
+
+        <ul class="list_st_border mb10">
+                <li class="flt_greytit greyfont">选择退票登机人</li>
+                <% for(var passengerIndex=0; passengerIndex<segs[0].psgs.length; passengerIndex++){ %>
+                <li class="js_checkbox <%= segs[0].psgs[passengerIndex].uiflag==1 ? '': 'flt_discheck' %>">
+                    <label  class="js_passenger checkbox_wrap_b" data-passengerIndex="<%=passengerIndex %>">
+                        <i></i>
+                         <%= segs[0].psgs[passengerIndex].name %>
+                   </label > 
+                   <mark class="fr"><%= segs[0].psgs[passengerIndex].status %></mark>
+                </li>
+                <% } %>
+        </ul>
+
+        <% if(svrdesc){ %>
+        <h3 class="flt_greytit1 js_checkbox">
+            <label id="js_ticketRefund_onePath_refundSVR" class="checkbox_wrap_bs">
+                <i></i>
+                <%= svrdesc %>
+            </label >
+        </h3>
+        <% } %>
+
+        <textarea placeholder="其他处理要求（选填）" maxlength="100" id="comment" class="flt_textarea abs_size"></textarea>
+        
+        <button id="searchlistsubmit" class="btn_blue mtb" value="">提交</button>
+
+</script>

@@ -1,0 +1,46 @@
+﻿<header style="position:absolute;">
+    <h1></h1><i class="returnico" id="js_city_return"></i>
+</header>
+<section id="postcitylistbox" class="city_box"> 
+</section>
+<script type="text/template" id="post-citylist-tpl">
+    <ul id="city_list">
+        <%for(var i=0,len=citys.length,city,contries;i<len;i++){ city = citys[i]; contries = city.contries;%>
+         <li class="main-item cityli <%if(curCtyName == city.name) {%> citylistclick<%} %>">
+            <div class="city-group-title <% 
+                                            if(!isDirect) { 
+                                                if(curCtyName == city.name) { 
+                                                %> 
+                                                    newarr_up"
+                                                <% 
+                                                } else { 
+                                                %> 
+                                                    newarr_down" 
+                                                <%
+                                                }
+                                            } else {
+                                                if(curDstrName == city.name) {
+                                                %>
+                                                    cur-selected
+                                                <%
+                                                } 
+                                                %> 
+                                                    " data-pkey="<%=city.parentKey %>"  data-ctyName="<%=city.cryName %>"
+                                                <%
+                                            } 
+                                        %>
+                data-key="<%=city.treeKey %>" data-name="<%=city.name %>"><%=city.name %><i class="newarr_r"></i></div>
+            <ul>
+                <% if(contries){
+                    for(var t=0,tlen=contries.length;t<tlen;t++){ %>
+                <li class="city-item <%if(curDstrName == contries[t].name) {%> cur-selected <% }%>" 
+                 data-key="<%=contries[t].treeKey %>"><%=contries[t].name %></li>
+                <%}} %>
+            </ul>
+        </li>
+        <%} %>
+    </ul>
+</script>
+<style>
+.city-group-title{position:relative;}
+</style>

@@ -1,0 +1,170 @@
+<style type="text/css">
+    #citycont #city_list ul li{ display:block; }
+    #citycont #city_list ul.sub-city-box{ display:block; }
+    #citycont #city_list .empty-main-item{ text-align:center; display:none;}
+    #citycont .citybox{ display:none;}
+    #citycont .empty-main-item{ height:40px; line-height:40px; background:#fff; display:none;}
+    #citylistroot .hidecancel .place_search_box{ margin-right:0px; }
+    #citylistroot .hidecancel .history_close{ display:none; }
+    #citycont #associate{ display:none;   }
+    #citycont .cont_blue{ padding-bottom:10px; }
+    #citycont .cont_blue2{ padding-top:0px; }
+   #associate .city-item-empty{ border-bottom: 1px solid #CEE1EE;background: #EBF2FA;text-indent: 20px;font: normal 14px/40px Tahoma;border-bottom: 1px solid #f2f2f2;background-color: #fff;}
+    #associate .city-item-empty{ text-align:center; }
+    .city-selected {
+        background-color:#ffd800 !important;
+        
+    }
+</style>
+<div id="citycont">
+    <div class="header">
+    <header>
+        <h1>选择城市</h1><i id="js_return" class="returnico"></i>
+    </header>
+    <!--头部fixed，以下空标签占位-->
+    <div class="flight-header-blank">&nbsp;</div></div>
+    <div id="titlediv" class="flight-ctsfixed">
+    <aside class="citylisttab flight-ctsrh" id="citylistroot">
+        <section class="search_wrap js_search_opt">
+            <button class="flight-ctsrh-cancel js_hide">取消</button>
+            <div class="place_search_box clear-input-box">
+                <input type="text" class="place_search" id="flight_city_keyword" placeholder="北京/beijing/bj/bjs" value="">
+                
+            </div>
+            <!--<div class="history_close">
+            <span class=" history_close hclose">取消</span>
+        </div>-->
+        </section>
+    </aside>
+        <ul id="tabtilte" class="city_tab city-tab1">
+            <li class="cityTabCrt" data-mode="1">国内城市</li>
+            <li data-mode="2" class="">国际城市</li>
+        </ul> </div>
+    <!--以下空标签占位for搜索及筛选fixed-->
+    <div class="flight-ctsfixed-blank">&nbsp;</div>
+    <div class="flight-ctltsfixed">
+        <div class="flight-ctltsfixed-pd">
+            <ul class="flight-ctlts">
+                <li id="historykey">历史</li>
+                <li>热门</li>
+                <li>A</li>
+                <li>B</li>
+                <li>C</li>
+                <li>D</li>
+                <li>E</li>
+                <li>F</li>
+                <li>G</li>
+                <li>H</li>
+                <li>I</li>
+                <li>J</li>
+                <li>K</li>
+                <li>L</li>
+                <li>M</li>
+                <li>N</li>
+                <li>O</li>
+                <li>P</li>
+                <li>Q</li>
+                <li>R</li>
+                <li>S</li>
+                <li>T</li>
+                <li>U</li>
+                <li>V</li>
+                <li>W</li>
+                <li>X</li>
+                <li>Y</li>
+                <li>Z</li>
+            </ul>
+        </div>
+    </div>
+    <script>
+      
+    </script>
+    <section id="flightcitylistbox" class="city_box">
+        <div class="citybox inlandcity">
+    
+        </div>
+        <div class="citybox intercity">
+        
+        </div>
+        <div class="search-bottom-pad"></div>
+    </section>
+    <ul id="associate" class="sub-city-box">
+    </ul>
+</div>
+<script type="text/template" id="flight-citylist-tpl">
+    <ul id="city_list">
+        <li  id="inlandcurentcity" class="main-item hotcitys cityli js_hide">
+            <div class="city-group-title">当前定位城市</div>
+            <ul class="sub-city-box" style="display:block">
+                <li id="geocity"  class="flight-getcity" >点击获取当前城市</li>
+                
+            </ul>
+        </li>
+        <%if(history.length){%>
+        <li id="inlandhistorycity" class="main-item hotcitys cityli">
+            <div class="city-group-title">历史</div>
+            <ul class="sub-city-box" style="display:block">
+                <%for(var o=0,olen=history.length,Item;o< olen;o++){ Item=history[o];if(Item){%>
+
+                <li style="display:inline" class="city-item <%if(cityid && cityid === Item.code){%> cur-selected<%} %> <%=Item.name.length>5?'twoline':''%>" data-mode="1" data-info='<%=JSON.stringify(Item)%>' data-code="<%=Item.code %>" data-id="<%=Item.id %>" data-name="<%=Item.name %>" data-key="<%=Item.key %>" data-countryid="<%=Item.countryId %>"><%=Item.name %></li>
+                <%}}%>
+                </ul>
+            </li><%}%>
+        <li id="inlandhotcity" class="main-item hotcitys cityli">
+            <div class="city-group-title">热门城市</div>
+            <ul class="sub-city-box" style="display:block">
+                <%for(var o=0,olen=hotcitys.length,Item;o<olen;o++){ Item=hotcitys[o];%>
+                <li style="display:inline;" data-index='<%=o%>' data-info='<%=JSON.stringify(Item)%>' class="city-item  <%=Item.name.length>5?'twoline':''%>" data-mode="1" data-code="<%=Item.code %>" data-id="<%=Item.id %>" data-name="<%=Item.name %>" data-key="<%=Item.key %>" data-filter="<%=(Item.code.toLowerCase() + ' ' +Item.countryName + ' ' + Item.jp + ' ' + Item.initial + ' ' + Item.name + ' ' + Item.py + ' ' + Item.ename + ' '+ Item.jp +' ' + Item.portName) %>" data-hotflag="<%=Item.hotFlag %>" data-countryid="<%=Item.countryId %>"><%=Item.name %></li>
+                <%} %>
+            </ul>
+        </li>
+        <%for(var i=0,len=keys.length,Key,Item;i<len;i++){ Key = keys[i]; Item = datalist[Key]; if(!Item) continue;%>
+         <li id="inlandnothotcity" class="main-item cityli nothotcity">
+            <div data-key="<%=Key %>" class="city-group-title"><%=Key %></div>
+            <ul class="sub-city-box">
+                <%for(var t=0,tlen=Item.length;t<tlen;t++){ %>
+                <li class="city-item <%if(cityid && cityid===Item.code){%> cur-selected<%}%>"  data-info='<%=JSON.stringify(Item[t])%>' data-index='<%=t%>' data-mode="1" data-code="<%=Item[t].code %>" data-id="<%=Item[t].id %>" data-name="<%=Item[t].name %>" data-key="<%=Item[t].key %>" data-filter="<%=(Item[t].code.toLowerCase() + ' ' +Item[t].countryName + ' ' + Item[t].jp + ' ' + Item[t].initial + ' ' + Item[t].name + ' ' + Item[t].py + ' ' + Item[t].ename + ' ' + Item[t].jp +' '+ Item[t].portName) %>" data-hotflag="<%=Item[t].hotFlag %>" data-countryid="<%=Item[t].countryId %>"><%=Item[t].name %></li>
+                <%} %>
+            </ul>
+        </li>
+        <%} %>
+        <li class="empty-main-item">没有结果</li>
+    </ul>
+</script>
+<script type="text/template" id="intercitylisttpl">
+    <ul id="city_list">
+        <%
+            var hotcitys = data.hotcity;
+            var datalist = data.cities2;
+         %>
+        <%if(history.length){%>
+        <li id="interhistorycity" class="main-item hotcitys cityli">
+            <div class="city-group-title">历史</div>
+            <ul class="sub-city-box" style="display:block">
+                <% for(var o=0,olen=history.length,Item;o< olen;o++){ Item=history[o];if(Item){%>
+                <li style="display:inline" class="city-item <%if(cityid && cityid===Item.code){%> cur-selected<%}%>  <%=Item.name.length>5?'twoline':''%>" data-info='<%=JSON.stringify(Item)%>' data-index="<%=o%>" data-mode="2" data-code="<%=Item.code %>" data-id="<%=Item.id %>" data-name="<%=Item.name %>" data-key="<%=Item.key %>" data-filter="<%=(Item.code.toLowerCase() + ' ' +Item.countryName + ' ' + Item.jp + ' ' + Item.initial + ' ' + Item.name + ' ' + Item.py + ' ' + Item.ename +' ' + Item.jp +' '+ Item.portName) %>" data-hotflag="<%=Item.hotFlag %>" data-countryid="<%=Item.countryId %>"><%=Item.name %></li>
+                <%}}%>
+            </ul>
+        </li>
+        <%}%>
+        <li id="interhotcity" class="main-item hotcitys cityli">
+            <div class="city-group-title">热门城市</div>
+            <ul class="sub-city-box" style="display:block">
+                <%for(var o=0,olen=hotcitys.length,Item;o<olen;o++){ Item=hotcitys[o];%>
+                <li  style="display:inline" class="city-item <%if(cityid && cityid===Item.code){%> cur-selected<%}%> <%=Item.name.length>5?'twoline':''%>" data-info='<%=JSON.stringify(Item)%>' data-index="<%=o%>" data-mode="2" data-code="<%=Item.code %>" data-id="<%=Item.id %>" data-name="<%=Item.name %>" data-key="<%=Item.key %>" data-filter="<%=(Item.code.toLowerCase() + ' ' +Item.countryName + ' ' + Item.jp + ' ' + Item.initial + ' ' + Item.name + ' ' + Item.py + ' ' + Item.ename +' ' + Item.jp +' '+ Item.portName) %>" data-hotflag="<%=Item.hotFlag %>" data-countryid="<%=Item.countryId %>"><%=Item.name %></li>
+                <%} %>
+            </ul>
+        </li>
+        <%for(var i=0,len=keys.length,Key,Item;i<len;i++){ Key = keys[i]; Item = datalist[Key]; if(!Item) continue;%>
+         <li id="internothotcity" class="main-item cityli nothotcity">
+            <div data-key="<%=Key %>" class="city-group-title"><%=Key %></div>
+            <ul class="sub-city-box">
+                <%for(var t=0,tlen=Item.length;t<tlen;t++){ %>
+                <li class="city-item <%if(cityid && cityid===Item.code){%> cur-selected<%}%>" data-index="<%=t%>" data-info='<%=JSON.stringify(Item[t])%>' data-mode="2" data-code="<%=Item[t].code %>" data-id="<%=Item[t].id %>" data-name="<%=Item[t].name %>" data-key="<%=Item[t].key %>" data-filter="<%=(Item[t].code.toLowerCase() + ' ' +Item[t].countryName + ' ' + Item[t].jp + ' ' + Item[t].initial + ' ' + Item[t].name + ' ' + Item[t].py + ' ' + Item[t].ename +' ' + Item[t].jp +' '+ Item[t].portName) %>" data-hotflag="<%=Item[t].hotFlag %>" data-countryid="<%=Item[t].countryId %>"><%=Item[t].name %></li>
+                <%} %>
+            </ul>
+        </li>
+        <%} %>
+        <li class="empty-main-item">没有结果</li>
+    </ul>
+</script>

@@ -1,0 +1,32 @@
+<header>
+    <h1>筛选</h1><i class="returnico" id="js_return"></i>
+</header>
+<style type="text/css">
+    #flightlistfilter .filter_r{ position:relative;}
+    #flightlistfilter .filter_r ul{  width:100%; background:#fff; display:none;}
+</style>
+<section id="flightlistfilter" class="cont_wrap h100">
+    <ul id="menus" class="filter_l">
+        <%for(var i=0,len=menus.length;i<len;i++){ %>
+        <li data-type="<%=i %>" class="<%if(i == filtermenuIndex){ %>hover<%} %>"><%=menus[i] %></li>
+        <%} %>
+    </ul>
+    <div id="itemsbox" class="filter_r">
+        <ul data-type="0">
+            <%for(var i=0,len=flightTakeOfTime.length;i<len;i++){ %>
+            <li class="<%if(filtermenuIndex==0 && filterselected===flightTakeOfTime[i].value){%>choosed<%} %>" data-type="0" data-value="<%=flightTakeOfTime[i].value %>"><%=flightTakeOfTime[i].title %></li>
+            <%} %>
+        </ul>
+        <ul data-type="1">
+            <%for(var i=0,len=flightCabin.length;i<len;i++){ %>
+            <li class="<%if(filtermenuIndex==1 && filterselected===flightCabin[i].value){%>choosed<%} %>" data-type="1" data-value="<%=flightCabin[i].value %>"><%=flightCabin[i].title %></li>
+            <%} %>
+        </ul>
+        <ul data-type="2">
+            <li class="" choosed="" data-type="2" data-value="">不限</li>
+            <%for(var i=0,len=FlightAirline.length;i<len;i++){ %>
+            <li class="<%if(filtermenuIndex==2 && filterselected===FlightAirline[i].code){%>choosed<%} %>" choosed="" data-type="2" data-value="<%=FlightAirline[i].code %>"><%=FlightAirline[i].name %></li>
+            <%} %>
+        </ul>
+    </div>
+</section>

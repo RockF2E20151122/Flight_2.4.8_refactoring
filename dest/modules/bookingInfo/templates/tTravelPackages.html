@@ -1,0 +1,42 @@
+﻿<script type="text/template" id="lxtctpl">
+    <% var infos= (typeof(items)!="undefined" && items!=null)?(items||[]):[]; %>
+    <%  for(var i=0;i <infos.length;i++){
+           if(infos[i].prodrmk){
+              var des = infos[i].prodRmk || "";
+              var lxtc = des.replace(/\n/g,'<br />');
+      %>
+      <p class="flight-couponstips">
+          <i class="flight-arrdn"></i><%=lxtc%>
+     </p>
+       <% break; }%>
+    <%  }%>
+</script>
+
+<script type="text/template" id="packagetpl">
+    <label class="flight-labq">套餐</label>
+    <div class="flight-ins" data-type='<%=basicinfo.pkgtype %>'>
+        <span class="clr-099fde fnt5em"><%=basicinfo.pkgname %></span>
+        <span class="clr-ff7d13">&yen;<%=price %>&times;<%=count %>份</span>
+    </div>
+</script>
+
+<script type="text/template" id="packageSelecttpl">
+    <%_.each(pkglist,function(p,index){ %>
+
+      <%  
+        var mins = p.packageinfo.psgs.filter(function (psg, idex) {
+        return psg.psgtype == 1;
+        });
+        var min=mins.length?mins[0].min:1;
+        
+      %>
+        
+        <div class="js_package_select  flight-section  <%=p.basicinfo.pkgtype==pkgtype?'flight-selected':'' %>" data-type="<%=p.basicinfo.pkgtype %>">
+           <div class="flight-ins">
+               <span class="clr-099fde  fnt5em"><%=p.basicinfo.pkgname %></span>
+               <span class="clr-ff7d13">&yen;<%=p.price %>&times;<%=min*selCount %>份</span>
+          </div>
+        </div>
+
+  <%}) %>
+</script>

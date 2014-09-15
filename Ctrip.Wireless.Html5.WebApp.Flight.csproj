@@ -1,0 +1,389 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6C28F912-B51F-425A-87C4-21B65DBC1453}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ctrip.Wireless.Html5.WebApp.Flight</RootNamespace>
+    <AssemblyName>Ctrip.Wireless.Html5.WebApp.Flight</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="actualtime\a.js" />
+    <Content Include="common\a.js" />
+    <Content Include="ConfigProfile.xml" />
+    <Content Include="d.html" />
+    <Content Include="debug\console.js" />
+    <Content Include="debug\debug.js" />
+    <Content Include="debug\log.js" />
+    <Content Include="dest\actualtime\a.js" />
+    <Content Include="dest\common\a.js" />
+    <Content Include="dest\d.html" />
+    <Content Include="dest\debug\console.js" />
+    <Content Include="dest\debug\debug.js" />
+    <Content Include="dest\debug\log.js" />
+    <Content Include="dest\domestic\a.js" />
+    <Content Include="dest\index.html" />
+    <Content Include="dest\international\a.js" />
+    <Content Include="dest\load.js" />
+    <Content Include="dest\main.js" />
+    <Content Include="dest\main_r.js" />
+    <Content Include="dest\mapping\mapping.js" />
+    <Content Include="dest\mapping\relationship.js" />
+    <Content Include="dest\models\flightmodel.js" />
+    <Content Include="dest\models\flightstore.js" />
+    <Content Include="dest\res\html\国内-退票申请.html" />
+    <Content Include="dest\res\html\国内-退票申请已完成.html" />
+    <Content Include="dest\res\html\国内机票订单填写.html" />
+    <Content Include="dest\res\html\国内机票订单详情.html" />
+    <Content Include="dest\res\html\国内机票订单详情_多程.html" />
+    <Content Include="dest\res\html\国际机票订单填写.html" />
+    <Content Include="dest\res\html\报销凭证.html" />
+    <Content Include="dest\res\html\机票-退票申请完成.html" />
+    <Content Include="dest\res\html\机票改签_多程_填写完成.html" />
+    <Content Include="dest\res\html\机票改签信息填写.html" />
+    <Content Include="dest\res\html\机票改签申请_单程.html" />
+    <Content Include="dest\res\html\机票改签申请_多程.html" />
+    <Content Include="dest\res\html\退票功能_单程.html" />
+    <Content Include="dest\res\html\退票功能_往返程_选择退票登机人后.html" />
+    <Content Include="dest\res\html\退票功能_往返程或联程.html" />
+    <Content Include="dest\res\html\退票功能_选择退票登机人.html" />
+    <Content Include="dest\res\img\pic_flightslogo.png" />
+    <Content Include="dest\res\style\flight.css" />
+    <Content Include="dest\res\style\flights_logo.css" />
+    <Content Include="dest\utility\utility.js" />
+    <Content Include="dest\views\addpostcity.html" />
+    <Content Include="dest\views\addpostcity.js" />
+    <Content Include="dest\views\addpostprovince.html" />
+    <Content Include="dest\views\addpostprovince.js" />
+    <Content Include="dest\views\backlist.html" />
+    <Content Include="dest\views\backlist.js" />
+    <Content Include="dest\views\booking.js" />
+    <Content Include="dest\views\bookinginfo.html" />
+    <Content Include="dest\views\bookinginfo.js" />
+    <Content Include="dest\views\bookingsuccess.html" />
+    <Content Include="dest\views\bookingsuccess.js" />
+    <Content Include="dest\views\cabinlist.html" />
+    <Content Include="dest\views\cabinlist.js" />
+    <Content Include="dest\views\cancelCheckin.html" />
+    <Content Include="dest\views\cancelCheckin.js" />
+    <Content Include="dest\views\checkin.html" />
+    <Content Include="dest\views\checkin.js" />
+    <Content Include="dest\views\checkinbooking.html" />
+    <Content Include="dest\views\checkinbooking.js" />
+    <Content Include="dest\views\CheckInList.html" />
+    <Content Include="dest\views\CheckInList.js" />
+    <Content Include="dest\views\checkinnotice.html" />
+    <Content Include="dest\views\checkinprotocol.html" />
+    <Content Include="dest\views\checkinprotocol.js" />
+    <Content Include="dest\views\checkinrules.html" />
+    <Content Include="dest\views\checkinrules.js" />
+    <Content Include="dest\views\checkinselectflight.html" />
+    <Content Include="dest\views\checkinselectflight.js" />
+    <Content Include="dest\views\checkinsuccess.html" />
+    <Content Include="dest\views\checkinsuccess.js" />
+    <Content Include="dest\views\citylist.html" />
+    <Content Include="dest\views\citylist.js" />
+    <Content Include="dest\views\coupons.html" />
+    <Content Include="dest\views\coupons.js" />
+    <Content Include="dest\views\flightcitizenship.html" />
+    <Content Include="dest\views\flightcitizenship.js" />
+    <Content Include="dest\views\flightdetail.html" />
+    <Content Include="dest\views\flightdetail.js" />
+    <Content Include="dest\views\flightlistfilter.html" />
+    <Content Include="dest\views\flightlistfilter.js" />
+    <Content Include="dest\views\flightorderdetail.html" />
+    <Content Include="dest\views\flightorderdetail.js" />
+    <Content Include="dest\views\flightordermodify.html" />
+    <Content Include="dest\views\flightordermodify.js" />
+    <Content Include="dest\views\flightordermodifyselect.html" />
+    <Content Include="dest\views\flightordermodifyselect.js" />
+    <Content Include="dest\views\flightticketchangesucces.html" />
+    <Content Include="dest\views\flightticketchangesucces.js" />
+    <Content Include="dest\views\hazardnotice.html" />
+    <Content Include="dest\views\index.html" />
+    <Content Include="dest\views\index.js" />
+    <Content Include="dest\views\insuranceinfo.html" />
+    <Content Include="dest\views\insuranceinfo.js" />
+    <Content Include="dest\views\list.html" />
+    <Content Include="dest\views\list.js" />
+    <Content Include="dest\views\log.js" />
+    <Content Include="dest\views\noticeofpayment.js" />
+    <Content Include="dest\views\noticeofpaymentthird.js" />
+    <Content Include="dest\views\notimedcheckin.html" />
+    <Content Include="dest\views\notimedcheckin.js" />
+    <Content Include="dest\views\orderdetail.html" />
+    <Content Include="dest\views\orderdetail.js" />
+    <Content Include="dest\views\orderlist.html" />
+    <Content Include="dest\views\orderlist.js" />
+    <Content Include="dest\views\orderresults.html" />
+    <Content Include="dest\views\orderresults.js" />
+    <Content Include="dest\views\passengeredit.html" />
+    <Content Include="dest\views\passengeredit.js" />
+    <Content Include="dest\views\passengerselect.html" />
+    <Content Include="dest\views\passengerselect.js" />
+    <Content Include="dest\views\postinfo.html" />
+    <Content Include="dest\views\postinfo.js" />
+    <Content Include="dest\views\seatconfirm.html" />
+    <Content Include="dest\views\seatconfirm.js" />
+    <Content Include="dest\views\seatTestPage.html" />
+    <Content Include="dest\views\seatTestPage.js" />
+    <Content Include="dest\views\selectseat.html" />
+    <Content Include="dest\views\selectseat.js" />
+    <Content Include="dest\views\ticketrefund.js" />
+    <Content Include="dest\views\ticketrefundmultiple.html" />
+    <Content Include="dest\views\ticketrefundmultiple.js" />
+    <Content Include="dest\views\ticketrefundselectpassenger.html" />
+    <Content Include="dest\views\ticketrefundselectpassenger.js" />
+    <Content Include="dest\views\ticketrefundsingle.html" />
+    <Content Include="dest\views\ticketrefundsingle.js" />
+    <Content Include="dest\views\ticketrefundsucceed.html" />
+    <Content Include="dest\views\ticketrefundsucceed.js" />
+    <Content Include="dest\views\transit.html" />
+    <Content Include="dest\views\transit.js" />
+    <Content Include="dest\views\txtinfo.html" />
+    <Content Include="dest\views\txtinfo.js" />
+    <Content Include="dest\views\zqinairport.html" />
+    <Content Include="dest\views\zqinairport.js" />
+    <Content Include="dest\views\zqinairportselect.html" />
+    <Content Include="dest\views\zqinairportselect.js" />
+    <Content Include="dest\views\zqincity.html" />
+    <Content Include="dest\views\zqincity.js" />
+    <Content Include="dest\views\zqincityselect.html" />
+    <Content Include="dest\views\zqincityselect.js" />
+    <Content Include="dest\views\zqinpickticketselect.html" />
+    <Content Include="dest\views\zqinpickticketselect.js" />
+    <Content Include="domestic\a.js" />
+    <Content Include="index.html" />
+    <Content Include="international\a.js" />
+    <Content Include="load.js" />
+    <Content Include="main.js" />
+    <Content Include="main_r.js" />
+    <Content Include="mapping\mapping.js" />
+    <Content Include="mapping\relationship.js" />
+    <Content Include="models\flightmodel.js" />
+    <Content Include="models\flightstore.js" />
+    <Content Include="res\html\H5机票_机票列表.html" />
+    <Content Include="res\html\H5机票_订单填写.html" />
+    <Content Include="res\html\H5机票_订单详情.html" />
+    <Content Include="res\html\H5机票_选择舱位.html" />
+    <Content Include="res\img\pic_flightslogo.png" />
+    <Content Include="res\style\flight.css" />
+    <Content Include="res\style\flights_logo.css" />
+    <Content Include="utility\utility.js" />
+    <Content Include="views\addpostcity.html" />
+    <Content Include="views\addpostcity.js" />
+    <Content Include="views\addpostprovince.html" />
+    <Content Include="views\addpostprovince.js" />
+    <Content Include="views\backlist.html" />
+    <Content Include="views\backlist.js" />
+    <Content Include="views\booking.js" />
+    <Content Include="views\bookinginfo.html" />
+    <Content Include="views\bookinginfo.js" />
+    <Content Include="views\bookingsuccess.html" />
+    <Content Include="views\bookingsuccess.js" />
+    <Content Include="views\cabinlist.html" />
+    <Content Include="views\cabinlist.js" />
+    <Content Include="views\cancelCheckin.html" />
+    <Content Include="views\cancelCheckin.js" />
+    <Content Include="views\checkin.html" />
+    <Content Include="views\checkin.js" />
+    <Content Include="views\checkinbooking.html" />
+    <Content Include="views\checkinbooking.js" />
+    <Content Include="views\CheckInList.html" />
+    <Content Include="views\CheckInList.js" />
+    <Content Include="views\checkinnotice.html" />
+    <Content Include="views\checkinprotocol.html" />
+    <Content Include="views\checkinprotocol.js" />
+    <Content Include="views\checkinrules.html" />
+    <Content Include="views\checkinrules.js" />
+    <Content Include="views\checkinselectflight.html" />
+    <Content Include="views\checkinselectflight.js" />
+    <Content Include="views\checkinsuccess.html" />
+    <Content Include="views\checkinsuccess.js" />
+    <Content Include="views\citylist.html" />
+    <Content Include="views\citylist.js" />
+    <Content Include="views\flightordermodify.html" />
+    <Content Include="views\flightordermodify.js" />
+    <Content Include="views\flightordermodifyselect.html" />
+    <Content Include="views\flightordermodifyselect.js" />
+    <Content Include="views\packageselect.html" />
+    <Content Include="views\packageselect.js" />
+    <Content Include="views\transit.html" />
+    <Content Include="views\transit.js" />
+    <Content Include="views\log.js" />
+    <Content Include="views\orderresults.js" />
+    <Content Include="views\orderresults.html" />
+    <Content Include="views\flightticketchangesucces.html" />
+    <Content Include="views\flightticketchangesucces.js" />
+    <Content Include="views\hazardnotice.html" />
+    <Content Include="views\noticeofpayment.js" />
+    <Content Include="views\noticeofpaymentthird.js" />
+    <Content Include="views\notimedcheckin.html" />
+    <Content Include="views\notimedcheckin.js" />
+    <Content Include="views\seatconfirm.html" />
+    <Content Include="views\seatconfirm.js" />
+    <Content Include="views\seatTestPage.html" />
+    <Content Include="views\seatTestPage.js" />
+    <Content Include="views\selectseat.html" />
+    <Content Include="views\selectseat.js" />
+    <Content Include="views\ticketrefund.js" />
+    <Content Include="views\ticketrefundselectpassenger.html" />
+    <Content Include="views\ticketrefundselectpassenger.js" />
+    <Content Include="views\ticketrefundsucceed.html" />
+    <Content Include="views\ticketrefundsucceed.js" />
+    <Content Include="views\ticketrefundsingle.js" />
+    <Content Include="views\ticketrefundsingle.html" />
+    <Content Include="views\coupons.html" />
+    <Content Include="views\coupons.js" />
+    <Content Include="views\flightcitizenship.html" />
+    <Content Include="views\flightcitizenship.js" />
+    <Content Include="views\flightdetail.html" />
+    <Content Include="views\flightdetail.js" />
+    <Content Include="views\flightlistfilter.html" />
+    <Content Include="views\flightlistfilter.js" />
+    <Content Include="views\flightorderdetail.html" />
+    <Content Include="views\flightorderdetail.js" />
+    <Content Include="views\index.html" />
+    <Content Include="views\index.js" />
+    <Content Include="views\insuranceinfo.html" />
+    <Content Include="views\insuranceinfo.js" />
+    <Content Include="views\list.html" />
+    <Content Include="views\list.js" />
+    <Content Include="views\orderdetail.html" />
+    <Content Include="views\orderdetail.js" />
+    <Content Include="views\orderlist.html" />
+    <Content Include="views\orderlist.js" />
+    <Content Include="views\passengeredit.html" />
+    <Content Include="views\passengeredit.js" />
+    <Content Include="views\passengerselect.html" />
+    <Content Include="views\passengerselect.js" />
+    <Content Include="views\postinfo.html" />
+    <Content Include="views\postinfo.js" />
+    <Content Include="views\seatTestPage.js" />
+    <Content Include="views\selectseat.html" />
+    <Content Include="views\selectseat.js" />
+    <Content Include="views\ticketrefundmultiple.html" />
+    <Content Include="views\ticketrefundmultiple.js" />
+    <Content Include="views\txtinfo.html" />
+    <Content Include="views\txtinfo.js" />
+    <Content Include="views\zqinairport.html" />
+    <Content Include="views\zqinairport.js" />
+    <Content Include="views\zqinairportselect.html" />
+    <Content Include="views\zqinairportselect.js" />
+    <Content Include="views\zqincity.html" />
+    <Content Include="views\zqincity.js" />
+    <Content Include="views\zqincityselect.html" />
+    <Content Include="views\zqincityselect.js" />
+    <Content Include="views\zqinpickticketselect.html" />
+    <Content Include="views\zqinpickticketselect.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="res\html\web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gruntCfg.json" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>5711</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>C:\DevTools\ConfigGen\ConfigGen.exe -gd "$(ProjectDir)"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

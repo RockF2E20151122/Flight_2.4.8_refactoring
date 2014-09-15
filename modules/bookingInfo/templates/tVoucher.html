@@ -1,0 +1,148 @@
+<script type="text/template" id="invoice_box">
+    <div class="flight-section  <%=len>1?'flight-arrrht':''%>  <%=inname?'':'clahead' %>">
+        <label>凭证类型</label>
+        <span id="intype" data-type="<%=intype%>" class="flight-section-sp1"><%=inname %></span>
+    </div>
+
+     <div class="flight-section">
+                <label>发票抬头</label>
+         <input type="text" class="flight-section-sp1 clr-099fde" value='<%=title%>' id="js_invoice_title" maxlength="50" placeholder="请填写个人或公司名称">
+         <i class="flight-icon-arrrht"></i>
+     </div>
+    
+   
+</script>
+<script type="text/template" id="deliverytpl_tab">
+    <!--<ul class="flight-listsim3 mtm1">
+        <li class="<%= len <= 1  ? '' : 'flight-arrrht'%>">
+            <div class="flight-listsim3-table">
+                <label >配送方式</label>
+                <span>	<%= type == 16 ? "机场自取" : type == 2 ? "邮寄" : "快递"%></span>
+            </div>
+        </li>
+    </ul>-->
+    <div class="flight-section <%= len <= 1  ? '' : 'flight-arrrht'%>">
+        <label>配送方式</label>
+        <span class="flight-section-sp1" data-type="<%=type%>"><%= type == 16 ? "机场自取" : type == 2 ? "邮寄" : "快递"%></span>
+    </div>
+</script>
+<script type="text/template" id="deliverytpl_cost">
+    <ul class="flight-bxinfo-box mtm1<%=type == 32 ? '' : ' js_hide' %>">
+            <div class="flight-section">
+                <label>快递费</label>
+                <%if(rc===0){ //重复地址判断==》不免费
+                paytype = typeof paytype == 'undefined' ? 0 : paytype;
+                %>
+                        <dl class="flight-bxinfo-kdf">
+                        <%for (var i = 0; i < pays.length; i++) { %>
+                            <%
+                                if (pays[i].paytype == 3) {%>
+                                    <dd data-paytype="<%=pays[i].paytype%>" class="<%= (pays[i].paytype == paytype) ? "flight-bxinfo-kdf-current" : "" %>"><span><em>免费</em><br /><em>(钻石会员专享)</em></span></dd>
+                            <%} else if (pays[i].paytype == 1) {%>
+                                    <dd data-paytype="<%=pays[i].paytype%>" class="<%= (pays[i].paytype == paytype) ? "flight-bxinfo-kdf-current" : "" %>"><span><em><%=pays[i].amount%>积分兑换</em><%if(!isLogin){%><br /><em>未登录也可使用</em><%}%></span></dd>
+                            <%} else if (pays[i].paytype == 2) {%>
+                                    <dd data-paytype="<%=pays[i].paytype%>" class="<%= (pays[i].paytype == paytype) ? "flight-bxinfo-kdf-current" : "" %>"><span><em class="clr-ff7d13">¥<%=fee %></em><br/><em>送<%=pays[i].amount %>元礼品卡</em></span></dd>
+                            <%} else if (pays[i].paytype == 0){%>
+                                    <dd data-paytype="<%=pays[i].paytype%>" class="<%= (pays[i].paytype == paytype) ? "flight-bxinfo-kdf-current" : "" %>">¥<%=fee %></dd>
+                            <%}
+                            %>
+
+                        <%}%></dl><%
+                    }else{ //重复地址判断==》免费
+                    %>
+                <span data-paytype="<%=paytype%>" class="flight-section-sp1">免费</span>
+                    <%} %>
+            </div>
+    </ul>
+</script>
+<script type="text/template" id="deliverytpl_mail_1">
+    <ul class="flight-listsim3 mtm1">
+        <li>
+            <div class="flight-listsim3-table">
+                <label>收件人</label>
+                <input class="js_recipient" data-role="delivery" type="text" value="<%=recipient %>" placeholder="请填写真实姓名" >
+            </div>
+        </li>
+        <li id="selectCity"  class="flight-arrrht">
+            <div class="flight-section">
+                <label>所在地区</label>
+                <span><%=prvnName + ctyName + dstrName%></span>
+            </div>
+        </li>
+        <li>
+            <div class="flight-listsim3-table">
+                <label>详细地址</label>
+                <input class="js_addr" data-role="delivery" type="text"  placeholder="请填写详细地址" value="<%=addr %>">
+            </div>
+        </li>
+        <li>
+            <div class="flight-listsim3-table">
+                <label>邮政编码</label>
+                <input class="js_zip" data-role="delivery" maxlength=6 type="text" value="<%=zip %>" placeholder="请填写邮政编码">
+            </div>
+        </li>
+    </ul>
+</script>
+<script type="text/template" id="deliverytpl_mail_2">
+            <div class="flight-section flight-arrrht">
+                <label>配送地址</label>
+                <ul id="js_addrList">
+                    
+                        <%if(prvnName +ctyName + dstrName + addr){%> 
+                    <span class="flight-section-sp2 clr-099fde">
+                        <span class="fnt-16"><%=recipient||"" %></span>
+                        <br>
+                        <span><%= prvnName +ctyName + dstrName + addr %></span>
+                        <br>
+                        <span><%=zip||"" %></span>
+                    </span>
+                        <%}else{%>
+                        <span class="flight-section-sp1 clr-999" >
+                            请选择邮寄地址
+                        </span>
+                        <%}%>
+
+                </div>
+
+</script>
+<script type="text/template" id="deliverytpl_zq_1">
+    <ul class="flight-listsim3 mtm1">
+        <li class="flight-arrrht">
+            <div class="flight-section">
+                <label>取票柜台</label>
+                <ul><li> <%= typeof name != "undefined" ? name : "" %> </li></ul>
+            </div>
+        </li>
+        <li   class="flight-arrrht">
+            <div class="flight-section">
+                <label>取票日期</label>
+                <span class="flight-section" id="zq-inairport-data"><%= typeof day != "undefined" ? day: "" %></span>
+                <!--<%= typeof time != "undefined" ? cDate.parse(time).format("Y-m-d") : "" %>-->
+            </div>
+        </li>
+        <li  class="flight-arrrht">
+            <div class="flight-section">
+                <label>取票时间</label>
+                <span class="flight-section"><%= typeof tim != "undefined" ? tim: "" %></span>
+                <!--<%= typeof time != "undefined" ? cDate.parse(time).format("H:i") : "" %>-->
+            </div>
+        </li>
+    </ul>
+</script>
+<script type="text/template" id="deliverytpl_zq">
+            <div id="done-address" class="flight-section flight-arrrht">
+                <label>取票柜台</label>
+                <span class="flight-section-sp2" > <%= typeof name != "undefined" ? name : "" %></span>
+            </div>
+            <div id="date-picker" class="flight-section flight-arrrht">
+                <label>取票日期</label>
+                <span class="flight-section-sp1 id="zq-inairport-data"><%= typeof day != "undefined" ? day: "" %></span>
+                <!---<%= typeof time != "undefined" ? cDate.parse(time).format("Y-m-d") : "" %>--->
+            </div>
+      
+            <div id="date-zqtime" class="flight-section flight-arrrht">
+                <label>取票时间</label>
+                <span class="flight-section-sp1"><%= typeof tim != "undefined" ? tim: "" %></span>
+                <!--<%= typeof time != "undefined" ? cDate.parse(time).format("H:i") : "" %>-->
+            </div>
+</script>

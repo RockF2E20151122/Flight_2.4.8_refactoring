@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<!--[if (gte IE 9)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="ie"><!--<![endif]-->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>飞机票查询，机票预订，机票价格查询，打折特价机票【携程旅行】</title>
+    <meta name="description" content="携程旅行机票官网提供飞机票查询、机票预订和特价机票查询、打折机票查询服务。携程旅行实时提供航班查询、航班时刻表查询、国内外机场实时起降查询，特别提供东方航空、南方航空、中国国航、深圳航空、厦门航空、海南航空、四川航空、春秋航空官方网站特价机票查询，是您手机上网订机票的首选。" />
+    <meta name="keywords" content="机票,机票预订,机票查询,飞机票,飞机票查询,特价机票,打折机票,订机票,网上订机票,手机订机票,手机查机票,特价机票查询,飞机票价查询" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9">
+    <link rel="Stylesheet" type="text/css" href="http://webresource.c-ctrip.com/styles/h5/common/main.css" />
+    <link rel="Stylesheet" type="text/css" href="../fpage/dest/res/<!-- #include virtual='branch.variable' -->style/fbase.css" />
+    <link rel="Stylesheet" type="text/css" href="../fpage/dest/res/<!-- #include virtual='branch.variable' -->style/flight.css" />
+    <link rel="stylesheet" type="text/css" href="../fpage/dest/res/<!-- #include virtual='branch.variable'-->style/flights_logo.css" />
+    <link rel="apple-touch-startup-image" href="http://res.m.ctrip.com/html5/content/images/640.png?v=1.0" sizes="320x460">
+    <link rel="apple-touch-startup-image" href="http://res.m.ctrip.com/html5/content/images/940.png?v=1.0" sizes="640x920">
+    <link rel="apple-touch-startup-image" href="http://res.m.ctrip.com/html5/content/images/1004.png?v=1.0" sizes="768x1004">
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="http://res.m.ctrip.com/html5/Content/images/57.png?v=1.0?v=1.0" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://res.m.ctrip.com/html5/Content/images/72.png?v=1.0?v=1.0" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://res.m.ctrip.com/html5/Content/images/114.png?v=1.0?v=1.0" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://res.m.ctrip.com/html5/Content/images/144.png?v=1.0?v=1.0" />
+    <!--[if IE]><link rel="stylesheet" href="../dist/res/style/ie_hack.css" /><![endif]-->
+    <!--[if !IE]><!--><script>if (/*@cc_on!@*/false) { document.write('<link type= "text/css" rel="stylesheet" href="../dist/res/style/ie_hack.css" />'); }</script><!--<![endif]-->
+</head>
+<body onselectstart="return false">
+<div id="main">
+    <div class="main-frame">
+        <div class="main-viewport">
+            <div class="sub-viewport" id="index_viewport" page-id="212003" page-url="" style="display:none">
+                <style type="text/css">
+                    .flightroot #free_dl{ display:none; position:fixed;top:0;left:0;z-index:9999;-webkit-box-align: center;width:90%;overflow:hidden;padding-right:10%;background:#e4f2fc;background:-webkit-linear-gradient(#ecf7ff 0,#e9f5fe 20%,#e4f2fc 60%,#deeffa 85%,#dbedf9 100%);background:-webkit-gradient(top,#ecf7ff 0,#e9f5fe 20%,#e4f2fc 60%,#deeffa 85%,#dbedf9 100%);background:-moz-linear-gradient(top,#ecf7ff 0,#e9f5fe 20%,#e4f2fc 60%,#deeffa 85%,#dbedf9 100%);}
+                    .flightroot #free_dl img{ height:80%; float:left;}
+                    .flightroot #free_dl em{ height:10%; float:left; width:100%; }
+                    .flightroot #free_dl a{ height:100%; float:left; vertical-align:middle; display:block;}
+                    .flightroot #free_close{ z-index:2;width:40px;height:100%;position:absolute;right:0;top:0;background:url("http://res.m.ctrip.com/html5/Content/images/free_download_close.png") center center no-repeat;background-size:20px 20px;}
+                    .flight-date em {
+                        display: inline-block;
+                    }
+                    .flight-date1 em, .flight-date2 em {
+                        display: block;
+                    }
+                </style>
+                <div class="flightroot" >
+                    <div id="free_dl"><span id="free_close"></span><a href="/market/download.aspx?from=H5flight" data-ios-app="" data-android-app="" class="__appaddress__"><em></em><img src="http://res.m.ctrip.com/html5/content/images/free_download.png?v=2.1"></a></div>
+                    <header>
+                        <h1>机票查询</h1><i id="js_return" class="returnico"></i>
+                    </header>
+                    <aside class="cont_wrap">
+                        <ul class="city_tab">
+                            <li data-type="1" class="cityTabCrt">单程</li>
+                            <li data-type="2" class="">往返</li>
+                        </ul>
+                    </aside>
+                    <section id="panel-box" class="pb85">
+                        <ul class=" flight-srhform">
+                            <li class="flight-switch">
+                                <dl>
+                                    <dd class="flight-departcity" id="js_departcity_w"><span id="js_departcity">--</span></dd>
+                                    <dt class="flight-cityswitch" id="js_exchange_btn">
+                                        切换<i class="icon-switch"><i class="s1"></i><i class="s2"></i><i class="s3"></i></i>
+                                    </dt>
+                                    <dd class="flight-backcity" id="js_backcity_w"><span id="js_backcity">--</span></dd>
+                                </dl>
+                            </li>
+
+                            <li class="city_tit_box">
+                                <dl class="startdate city_tit city_padding_left">
+                                    <dd id="js_departDate" class="flight-date">
+                                        <em>-- --</em>
+                                        <b>-- --</b>
+                                    </dd>
+                                </dl>
+                                <dl class="backdate city_tit city_padding_right">
+                                    <dd id="js_backDate" class="flight-date2">
+                                        <em>-- --</em>
+                                        <b>-- --</b>
+                                    </dd>
+                                </dl>
+                            </li>
+                            <li>
+                                <button id="searchlistsubmit" class="flight-btnsrh" value="">查&nbsp;询</button>
+                            </li>
+                        </ul>
+
+                        <div class="blk30"></div>
+
+                        <div class="flight-img-svc">
+                            <img src="http://res.m.ctrip.com/market/images/ic_flight_promise_small.png" width="100%">
+                        </div>
+                    </section>
+                    <div>
+                        <div class="flight-zjfooter-blank"></div>
+                        <div class="flight-footer">
+                            <ul>
+                                <li class="ft1 current" id="flightSearch">机票查询</li>
+                                <li class="ft2" id='flightSchedule'>航班动态</li>
+                                <li class="ft3" id="checkin"  >值机</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="main-state"></div>
+    </div>
+</div>
+<input type="hidden" id="page_id" value="wait"/>
+<input type='hidden' id="bf_ubt_orderid" value="" />
+<script>
+    var vhash = window.location.hash;
+    if(!vhash || vhash === '#idenx') {
+        document.getElementById('index_viewport').style.display = 'block';
+    }
+</script>
+<script src="http://webresource.c-ctrip.com/code/lizard/1.1/web/3rdlibs/require.min.js"></script>
+<script type="text/javascript" src="http://webresource.c-ctrip.com/code/lizard/1.1/web/3rdlibs/include.libs.js"></script>
+<script type="text/javascript" src="http://webresource.c-ctrip.com/code/lizard/1.1/web/common.js"></script>
+
+     <script type="text/javascript" src="./main.js"></script>
+
+   <!-- insert ga -->
+    <script type="text/javascript" src="//webresource.c-ctrip.com/code/lizard/1.1/web/3rdlibs/include.ga.js"></script>
+    <!-- insert ubt -->
+    <script type="text/javascript" src="//webresource.c-ctrip.com/code/lizard/1.1/web/3rdlibs/include.ubt.js"></script>
+
+<script type="text/javascript" >
+
+</script>
+</body>
+</html>
+

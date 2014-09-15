@@ -1,0 +1,24 @@
+﻿<header>
+    <h1>邮寄报销凭证</h1><i id="js_return" class="returnico"></i>
+    <div id="confirm" class="rightblue">完成</div>
+</header>
+<section id="post_info" class="cont_pd_wrap intrip delivy">
+</section>
+<script type="text/template" id="post_info_tpl">
+    <ul class="cfbox mb10">
+        <li>
+            <hgroup>
+                    <h2>邮寄报销凭证</h2>
+                    <h3>飞机起飞后，会将报销凭证邮寄给您</h3>     
+            </hgroup>
+        </li>
+        <li class="js_arr_r arr_r">
+            <span class="needs">收件信息</span>
+            <div class="mail_addr">
+                 <p class="maili <%=clazz %>"><%=recipient||'收件人' %></p>
+                 <p class="maili <%=clazz %>"><%= prvnName +ctyName + dstrName + addr||'收件地址' %></p>
+                 <p class="maili <%=clazz %>"><%=zip||'邮政编码' %></p>
+            </div> 
+        </li>
+    </ul>
+</script>   

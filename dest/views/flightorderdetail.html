@@ -1,0 +1,345 @@
+<article class="p10">
+
+     <div id="flight_info_box"></div>
+     <script type="text/template" id="flight_info_tpl">
+          <div class="flight-simhd">
+              <div class="flight-simhd-tot">
+                  <span>订单总额</span>
+                  <dfn>&yen;</dfn>
+                  <em><%=amt%></em>
+              </div>
+              <span>订单信息</span>
+          </div>
+          <div class="hyb_detail_pub">
+            <dl class="mod hyb_detail_lines">
+                <dt>订单状态</dt>
+                <dd><%= statusRmk %> </dd>
+                <dt>订单编号</dt>
+                <dd><%=id %> </dd>
+                <dt>预订日期</dt>
+                <dd><%=(typeof(time)!="undefined" && time!=null)?cDate.parse(time).format('Y-m-d'):"" %> </dd>
+            </dl>
+
+            <dl class="mod">
+            <%if(typeof(payments)!="undefined" && payments!=null && payments.length>0){ %>
+                <%for(var i=0;i<payments.length;i++){ %>
+                  <dt>支付方式</dt>
+                  <dd><%=payments[i]["payType"] %></dd>
+               <%} %>
+            <%} %>
+
+
+            <%if(typeof(rebateAmt)!="undefined" && rebateAmt!=null && rebateAmt>0) {%>
+               <dt>可享返还</dt>
+               <dd>&yen;<%=rebateAmt %></dd>
+               <% if(typeof(flag)!="undefined" && (flag & 16)==16){%>
+                    <em data-code="<%=(typeof(ext)!="undefined" && ext!=null)?ext:"" %>" data-rebate="<%=rebateAmt %>" class="f_wx_fanxian" id="jsRebateAmt" >申请返现</em>
+               <%} %>
+               <% if(typeof(flag)!="undefined" && (flag & 128)==128){%>
+                    <em class="f_wx_fanxian disabled">返现申请已完成</em>
+               <%} %>
+            <%} %>
+
+
+            <%if(isLiPinKa){%>
+              <dt>送礼品卡</dt>
+              <dd>&yen;<%=lpkAmt%>(已送：&yen;<%=returnAmt%>)</dd>
+            <%}%>
+            </dl>
+          </div>
+          <% if(isShowBtnDiv==true){ %>
+            <div class="flight-btn-clm">
+              <% if(typeof(flag)!="undefined" &&  flag!=null && flag != 0 && flag!="" ){%>
+                <% if((flag & 8)==8){%>
+                  <button id="cancelorder" data-oid='<%=id %>' data-flag='<%=flag %>' >取消订单</button>
+                <%} %>
+
+                <% if(  typeof(payAgain)!="undefined" &&  payAgain==true  ){%>
+                  <button id="payagain" data-oid='<%=id %>'  >继续支付</button>
+                <%} %>
+
+
+                <% if((flag & 32)==32) {%>
+                  <button id="modifyorder">申请改签</button>
+                <%} %>
+
+                <% if((flag & 64)==64) {%>
+                  <button id="flightticketrefund">申请退票</button>
+                <%} %>
+              <%} %>
+              <% if(isZJ==true){ %>
+                  <button id="flightzj">值机</button>
+              <%} %>
+            </div>
+          <%} %>
+     </script>
+     <!--航班信息-->
+     <div id="flight_fly_box"></div>
+     <script type="text/template" id="flight_fly_tpl">
+        <%if(flightInfos!=null && flightInfos.length>0){ %>
+
+              <% var zprice=0,ztax=0,zful=0; %>
+
+              <%for(var i=0;i<flightInfos.length;i++){ %>
+                    <% zprice = zprice + flightInfos[i]["price"]*1; %>
+                    <% ztax = ztax + flightInfos[i]["tax"]*1; %>
+                    <% zful = zful + flightInfos[i]["fuelCost"]*1; %>
+                    <%if(i==0) {%>
+                	<div class="flight-simhd mt10">
+                		<span>航班信息</span>
+                	</div>
+                    <%}%>
+                    <div class="hyb_detail_pub mt10">
+                    <dl class="mod pad_left30 hyb_detail_lines">
+                    <dt></dt>
+                    <%if(tripType == 2) {%>
+                        <%if(i==0){ %>
+                            <dt><i class="icon_foward"></i></dt>
+                        <%}else{ %>
+                            <dt><i class="icon_back"></i></dt>
+                        <%} %>
+                    <%}else if(tripType == 1){ %>
+                        <dt><i class="icon_foward"></i></dt>
+                    <%}else{ %>
+                       <dt><i class="hyb_multi_way"><%=num2Chnum(i+1) %></i></dt>
+                    <%} %>
+
+                     <dd><%=cDate.parse(flightInfos[i]["dTime"]).format('Y-m-d') %></dd>
+                     <dd class="size15"><%=flightInfos[i]["dCty"] %>-<%=flightInfos[i]["aCty"] %></dd>
+                     <dd class="hyb_cgray2"><%=flightInfos[i]["airline"] %> &nbsp;<%=flightInfos[i]["flightNo"] %>&nbsp;
+
+
+                        <% var flclass = flightInfos[i]["classForDisp"]+""; %>
+                        <% var classForDisp ={
+                            "1":"高端",
+                            "2":"超值",
+                            "3":"豪华"
+                        }
+                           var kName_e={
+                             "S":"小型机",
+                             "M":"中型机",
+                             "L":"大型机"
+                           }
+                        %>
+
+                        <% var cfd = classForDisp[flclass]?classForDisp[flclass]:""%>
+                        <%=cfd %><%=flightInfos[i]["class"] %>&nbsp;
+                        <% if( typeof(aircraft)!="undefined" && aircraft!=null && aircraft[flightInfos[0].planeType] && aircraft[flightInfos[0].planeType].kind){%>
+                        <%  var k = aircraft[flightInfos[0].planeType].kind; %>
+                        <%  var kName = kName_e[k]?kName_e[k]:"";  %>
+                        <%=kName %>
+                        <%}%>
+                        <%=flightInfos[i]["planeType"] %>
+                     </dd>
+                   </dl>
+
+                   <dl class="mod pad_left30">
+                    <table width="100%">
+                        <tr>
+                            <th width="80">
+                            <time class="hyb_time">
+                            <%= cDate.parse(flightInfos[i]["dTime"]).format('H:i')%></time></th>
+                            <td class="hyb_cgray2"><%=flightInfos[i].dTerminal?flightInfos[i].dTerminal:flightInfos[i].dPort%></td>
+                        </tr>
+                        <!--经停信息-->
+                        <%  var stopCities = flightInfos[i]["stopCities"]  %>
+                        <% if(stopCities!=null && stopCities.length>0){ %>
+                            <%for(var j=0;j<stopCities.length;j++){ %>
+                            <tr>
+                                <th class="cgray"><%=cDate.parse(stopCities[j]["aTime"]).format('H:i') %>-<%=cDate.parse(stopCities[j]["dTime"]).format('H:i') %></th>
+                                <td class="cgray">经停 <%=stopCities[j]["name"] %></td>
+                            </tr>
+                            <%} %>
+                        <%} %>
+
+                        <!--end 经停信息-->
+                        <tr>
+                            <th>
+                            <time class="hyb_time">
+                            <%=cDate.parse(flightInfos[i]["aTime"]).format('H:i') %></time></th>
+                            <td class="hyb_cgray2"><%=flightInfos[i].aTerminal?flightInfos[i].aTerminal:flightInfos[i].aPort%></td>
+                        </tr>
+                    </table>
+                   </dl>
+              </div>
+
+              <!--改签信息-->
+              <%  var rebkinfos = flightInfos[i]["rebkinfos"]  %>
+              <% if(rebkinfos!=null && rebkinfos.length>0){ %>
+              <div class="flight-chginfo">
+	               <h4>改签信息:</h4>
+	               <%for(var k=0;k<rebkinfos.length;k++){ %>
+	                    <p><%=(typeof(rebkinfos[k]["psgname"])!="undefined" && rebkinfos[k]["psgname"]!=null )?rebkinfos[k]["psgname"]:"" %>
+	                    &nbsp;已改签至
+	                    <%=(typeof(rebkinfos[k]["fno"])!="undefined" && rebkinfos[k]["fno"]!=null )?rebkinfos[k]["fno"]:"" %>航班</p>
+	                    <%  var tmp1 = /\d+(?=\+)/.exec(rebkinfos[k]["depdat"]);%>
+	                    <%  var d1 = new Date(tmp1[0]*1); %>
+	                    <%  var ddate1 =  cBase.Date.format(d1, 'Y-m-d H:i'); %>
+	                    <p>起飞<%=ddate1 %>，
+	                    <%=(typeof(rebkinfos[k]["stpctyname"])!="undefined" && rebkinfos[k]["stpctyname"]!=null )?("经停"+rebkinfos[k]["stpctyname"]):"" %>
+	                    <%  var tmp2 = /\d+(?=\+)/.exec(rebkinfos[k]["arrdat"]);%>
+	                    <%  var d2 = new Date(tmp2[0]*1); %>
+	                    <%  var ddate2 =  cBase.Date.format(d2, 'Y-m-d H:i'); %>
+	                    <br>到达<%=ddate2 %></p>
+	               <%} %>
+	               <%if(typeof(flightInfos[i]["rebrmk"]) != "undefined" && flightInfos[i]["rebrmk"]!= null ){%>
+	                       <p class="tips"><%=flightInfos[i]['rebrmk'] %></p>
+	               <%} %>
+              </div>
+              <%} %>
+
+
+              <div class="hyb_detail_pub mt5">
+              <!--总价-->
+
+              <div class="mod pad_left30">
+                <p>
+                <span class="fnt-15">携程价格</span>&nbsp;
+                <span class="fnt-15 clr-ff9913"><dfn>&yen;</dfn><strong><%=flightInfos[i]["price"] %></strong></span>&nbsp;&nbsp;
+                <span class="fnt-12">机建</span>&nbsp;
+                <span class="fnt-12 clr-ff9913"><dfn>&yen;</dfn><%=flightInfos[i]["tax"] %></span>
+                <span class="fnt-12">燃油</span>&nbsp;
+                <span class="fnt-12 clr-ff9913"><dfn>&yen;</dfn><%=flightInfos[i]["fuelCost"] %></span>
+                </p>
+                <p class="flight-arrdown jstgq">查看退改签</p>
+                <div class="flight-pnttips js_hide">
+                  <h4>退改签：</h4>
+                  <p>更改条件：<%=flightInfos[i]["rerNote"] %></p>
+                  <p>退票条件：<%=flightInfos[i]["refNote"] %></p>
+                  <p>签转条件：<%=flightInfos[i]["endNote"] %></p>
+                </div>
+              </div>
+              </div>
+            <%} %>
+        <%} %>
+    </script>
+     <div id="flight_passengers_box"></div>
+     <script type="text/template" id="flight_passengers_tpl">
+          <div class="flight-simhd mt10">
+              <span>其他信息</span>
+          </div>
+          <div class="hyb_detail_pub mt10">
+                <dl class="mod hyb_detail_lines">
+                        <dt>登机人</dt>
+                       <%if( typeof(passengers)!="undefined"  && passengers!=null && passengers.length>0){ %>
+
+                           <%for(var i=0;i<passengers.length;i++){ %>
+                               <dd><%=passengers[i]["name"] %></dd>
+                               <%if(passengers[i]["idCardType"]!=null && passengers[i]["idCardType"]!=""){ %>
+                               <dd class="cgray"><%=passengers[i]["idCardType"] %> <%=(passengers[i]["idCardNo"]!=null && passengers[i]["idCardNo"]!="")?passengers[i]["idCardNo"]:"" %></dd>
+                               <%} %>
+                               <%if(passengers[i]["ticknoinfos"]!=null){
+                                    var ticknoArr=[];
+                                    for(var n=0,len=passengers[i]["ticknoinfos"].length;n<len;n++){
+                                      ticknoArr.push(passengers[i]["ticknoinfos"][n].tickno);
+                                    }
+                                    if(ticknoArr.length>0){
+                                %>
+                                <dd class="cgray"><%='票号'+ticknoArr.join('，')%></dd>
+                                <%  }%>
+                               <%}%>
+                           <%} %>
+                       <%} %>
+                        <dt>联系手机</dt>
+                        <dd><%=contactMphone %></dd>
+                         <%if (typeof(fpcks)!="undefined"&& fpcks!=null&& passengers.length>0) {%>
+                              <dt><%=(fpcks[0].pcate==1?'航空意外险':'携程礼品卡') %></dt>
+                                <dd><span class="cmoney">
+                                  共<%=fpcks[0].pprice*fpcks[0].cnt%>元
+                                </span></dd>
+
+                        <%} else if(typeof(passengers)!="undefined"  && passengers!=null && passengers.length>0){
+                        var insuranceAmt = passengers[0]["insuranceAmt"];
+                        var qty=0;
+                        for(var i=0,len=passengers.length;i<len;i++) {
+                          qty += passengers[i]["insuranceQty"];
+                        }
+
+                            if(insuranceAmt && +insuranceAmt>0){  %>
+                                <dt>保险</dt>
+                                <dd><span class="cmoney">
+                                  &yen;<%=passengers[0]["insurancePrice"] %><%=passengers[0]["insuranceNo"].toLowerCase()=="t"?"航意险":passengers[0]["insuranceNo"].toLowerCase()=="d"?"航延险 ":"" %>×<%=qty %>份
+                                </span></dd>
+                            <%}%>
+                        <% }%>
+                    </dl>
+
+
+                   <%if(typeof(delivery)!="undefined" && delivery!=null && delivery!=""  ){ %>
+                      <dl class="mod js_expressStatus">
+                        <dt>配送</dt>
+                        <dd><%=delivery %>&nbsp;
+                        <%if(typeof(deliveryFee)!="undefined" && deliveryFee!=null   && deliveryFee>0){ %>
+                            <%=deliveryFee %>元
+                        <%} %>
+                        </dd>
+                    <%} %>
+
+                   <%if(typeof(delivery)!="undefined" && (delivery =="邮寄报销凭证"||delivery=="收费快递")){ %>
+                     <%if(typeof(iinfo)!="undefined" && iinfo["title"]!=null && iinfo["title"]!=""){%>
+                      <dt>发票抬头</dt>
+                      <dd><%=iinfo.title%></dd>
+                     <%} %>
+                   <%} %>
+
+                    <%if(typeof(deliveryAddr)!="undefined" && deliveryAddr!=null && deliveryAddr!=""  ){ %>
+                    <dt>地址</dt>
+                    <dd><%=deliveryAddr %></dd>
+                    <%} %>
+                    <%if(typeof(delivery)!="undefined" && delivery!=null && delivery!=""  ){ %>
+                        </dl>
+                    <%} %>
+           </div>
+      </script>
+     <div id="flight_paypanel_box"></div>
+     <script type="text/template" id="flight_paypanel_tpl">
+        <%if((flag & 1) !=1 && false){ %>
+        <div class="b60"></div>
+        <div class="btn_yellow fix_bottom">
+         <button class="btn_pay" id="flight_paypanel_btn_pay">立即支付</button>订单总额：<span class="ml5">&yen;<span><%=amt %></span></span>
+        </div>
+        <%} %>
+     </script>
+</article>
+
+<script type="text/template" id="expressstatus_tpl">
+    <%
+    for(var key in exps) {
+        if(exps[key].biztype==1){
+        for(var keys in exps[key].stats) {%>
+        <dt>快递公司</dt>
+        <dd><%= exps[key].stats[keys].spname%>（快递单号<%= exps[key].stats[keys].did%>）</dd>
+        <dt>配送进度</dt>
+        <%if(exps[key].stats[keys].dstat==2) {%>
+        <dd class="hyb_detail_kuaidi">
+            <%if(exps[key].stats[keys].steps && exps[key].stats[keys].steps[0]) {
+				var tmpTime = /\d+(?=\+)/.exec(exps[key].stats[keys].steps[0].stime);
+				var d1 = new Date(+tmpTime);
+			%>
+            <p class="pos_rel jsexpstatlistp">
+                <em><%=cDate.parse(d1.toString()).format('Y-m-d H:i:s') %></em>
+                <span><%=exps[key].stats[keys].steps[0].sdetail %></span>
+                <i class="newarr_r"></i>
+            </p>
+            <%} %>
+            <div style="display:none;" class="jsexpstatlist">
+                <%for(skey in exps[key].stats[keys].steps) {%>
+                    <%if(skey>0){
+						var tmpTimes = /\d+(?=\+)/.exec(exps[key].stats[keys].steps[skey].stime);
+						var d2 = new Date(+tmpTimes);
+					%>
+                    <p class="cgray">
+                        <em><%=cDate.parse(d2.toString()).format('Y-m-d H:i:s') %></em>
+                        <span><%=exps[key].stats[keys].steps[skey].sdetail %></span>
+                    </p>
+                    <%} %>
+                <%} %>
+            </div>
+        </dd>
+        <%}else{ %>
+            <dd>携程发件</dd>
+        <%} %>
+       <%}
+       }
+     } %>
+</script>

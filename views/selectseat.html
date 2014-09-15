@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta name="viewport"moveOrigin content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link href="../fpage/res/style/fbase.css" rel="stylesheet" />
+  <!--
+测试css代码后面删除
+-->
+  <style>
+    .seat-area {
+      width: 100%;
+      float: left;
+    }
+    .seat-passage {
+      display: table-cell;
+    }
+  </style>
+</head>
+<body>
+
+<script type="text/template" id="selectSeatHeader">
+  <header class="flight-header">
+    <div class="h1two">
+      <h1><%=title%></h1>
+      <p>
+        <span><%=caption%></span>
+        <span><%=cfply%></span>
+      </p>
+    </div>
+    <i class="returnico" id="js_return"></i>
+    <span class="flight-header-action js_btn_submit">提交</span>
+  </header>
+</script>
+
+<div id="selectSeat" ></div>
+
+</body>
+</html>

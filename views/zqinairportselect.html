@@ -1,0 +1,39 @@
+﻿    <header>
+        <h1>选择取票柜台</h1>
+        <i id="js_return" class="returnico"></i>
+    </header>
+    <section class="cont_pd_wrap intrip delivy s_tickets">
+        <ul class="cfbox  flight-chk" id="cbox2">
+        </ul>
+    </section>
+    <script type="text/template" id="address-list2">
+            <li class="light <%=selectindex==datas.index?'current':''%>">
+                
+                
+                <hgroup>
+                       <h3>
+                        <span class="address"><%=datas.name %></span>
+                        <span class="insurance">
+                        </span>
+                       <span class="btime">
+                          <%=datas.btime %>
+                       </span>
+                       
+                       <span class="etime"><%=datas.etime %></span></h3>
+                       <div style="display:none;">
+                        <span class="dstr"><%=datas.dstr %></span>
+                        <span class="ext"><%=datas.ext %></span>
+                        <span class="fee"><%=datas.fee %></span>
+                        <span class="flag"><%=datas.flag %></span>
+                        <span class="id"><%=datas.id %></span>
+                        <span class="port"><%=datas.port %></span>
+                        <span class="rule"><%=datas.rule %></span>
+                        <span class="site"><%=datas.site %></span>
+                        <span class="index"><%=index %></span>                        
+                       </div>     
+                </hgroup>
+            </li>
+    </script>  
+    <style>
+        .btime,.etime{ display:none;}
+    </style>

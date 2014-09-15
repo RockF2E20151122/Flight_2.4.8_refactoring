@@ -1,0 +1,18 @@
+<header>
+        <h1>国内机票订单</h1><i class="returnico" id="js_return"></i>
+   </header>
+    <section class="cont_wrap">
+        <ul class="order_listbox fbgf" id="lstbox"></ul>
+        <ul class="order_listbox fbgf">
+        <li class="tips_tel" style="display:none">如需取消订单请拨打<a href="tel:4000086666">400-008-6666</a> 客服热线</li></ul>
+    </section>
+    <script type="text/template" id="listboxtpl">
+        <li class="arr_r jsdetail"  data-id="<%=id%>">
+            <span class="span_w1"><time><%=cDate.parse(date).format('Y-m-d')%></time><em><%=rmk%><%=tripType==1?"单程":tripType==2?"往返":"多程"%>机票</em></span>
+            <span class="span_w2"> <dfn>&yen;</dfn><%=price %></span>
+            <span class="span_w3"><em><%=statusRmk %></em></span>
+        </li>
+    </script>
+    <script type="text/template" id="emptylisttpl">
+         <li class="tips_tel">您还没有机票订单哦。赶快去下单吧！</li>
+    </script>

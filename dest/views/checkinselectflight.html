@@ -1,0 +1,35 @@
+<header class="flight-header">
+    <h1>选择行程</h1>
+    <i class="returnico" id="js_return"></i> 
+</header>
+<div class="flight-header-blank"></div>
+
+<div id="select_flight_box" class="pd5">
+
+</div>
+
+<!--值机信息template模块-->
+<script type="text/template" id="select_flight_tpl">
+    <%if(flightList.length===0) {%>
+        <p class="fnt-18 clr-666 fnt-c mt30">没有找到符合条件的结果</p>
+    <%}else{ 
+        for(var i=0,len=flightList.length;i<len;i++){%>
+	    <div class="flight-zjxzxc" data-index="<%=i %>">
+            <div class="flight-zjxzxc-l1">
+        	    <span class="flight-zjxzxc-date"><%=flightList[i].flightDate%></span>
+        	    <span><%=flightList[i].flightCompany%>&nbsp;<%=flightList[i].flightNo%></span>
+            </div>
+            <div class="flight-zjxzxc-l2">
+                <div class="flight-zjxzxc-time1">
+            	    <p class="fnt-16 fnt-b"><%=flightList[i].dTime%></p>
+            	    <p><%=flightList[i].dAir%><%=flightList[i].dTer%></p>
+                </div>
+                <div class="flight-zjxzxc-jt"></div>
+                <div class="flight-zjxzxc-time2">
+            	    <p class="fnt-16 fnt-b"><%=flightList[i].aTime%></p>
+            	    <p><%=flightList[i].aAir%><%=flightList[i].aTer%></p>
+                </div>
+            </div>
+        </div>
+    <%}}%>
+</script>

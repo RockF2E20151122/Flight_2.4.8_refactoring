@@ -1,0 +1,34 @@
+<header>
+        <h1>选择自取地址</h1><i id="js_return" class="returnico"></i>
+    </header>
+    <section class="cont_pd_wrap intrip delivy s_tickets">
+        <ul class="cfbox" id="cfbox">
+      
+        </ul>
+    </section>  
+    <script type="text/template" id="address-list">
+        <li class="light" data_id="<%=datas.id %>" >
+            <hgroup>
+                <h3><span class="address"><%=datas.name %></span>
+                     <span class="insurance">
+                   <% 
+                      if(insurance && insurance.insurances[0]){   
+                            var a  = datas.site;
+                            var r = new RegExp(a);
+                            var b = insurance.insurances[0].sites;
+                            if(!(r.test(b))){
+                        %>
+                        (不支持保险)
+                            
+                   <% }  } else { %>
+                     (不支持保险)
+                   <% } %>
+                
+                     </span>
+                <span class="btime"><%=datas.btime %></span><span class="etime"><%=datas.etime %></h3>     
+            </hgroup>
+        </li>        
+    </script>
+    <style>
+        .etime,.btime{ display:none;}
+    </style>

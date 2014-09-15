@@ -1,0 +1,47 @@
+﻿<article  class="p10" id="ticketRefund_morePath_box">
+</article>
+
+<script type="text/template" id="ticketRefund_morePath_tpl">
+        <% for (var segIndex=0; segIndex<segs.length; segIndex++){ %>
+        <section class="list_st_border mb10">
+                <h3 class="flt_tit<%=segIndex%2?'1':'' %>"><small>第<%=viewHelper.num2Cnum(segs[segIndex].segid) %>程</small><%=segs[segIndex].dcity %>--<%=segs[segIndex].acity %></h3>
+                <dl class="p10 flt_dl">
+                    <dt class="greyfont">退票条件</dt>
+                    <dd>
+                        <%=
+                        (typeof(flightInfos[segIndex]["refNote"])!="undefined" && flightInfos[segIndex]["refNote"] !="" )?
+                        ((flightInfos[segIndex]["refNote"])+((typeof(segs[segIndex]["remark"])!="undefined" && segs[segIndex]["remark"]!="" )?("<br/>"+segs[segIndex]["remark"]):""))
+                        :(segs[segIndex].psgs[0].refundpolicy).replace('\n',' <br/>') 
+                         %>
+                    </dd>
+                </dl>
+        </section>
+
+        <ul class="list_st_border mb10">
+            <li data-segid="<%=segs[segIndex].segid%>" class="flt_greytit2 greyfont arr_r js_selectPassenger">退票的登机人</li>
+            <%if(selectedSegs[segIndex]){ %>
+            <li class="flt_multline">
+                <%for(var psgIndex=0;psgIndex<selectedSegs[segIndex].psgs.length; psgIndex++){ %>
+                    <%if (selectedSegs[segIndex].psgs[psgIndex]) {%>
+                        <p><%= selectedSegs[segIndex].psgs[psgIndex].name%></p>
+                    <%} %>
+                <%} %>
+            </li>
+            <%} %>
+
+        </ul>
+
+        <%} %>
+
+        <% if(svrdesc){ %>
+        <h3 class="flt_greytit1 js_checkbox">
+            <label id="ticketRefund_morePath_service" class="checkbox_wrap_bs">
+                <i></i>
+                <%= svrdesc %>
+            </label >
+         </h3>
+        <% } %>
+        <textarea id="ticketRefund_morePath_tpl_comment" placeholder="其他处理要求（选填）" maxlength="100" class="flt_textarea abs_size"></textarea>
+
+        <button id="ticketRefund_morePath_submit" class="btn_blue mtb" value="">提交</button>
+</script>

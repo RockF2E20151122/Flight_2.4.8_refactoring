@@ -1,0 +1,28 @@
+﻿
+<div class="p_txtInfo_wrap" id="p_txtInfo_wrap">
+
+</div>
+<script type="text/template" id="p_txtInfo_tpl">
+
+   <header>
+        <h1>填写说明</h1><i id="js_return" class="returnico"></i>
+        
+    </header>
+    <section class="cont_pd_wrap intrip">
+		<ul class="cfbox grayli"><p class="fec">
+		<% if(typeOf type != undefine type == 2 ){ %>
+			1. 必须用英文字母填写，并确保与登机所持证件一致。<br>
+			2. 中文姓名填写方法：如乘客姓名为诸葛孔明，则在“姓”栏中输入ZhuGe；在“名”栏中输入 Kong Ming<br>
+			3. 英文姓名填写方法：如乘客姓名为Loise Smith St. Paul ，则在“Last(姓)”栏中输入StPaul（注：复姓中无空格和特殊符号）；在“First(名)”栏中输入Loise Smith（注：有中间名按firstname middlename的格式填写）。
+			
+		<% }else{ %>
+			1) 乘客姓名必须与登机时所用证件上的名字一致。<br /><br />
+			2) 持护照登机的外宾，必须按照护照顺序区分姓与名，例如“Smith/Black”,不区分大小写。
+		<% } %>
+        </p></ul>
+    </section>  
+
+</script>
+
+
+

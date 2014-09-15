@@ -1,0 +1,68 @@
+﻿<header style="position: absolute;">
+    <h1>
+        选择舱位</h1>
+    <i class="returnico" id="js_return"></i>
+</header>
+<div class="flight-header-blank">
+</div>
+<!--S H5机票_机票查询-->
+<div class="pd10" id="cabinList">
+</div>
+<!--E H5机票_机票查询-->
+<script type="text/template" id="cabinListTpl">
+    <ul class="flight-list-table mt0">
+        <%_.each(cabins,function(v,k){
+            var cabin = v;
+        %>
+        <li >
+            <div class="flight-list-tablebox" data-key="<%=k %>">
+                <div class="d1 f_ico"> <%=_viewBuildSeatTitlt(cabin.classForDisp,cabin.class)%></div>
+                <div class="d2"><p class="flight-arrdown"><span class="clr-000" data-key="<%=k %>">退改签</span></p></div>
+                <div class="d3"><%=(cabin.discount >= 10 ? '全价' : (cabin.discount>0?cabin.discount+'折':''))%><br>
+                    <%if(cabin.rebateAmt){
+                    if(!_sales || !_sales.sid || (+_sales.sid != 1575 && +_sales.sid != 1867)){
+                    %>
+                    <span class="flight-icon-return">返<dfn>¥</dfn><em>&nbsp;</em><%=cabin.rebateAmt %></span>
+                    <%} }%>
+                </div>
+                <div class="d4"><dfn>&yen;</dfn><span><%=cabin.price %></span></div>
+                <div class="d5">
+                    <%if(price==cabin.price&&cabin.class==grade)
+                    {%>
+                    <i class="flight-icon-rgt"></i>
+                    <%}%>
+                </div>
+            </div>
+            <div class="flight-list-tabletips js_hide">
+                <%if( typeof(cabin.rmk.ticketRmk)!="undefined"  && cabin.rmk.ticketRmk!=null  && cabin.rmk.ticketRmk!="" ) {%>
+                    <h4>购票限制：</h4>
+                    <p><%=cabin.rmk.ticketRmk%></p>
+                <%} %>
+
+                <h4>退改签：</h4>
+                <p>退票条件：<%=cabin.rmk.refNote%></p>
+                <p>更改条件：<%=cabin.rmk.rerNote%></p>
+                <p>签转条件：<%=cabin.rmk.endNote%></p>
+                <%if(cabin.rebateAmt>0){%>
+                <h4>返&yen;<%=cabin.rebateAmt%></h4>
+                <p><%=cabin.rebateRmk%></p>
+                <%}%>
+                <%if(cabin.giftCardInfo && cabin.giftCardInfo.price > 0 && cabin.giftCardInfo.pkgremark){%>
+                <h4>送礼品卡</h4>
+                <p><%=cabin.giftCardInfo.pkgremark%></p>
+                <%}%>
+
+                <%if(cabin.flag){%>
+                <h4>K位说明：</h4>
+                <p >携程会为您向航空公司申请该价格。<br />
+                    1.申请的舱位受航班销售情况随时可能发生变化，不能保证一定有座位<br />
+                    2.申请的舱位不可下暂缓订单，确认时间和送票时间增加1小时左右<br />
+                    3.非工作时间内（周一~周五 9:00前、16:30后，法定假日）预订机票，需要等待到工作时间进行确认<br />
+                    4.申请的舱位退改签方面的限制更多，具体请查看相应的退改签规则 。</p>
+                <%}%>
+            </div>
+        </li>
+
+        <%}) %>
+
+</script>

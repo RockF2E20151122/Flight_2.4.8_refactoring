@@ -1,0 +1,90 @@
+﻿
+<div class="p_add_wrap" id="p_add_wrap">
+	<header style="position:absolute;" id="box_01">
+		
+	</header>
+	<section class="cont_pd_wrap intrip">
+		<ul class="cfbox grayli s5_grayli" id="box_02">
+			
+		</ul>
+		
+		<ul class="cfbox grayli s5_grayli" id="box_03">
+			
+		</ul>
+		
+		<ul class="cfbox grayli" id="box_04">	
+
+          
+		</ul>
+	</section>
+</div>
+<script type="text/template" id="tpl_01">
+	<h1><%= (opr == 1) ? "新增" :"编辑" %>登机人</h1><i id="js_return" class="returnico"></i>
+	<div class="rightblue">完成</div>
+</script>
+<script type="text/template" id="tpl_02">
+	
+	<% var isIdCard = (typeof defaIdCard == "undefined") || !defaIdCard ||  defaIdCard.type == 1 %>
+	<li id="js_blk_ename" class="light">
+		<span class="i doubt_ico sfr"></span>
+
+		<%  if( +pageType == 2 ){ %>
+				<span class="needs">英文姓名</span>
+				<input type="text" autofocus placeholder="Last(姓)/First(名)" class="input_n js_ename" value="<%= (typeof ename != "undefined" ? ename :"") %>"/>
+			
+		<%  }else if( isIdCard || opr == 1 ){ %>
+				<span class="needs js_tit_cname">中文姓名</span>
+
+				<input id="text_cName" type="text" maxlength="29" placeholder="请输入所选证件的姓名" class="input_n js_newName" value="<%= (typeof cname != "undefined" ? cname :"") %>"/>
+				
+		<%  }else{ %>
+
+				<span class="needs">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</span>
+				<div class="twoh">
+				  <input type="text" maxlength="29" placeholder="中文姓名" class="input_n js_cname" value="<%= (typeof cname != "undefined" ? cname :"") %>"/>
+				  <input type="text"  maxlength="29" placeholder="Last(姓)/First(名)" class="input_n js_ename" value="<%= (typeof ename != "undefined" ? ename :"") %>"/>
+				</div>
+				
+		<%  } %>
+	</li>
+</script>
+<script type="text/template" id="tpl_03">
+	<li class="light arr_r fix_bug" id="js_blk_noidCard">
+		<span class="needs">证件类型</span>
+		<em class="frow">
+		  <select id="sel_idCard" name="select-choice-1">
+			  <% for(var i = 0; i<idcards.length; i++) {%>
+				  <option <%= idcards[i].selected ? "selected" : ""%> value="<%= idcards[i].type %>" data-no="<%= idcards[i].no %>"><%= idcards[i].name %></option>
+
+			  <%}%>
+
+		  </select>
+		</em>
+	</li>
+</script>
+<script type="text/template" id="tpl_04">
+	<% var isIdCard = (typeof defaIdCard == "undefined") || !defaIdCard ||  defaIdCard.type == 1 %>
+	<li id="js_blk_no" class="light">
+		<span class="needs">证件号码</span>
+		<input id="text_idNum" type="text" placeholder="请输入所选证件的号码" class="input_n js_no" value="<%=((typeof defaIdCard != "undefined") && defaIdCard) ? defaIdCard.no :"" %>"/>
+	</li>
+	
+	<% if( +pageType != 1 && !isIdCard ){%>
+		<li class="light arr_r fix_bug">
+			<span class="needs">国籍</span>
+			<em class="frow js_citizenship"><%= (typeof natlName != "undefined" ? natlName : "中国大陆") %></em>
+		</li>
+		<li class="light clearfix">
+			<span class="sfr mt7 js_sex"><i class="s_on <%= gender == 1 && "current" %>">男</i><i class="s_off s_woman <%= gender == 0 && "current" %>">女</i></span>
+			<span class="needs">性别</span>
+		</li>
+	<% } %>
+	<% if( !isIdCard ){%>
+		<li id="js_blk_birth" class="light">
+			<span class="needs">出生日期</span>
+			<input type="tel" maxlength="8" placeholder="格式:19851223" class="input_n js_birth" value="<%= (typeof birth != "undefined" ? birth :"") %>"/>
+		</li>
+	<% } %>
+</script>
+
+

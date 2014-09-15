@@ -1,0 +1,507 @@
+﻿
+<script type="text/template" class="j_flightInfoOneway_tpl">
+	<% if(!user || user.IsNonUser==true) {
+	if(!_sales || !_sales.sid || (+_sales.sid != 1575 && +_sales.sid != 1867)){
+	    var fRbt=(+items[0].policy.rebateAmt)*(+pCount);
+	    if(items.length>1 && +items[1].policy.rebateAmt>0 && selectedFlight.arrive){
+	        fRbt+=(+items[1].policy.rebateAmt)*(+pCount);
+	    }
+	%>
+		<!-- XXX: when & how to use it ? -->
+		<div class="js_flight-top" id="js_flight-top"></div>
+	    <!--S 登录提醒fixed-->
+	    <div class="flight-loginline-fixed pos-rl">
+	        <div class="flight-loginline">
+	            <button class="flight-loginbtn">马上登录</button>
+	            <p>
+	            	<%if(items[0].policy.rebateAmt>0){%>登录后预订才可获得返现<%}else{%>登录后预订更便捷<%}%>
+	        	</p>
+	        </div>
+	    </div>
+	    <!--E 登录提醒fixed-->
+	<%} }%>
+<%
+var basicInfo = items[0].basicInfo;
+var policy = items[0].policy;
+var ckind = (basicInfo.ctinfo && basicInfo.ctinfo.ckind) ? basicInfo.ctinfo.ckind : "N";
+var weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+var dateStr = cDate.parse(basicInfo.dTime).format("Y-m-d");
+var weekStr = '周' + weekdays[new Date(dateStr).getDay()];
+var rebateAmt = items[0].policy.rebateAmt ? parseInt(items[0].policy.rebateAmt) : 0;
+	rebateAmt += (items.length > 1 && items[1].policy.rebateAmt) ? parseInt(items[1].policy.rebateAmt) : 0;
+	dateStr = dateStr.substring(5);
+	dateStr = parseInt(dateStr.split('-')[0], 10) + '-' + parseInt(dateStr.split('-')[1], 10);
+	dateStr = dateStr.replace('-', '月') + '日';
+%>
+<!--S H5机票_订单填写-->
+<!-- 航班信息 -->
+<div class="flight-bkinfo">
+    <div class="flight-bkinfo-journey">
+        <div class="flight-bkinfo-end">
+            <p class="flight-bkinfo-date">
+                <span><%= dateStr + ' ' + weekStr%></span>
+            </p>
+            <p class="flight-bkinfo-time"><%=cDate.parse(basicInfo.aTime).format("H:i") %></p>
+            <p class="flight-bkinfo-airport"><%=basicInfo.aaname %><%=basicInfo.aTerminal%></p>
+        </div>
+        
+        <div class="flight-bkinfo-from">
+            <p class="flight-bkinfo-date">
+                <i class="flight-icon-go" style="<%=(items.length > 1 ? '' : 'display: none;')%>">去</i>
+                <span><%= dateStr + ' ' + weekStr%></span>
+            </p>
+            <p class="flight-bkinfo-time"><%=cDate.parse(basicInfo.dTime).format("H:i") %></p>
+            <p class="flight-bkinfo-airport"><%=basicInfo.daname %><%=basicInfo.dTerminal%></p>
+        </div>
+        
+        <div class="flight-bkinfo-direction">
+            <div class="line"></div>
+            <div class="flight"></div>
+            <%if(items[0].stopCities && items[0].stopCities.length){%>
+            <div class="jingting">经停&nbsp;<%=items[0].stopCities[0].name%></div>
+            <%}%>
+        </div>
+    </div>
+    
+    <!-- the div above the second line. -->
+    <div class="flight-bkinfo-fltinfo2">
+        
+        <span><!--XXX: need to confirm here, is it right to use aname ?-->
+        	<%=(basicInfo.ctinfo.ctname==undefined?"":basicInfo.ctinfo.ctname)%><%=(ckind=="S"?"小":ckind=="M"?"中":ckind=="L"?"大":"") %>
+        	<!-- ctinfo.ctname:飞机名称 波音 783 -->	<!-- planeType: 机型名称 -->
+    	</span>
+    	
+        <span class="<%=basicInfo.hasMeal ? '' : 'js_hide' %>">有餐饮</span>
+        
+    	<% if(+basicInfo.puncRate !== 0) {%>
+        	<span>准点率:<%=basicInfo.puncRate %>%</span>
+        <%}else{%>
+        	<span> &nbsp; </span>
+    	<%}%>
+    </div><!-- the end of flight-bkinfo-fltinfo -->
+    <% 
+    basicInfo = items[0].basicInfo;
+    policy = items[0].policy;
+    ckind = (basicInfo.ctinfo && basicInfo.ctinfo.ckind) ? basicInfo.ctinfo.ckind : "N";
+    dateStr = cDate.parse(basicInfo.dTime).format("Y-m-d");
+    dateStr = dateStr.substring(5);
+	dateStr = parseInt(dateStr.split('-')[0], 10) + '-' + parseInt(dateStr.split('-')[1], 10);
+	dateStr = dateStr.replace('-', '月') + '日';
+    %>
+     
+    <div class="flight-bkinfo-price j_hd js_hide"><!-- The beginning of the dom flight-bkinfo-price -->
+    	<p>
+        	<span class="j_policy js_hide"><%=policy.classForDisp==1 ? "高端" : policy.classForDisp==2 ? "超值" : policy.classForDisp == 3 ? "豪华" : ""%>
+	    		<%=policy.class == 3 ? "头等舱" : policy.class == 2 ? "商务舱" : "经济舱"%>
+	    		<%= (+policy.discount >= 10 ? "全价:" : (policy.discount > 0 ? (policy.discount + "折:") : "")) %>
+			</span>
+			&nbsp;
+	        <span class="clr-ff7d13">&yen;<%=policy.price %></span>
+	        &nbsp;
+	        <span>机/油:</span>
+	        &nbsp;
+	        <span class="clr-ff7d13">&yen;<%=(policy.tax + policy.fuelCost) %></span>
+	        &nbsp;
+	        <span class="j_toShow flight-arrrht j_RC">退改签</span>
+	        
+        </p>
+        <div class="flight-rtntips js_hide">
+            <%
+            if (rebateAmt) {
+                if (items.length > 1){ %>
+                	<div class="flight-mask-h4cnt">
+                	<p>
+                		往返程每人最多可使用<%=rebateAmt %>元消费券，其中去程航班每人<%=(items[0].policy.rebateAmt || 0)%>元，返程航班每人<%=(items[1].policy.rebateAmt || 0) %>元，订单成交并发送验证码给微信“携程旅行网”官号，在实际乘坐第一个航班起飞后的7天内可获得与使用消费券等额的现金返还。
+                	</p>
+                	</div>
+                <%}else{%>
+                	<div class="flight-mask-h4cnt">
+                	<p>
+                		<%=(items[0].policy.rebateAmtDescription?(items[0].policy.rebateAmtDescription.replace(/使用+\d{10/g,'使用'+rebateAmt)):("每位乘客最多可使用"+rebateAmt+"元消费券，订单成交并发送验证码给微信“携程旅行网”官号，在实际乘坐第一个航班起飞后的7天内可获得与使用消费券等额的现金返还。"))%>
+                	</p>
+                	</div>
+                <%}%>
+            <%}%>
+        </div>
+        <div class="flight-pnttips js_hide">
+        <% for (var i = 0, len = items.length; i < len; i++) {
+                if (items.length > 1 ) {%>
+                    <h2><span><%= i == 0 ? '去程' : '返程' %></span></h2>
+                <%}
+                if( typeof(items[i].rmk)!="undefined" && items[i].rmk!=null){
+                     if (items[i].rmk.ticketRmk) { %>
+			            <!--- <h4>购票限制：</h4> --->
+			            <h4>购票限制：</h4>
+			            	<div class="flight-mask-h4cnt">
+		                		<p><%=items[i].rmk.ticketRmk%></p>
+	                		</div>
+		             <%}%>
+		             <h4>退改签：</h4>
+		             <div class="flight-mask-h4cnt">
+		             	<p>退票条件：<%=items[i].rmk.refNote%></p>
+		                <p>更改条件：<%=items[i].rmk.rerNote%></p>
+		                <p>签转条件：<%=items[i].rmk.endNote%></p>
+	                </div>
+                <% }%>
+                
+	            <!-- 旅行套餐说明 -->
+	            <% if(items[i].bIsPackage){
+	            	if(items[i].prodRmk){
+	        			var des=items[i].prodRmk;
+	        			var lxtc=des.replace(/\n/g,'<br/>');%>
+	        			<h4>旅行套餐说明：</h4>
+	        			<div class="flight-mask-h4cnt">
+	        				<p class="">
+	    						<i class="flight-arrdn3"></i>
+		    					<%=lxtc %>
+							</p>
+	        			</div>
+				<%}}%>
+				
+                <%if(items[i].policy.gift && +items[i].policy.gift>0){%>
+                	<h4>送礼品卡&yen;<%=items[i].policy.gift%></h4>
+                	<div class="flight-mask-h4cnt">
+                		<p><%=items[i].policy.giftDescription%></p>
+                	</div>
+            	<%}%>
+            	
+                <%if(items[i].basicInfo.IsK){%>
+        			<h4>K位说明：</h4>
+        			<div class="flight-mask-h4cnt">
+		                <p>携程会为您向航空公司申请该价格。<br />
+		                1.申请的舱位受航班销售情况随时可能发生变化，不能保证一定有座位<br />
+		                2.申请的舱位不可下暂缓订单，确认时间和送票时间增加1小时左右<br />
+		                3.非工作时间内（周一~周五 9:00前、16:30后，法定假日）预订机票，需要等待到工作时间进行确认<br />
+		                4.申请的舱位退改签方面的限制更多，具体请查看相应的退改签规则 。</p>
+	            	</div>
+	            <%}%>
+            <%}%>
+        </div>
+    	<%if(rebateAmt > 0 ){%>
+    		<p>
+	            <span class="j_refundPolicy flight-icon-fan2" >
+	            	返&yen;<%=rebateAmt%>
+	        	</span>
+			</p>
+			<div class="j_refundPolicyTips js_hide">
+        		<% if (rebateAmt) {
+        			if (items.length >1 ){ %>
+        				<h4>返券说明：</h4>
+        				<div class="flight-mask-cnt flight-mask-cnt3">
+        					<p>往返程每人最多可使用 <%=rebateAmt %> 元消费券，其中去程航班每人 <%=(items[0].policy.rebateAmt || 0)%> 元，返程航班每人 <%=(items[1].policy.rebateAmt || 0) %>元，订单成交并发送验证码给微信“携程旅行网”官号，在实际乘坐第一个航班起飞后的7天内可获得与使用消费券等额的现金返还。</p>
+    					</div>
+                	<%} else { %>
+                		<div class="flight-mask-cnt flight-mask-cnt3"><p>
+                			<%=(items[0].policy.rebateAmtDescription.replace(/使用+\d{10/g,'使用'+rebateAmt)) || ("每位乘客最多可使用"+rebateAmt+"元消费券，订单成交并发送验证码给微信“携程旅行网”官号，在实际乘坐第一个航班起飞后的7天内可获得与使用消费券等额的现金返还。")%>
+            			</p></div>
+                	<%}%>
+	            <%}%>
+	        </div>
+        <%}%>
+    </div><!-- The end of the dom flight-bkinfo-price -->
+
+</div>
+</script>
+<script type="text/template" class="j_childrenAndBaby_tpl">
+<div class='j_childrenAndBaby'>
+	<h4>儿童婴儿购票说明：</h4>
+	<div class="flight-mask-h4cnt">
+		<p>1. 航班起飞当日出生未满14天的婴儿，请至航空公司柜台申请购买机票</p>
+		<p>2. 婴儿/儿童年龄区分：婴儿：14天-2周岁；儿童：2-12周岁（按航班起飞当日的实际年龄区分）</p>
+		<p>3. 婴儿票价格：航线标准价的10%，不收机建费及燃油费。（注：婴儿票无座。如需座位，可选择购买儿童票或成人票）</p>
+		<p>4. 儿童票价格：航线标准价的50%，不收机建费，燃油费为成人的50%</p>
+		<p>5. 儿童、婴儿须由成人陪同登机。儿童如单独乘机，需直接至航空公司柜台申请购买机票</p>
+		<p>6. 儿童婴儿购票可用证件：身份证、护照、户口簿、出生证明等</p>
+		<p>7. 儿童婴儿购票可同时购买1份航意险</p>
+		<p>8. 部分成人价格允许儿童婴儿购买，根据航空公司公布的成人价格政策确定儿童婴儿是否允许购买成人票。</p>
+	</div>
+</div>
+</script>
+<script type="text/template" class="j_flightInfoReturn_tpl">
+<% if(!user || user.IsNonUser==true) {
+if(!_sales || !_sales.sid || (+_sales.sid != 1575 && +_sales.sid != 1867)){
+    var fRbt=(+items[0].policy.rebateAmt)*(+pCount);
+    if( +items[1].policy.rebateAmt>0 && selectedFlight.arrive){
+        fRbt+=(+items[1].policy.rebateAmt)*(+pCount);
+    }
+%>
+	<div class="js_flight-top" id="js_flight-top"></div>
+	<!--S 登录提醒fixed-->
+	<div class="flight-loginline-fixed pos-rl">
+		<div class="flight-loginline">
+			<button class="flight-loginbtn">马上登录</button>
+			<p><%if(items[0].policy.rebateAmt>0){%>登录后预订才可获得返现<%}else{%>登录后预订更便捷<%}%></p>
+			<!-- that why I can't delete items[0] -->
+        </div>
+    </div>
+    <!--E 登录提醒fixed-->
+ <%} }%>
+<%
+	var basicInfo = items[0].basicInfo;
+	var policy = items[0].policy;
+	var ckind = (basicInfo.ctinfo && basicInfo.ctinfo.ckind) ? basicInfo.ctinfo.ckind : "N";
+	var weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+	var dateStr = cDate.parse(basicInfo.dTime).format("Y-m-d");
+	var weekStr = '周' + weekdays[new Date(dateStr).getDay()];
+	var rebateAmt = items[0].policy.rebateAmt ? parseInt(items[0].policy.rebateAmt) : 0;
+	rebateAmt += (items.length > 1 && items[1].policy.rebateAmt) ? parseInt(items[1].policy.rebateAmt) : 0;
+	dateStr = dateStr.substring(5);
+	dateStr = parseInt(dateStr.split('-')[0], 10) + '-' + parseInt(dateStr.split('-')[1], 10);
+	dateStr = dateStr.replace('-', '月') + '日';
+%>
+<!--S H5机票_订单填写-->
+    <!-- 往返 -->
+<div class="flight-bkinfo">
+    <div class="flight-bkinfo-journey">
+        <div class="flight-bkinfo-end">
+            <p class="flight-bkinfo-date">
+                <span><%= dateStr + ' ' + weekStr%></span>
+            </p>
+            <p class="flight-bkinfo-time"><%=cDate.parse(basicInfo.aTime).format("H:i") %></p>
+            <p class="flight-bkinfo-airport"><%=basicInfo.aaname %><%=basicInfo.aTerminal%></p>
+        </div>
+        
+        <div class="flight-bkinfo-from">
+            <p class="flight-bkinfo-date">
+                <i class="flight-icon-go" style="<%=(items.length > 1 ? '' : 'display: none;')%>">去</i>
+                <span><%= dateStr + ' ' + weekStr%></span>
+            </p>
+            <p class="flight-bkinfo-time"><%=cDate.parse(basicInfo.dTime).format("H:i") %></p>
+            <!-- dcname //出发城市名称 -->
+            <p class="flight-bkinfo-airport"><%=basicInfo.daname %><%=basicInfo.dTerminal%></p>
+        </div>
+        <div class="flight-bkinfo-direction">
+            <div class="line"></div>
+            <div class="flight">
+                <!-- <i class="flight-icon-flt"><b>&nbsp;</b><em>&nbsp;</em></i> -->
+            </div>
+            <%if(items[0].stopCities && items[0].stopCities.length && items[0].stopCities[0].name){%>
+            	<div class="jingting">经停&nbsp;<%=items[0].stopCities[0].name%></div>
+            <%}%>
+        </div>
+    </div>
+    <div class="flight-bkinfo-fltinfo2">
+        <span><%= (basicInfo.aname + '' + basicInfo.flightNo)%></span>
+        <span><%=basicInfo.planeType %><%=(ckind=="S"?"小型机":ckind=="M"?"中型机":ckind=="L"?"大型机":"") %></span>
+        <span class="<%=basicInfo.hasMeal ? '' : 'js_hide' %>">有餐饮</span>
+        <% if(+basicInfo.puncRate !== 0) {%>
+        	<span>准点率:<%=basicInfo.puncRate %>%</span>
+        <%}%>
+    </div>
+    <%
+    if (items.length > 1) {
+	    basicInfo = items[1].basicInfo;
+	    policy = items[1].policy;
+	    dateStr = cDate.parse(basicInfo.dTime).format("Y-m-d");
+	    weekStr = '周' + weekdays[new Date(dateStr).getDay()];
+	    ckind = (basicInfo.ctinfo && basicInfo.ctinfo.ckind) ? basicInfo.ctinfo.ckind : "N";
+dateStr = dateStr.substring(5);
+dateStr = parseInt(dateStr.split('-')[0], 10) + '-' + parseInt(dateStr.split('-')[1], 10);
+dateStr = dateStr.replace('-', '月') + '日';
+    %>
+	    <div class="flight-bkinfo-journey">
+	        <div class="flight-bkinfo-end">
+	            <p class="flight-bkinfo-date">
+	                <span><%= dateStr + ' ' + weekStr%></span>
+	            </p>
+	            <p class="flight-bkinfo-time"><%=cDate.parse(basicInfo.aTime).format("H:i") %></p>
+	            <p class="flight-bkinfo-airport"><%=basicInfo.aaname %><%=basicInfo.aTerminal%></p>
+	        </div>
+	        <div class="flight-bkinfo-from">
+	            <p class="flight-bkinfo-date">
+	                <i class="flight-icon-back">返</i>
+	                <span><%= dateStr + ' ' + weekStr%></span>
+	            </p>
+	            <p class="flight-bkinfo-time"><%=cDate.parse(basicInfo.dTime).format("H:i") %></p>
+	            <p class="flight-bkinfo-airport"><%=basicInfo.daname %><%=basicInfo.dTerminal%></p>
+	        </div>
+	        <div class="flight-bkinfo-direction">
+	            <div class="line"></div>
+	            <div class="flight">
+	                <!-- <i class="flight-icon-flt"><b>&nbsp;</b><em>&nbsp;</em></i> -->
+	            </div>
+	            <%if(items[1].stopCities && items[1].stopCities.length && items[1].stopCities[0].name){%>
+	            	<div class="jingting">经停&nbsp;<%=items[1].stopCities[0].name%> </div>
+	            <%}%>
+	        </div>
+	    </div>
+	    <div class="flight-bkinfo-fltinfo2">
+	        <span><%= (basicInfo.aname + '' + basicInfo.flightNo)%></span>
+	        <span><%=basicInfo.planeType %><%=(ckind=="S"?"小型机":ckind=="M"?"中型机":ckind=="L"?"大型机":"") %></span>
+	        <span class="<%=basicInfo.hasMeal ? '' : 'js_hide' %>">有餐饮</span>
+	        <% if(+basicInfo.puncRate !== 0) {%>
+	        	<span>准点率:<%=basicInfo.puncRate %>%</span>
+	        <%}%>
+	    </div>
+    <%}%>
+    <% 
+	    basicInfo = items[0].basicInfo;
+	    policy = items[0].policy;
+	    ckind = (basicInfo.ctinfo && basicInfo.ctinfo.ckind) ? basicInfo.ctinfo.ckind : "N";
+	    dateStr = cDate.parse(basicInfo.dTime).format("Y-m-d");
+	    weekStr = '周' + weekdays[new Date(dateStr).getDay()];
+dateStr = dateStr.substring(5);
+dateStr = parseInt(dateStr.split('-')[0], 10) + '-' + parseInt(dateStr.split('-')[1], 10);
+dateStr = dateStr.replace('-', '月') + '日';
+	    if (items.length > 1) {
+    %>
+    <div class="flight-bkinfo-wfzj j_hd js_hide">
+        <p>往返总计</p>
+        <p>
+        	<span class="clr-ff7d13 fnt-18 fnt-b">
+        		&yen;<%=(policy.price + (policy.tax || 0) + (policy.fuelCost || 0) + items[1].policy.price + (items[1].policy.tax || 0) + (items[1].policy.fuelCost || 0))%>
+    		</span>
+        </p>
+        <%if(rebateAmt > 0 ){%>
+            <span class="j_refundPolicy flight-icon-fan2">
+            	返&yen;<%=rebateAmt%>
+        	</span>
+        	<div class="j_refundPolicyTips js_hide">
+        		<% if (rebateAmt) {
+        			if (items.length >1 ){ %> 
+        				<div class="flight-mask-h4cnt flight-mask-cnt3">
+                		<p>
+        				往返程每人最多可使用 <%=rebateAmt %> 元消费券，其中去程航班每人 <%=(items[0].policy.rebateAmt || 0)%> 元，返程航班每人 <%=(items[1].policy.rebateAmt || 0) %>元，订单成交并发送验证码给微信“携程旅行网”官号，在实际乘坐第一个航班起飞后的7天内可获得与使用消费券等额的现金返还。
+                		</p>
+                		</div>
+                	<%} else {%>
+                		<div class="flight-mask-h4cnt flight-mask-cnt3">
+                		<p>
+                		<%=(items[0].policy.rebateAmtDescription.replace(/使用+\d{10/g,'使用'+rebateAmt)) || ("每位乘客最多可使用"+rebateAmt+"元消费券，订单成交并发送验证码给微信“携程旅行网”官号，在实际乘坐第一个航班起飞后的7天内可获得与使用消费券等额的现金返还。")%>
+                		</p>
+                		</div>
+                	<%}%>
+	            <%}%>
+	        </div>
+        <%}%>
+    </div>
+    <%}%>		<!--XXX-->
+
+    <div class="flight-bkinfo-price j_hd js_hide">
+        <i class="flight-icon-go" style="<%=(items.length > 1 ? '' : 'display: none;') %>">去</i>
+        <span>
+        	<%=policy.classForDisp==1 ? "高端" : policy.classForDisp==2 ? "超值" : policy.classForDisp == 3 ? "豪华" : ""%>
+        	<%=policy.class == 3 ? "头等舱" : policy.class == 2 ? "商务舱" : "经济舱"%>
+        	<%= (+policy.discount >= 10 ? '全价' : (policy.discount > 0 ? (policy.discount + '折') : '')) %>:
+    	</span>
+        <span class="clr-ff7d13">&yen;<%=policy.price %></span>
+        <span class="clr-c4c4c4<%=items.length > 1 ? ' js_hide' : '' %>">+</span>
+        <span>机/油:</span>
+        <span class="clr-ff7d13">¥<%=(policy.tax + policy.fuelCost) %></span>
+        
+        <!--TODO: what did they do below ? -->
+        <span class="clr-c4c4c4<%=items.length > 1 ? ' js_hide' : '' %>">=</span>
+        <span class="clr-ff7d13 fnt-18<%=items.length > 1 ? ' js_hide' : '' %>">
+        	¥<%=(policy.price + policy.tax + policy.fuelCost) %>
+        </span>
+        <!--end of TODO;-->
+    </div>
+    <%
+    if (items.length > 1) {
+	    basicInfo = items[1].basicInfo;
+	    policy = items[1].policy;
+	    ckind = (basicInfo.ctinfo && basicInfo.ctinfo.ckind) ? basicInfo.ctinfo.ckind : "N";
+	    dateStr = cDate.parse(basicInfo.dTime).format("Y-m-d");
+	    dateStr = dateStr.substring(5);
+		dateStr = parseInt(dateStr.split('-')[0], 10) + '-' + parseInt(dateStr.split('-')[1], 10);
+		dateStr = dateStr.replace('-', '月') + '日';
+    	%>
+	    <div class="flight-bkinfo-price j_hd js_hide">
+	        <i class="flight-icon-back">返</i>
+	        <span>
+	        	<%=policy.classForDisp==1 ? "高端" : policy.classForDisp==2 ? "超值" : policy.classForDisp == 3 ? "豪华" : ""%>
+	        	<%=policy.class == 3 ? "头等舱" : policy.class == 2 ? "商务舱" : "经济舱"%>
+	        	<%= (+policy.discount >= 10 ? '全价' : (policy.discount > 0 ? (policy.discount + '折') : '')) %>:
+	    	</span>
+	        <span class="clr-ff7d13">&yen;<%=policy.price %></span>
+	        <span class="js_hide">+</span>
+	        <span>机/油:</span>
+	        <span class="clr-ff7d13">&yen;<%=(policy.tax + policy.fuelCost) %></span>
+	        <span class="js_hide">=</span>
+	        <span class="clr-ff7d13 fnt-18 js_hide">¥<%=(policy.price + policy.tax + policy.fuelCost) %></span>
+	    </div>
+    <%}%>
+<!--E H5机票_订单填写-->
+    <div class="flight-bkinfo-tgq">
+        <span class="j_toShow flight-arrrht j_RC">退改签</span><!--refund and change -->
+        <div class="flight-rtntips js_hide">
+            <%if (rebateAmt) {
+                if (items.length > 1) { %>
+                	<h4>返券说明：</h4>
+                	<div class="flight-mask-h4cnt j_hd js_hide">
+                		<p>
+                			往返程每人最多可使用<%=rebateAmt %>元消费券，其中去程航班每人<%=(items[0].policy.rebateAmt || 0)%>元，返程航班每人<%=(items[1].policy.rebateAmt || 0) %>元，订单成交并发送验证码给微信“携程旅行网”官号，在实际乘坐第一个航班起飞后的7天内可获得与使用消费券等额的现金返还。
+            			</p>
+                    </div>
+                <%} else {%>
+                	<div class="flight-mask-h4cnt j_hd js_hide">
+                		<p>
+                    		<%=(items[0].policy.rebateAmtDescription.replace(/使用+\d{10/g,'使用'+rebateAmt))||("每位乘客最多可使用"+rebateAmt+"元消费券，订单成交并发送验证码给微信“携程旅行网”官号，在实际乘坐第一个航班起飞后的7天内可获得与使用消费券等额的现金返还。")%>
+                		</p>
+                	</div>
+                <%}%>
+            <%}%>
+        </div>
+        <div class="flight-pnttips js_hide">
+	        <% for (var i = 0, len = items.length; i < len; i++) { %>
+	            <% if (items.length>1){ %>
+	                <h2>
+	                	<span><%= i == 0 ? '去程' : '返程' %></span>
+	            	</h2>
+	        	<%} %>
+	        	
+	        	<!--购票限制-->
+	        	<% if( typeof(items[i].rmk)!="undefined" && items[i].rmk!=null){%>
+					<%if (items[i].rmk.ticketRmk) {%>  
+		            	<h4>购票限制：</h4>
+		            	<div class="flight-mask-h4cnt">
+		            		<p><%=items[i].rmk.ticketRmk%></p>
+		            	</div>
+		            <%}%>
+		        	<h4>退改签：</h4>
+		            <div class="flight-mask-h4cnt">
+		                <p>退票条件：<%=items[i].rmk.refNote%></p><!--TODO--->
+		                <p>更改条件：<%=items[i].rmk.rerNote%></p>
+		                <p>签转条件：<%=items[i].rmk.endNote%></p>
+		            </div>
+	            <% }%>
+	            
+	            <!-- 旅行套餐说明 -->
+	            <% if(items[i].bIsPackage){
+	            	if(items[i].prodRmk){
+	        			var des=items[i].prodRmk;
+	        			var lxtc=des.replace(/\n/g,'<br/>');%>
+	        			<h4>旅行套餐说明：</h4>
+	        			<div class="flight-mask-h4cnt">
+	        				<p class="flight-couponstips">
+		    					<i class="flight-arrdn3"></i>
+		    					<%=lxtc %>
+							</p>
+	        			</div>
+				<%}}%>
+	            
+                <%if(items[i].policy.gift && +items[i].policy.gift>0){%>
+	            	<h4>送礼品卡 &yen; <%=items[i].policy.gift%></h4>
+	                <div class="flight-mask-h4cnt">
+	                	<p><%=items[i].policy.giftDescription%></p>
+		            </div>
+            	<%}%>
+            	
+            	<!-- K位说明 -->
+                <%if(items[i].basicInfo.IsK){%>
+	            	<h4>K位说明：</h4>
+	            	<div class="flight-mask-h4cnt">
+	            		<p>
+	            			携程会为您向航空公司申请该价格。<br />
+		                	1.申请的舱位受航班销售情况随时可能发生变化，不能保证一定有座位<br />
+		                	2.申请的舱位不可下暂缓订单，确认时间和送票时间增加1小时左右<br />
+		                	3.非工作时间内（周一~周五 9:00前、16:30后，法定假日）预订机票，需要等待到工作时间进行确认<br />
+		                	4.申请的舱位退改签方面的限制更多，具体请查看相应的退改签规则 。
+	                	</p>
+	            	</div>
+            	<%}%>
+            <%}%>
+        </div>
+    </div>
+</div>
+</script>

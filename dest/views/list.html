@@ -1,0 +1,306 @@
+<style type="text/css">
+    /*********************黄金分割线***************/
+
+
+    .jsFlightCanvas div:nth-of-type(1) {
+        -webkit-backface-visibility: visible;
+        -webkit-transform-origin: center center;
+        -webkit-animation: demo 4s 0s 1 ease normal none;
+    }
+
+    @-webkit-keyframes demo {
+        0% {
+            opacity: 0;
+        }
+
+        54% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .jsFlightCanvas div:nth-of-type(1) {
+        -moz-backface-visibility: visible;
+        -moz-transform-origin: center center;
+        -moz-animation: demo 4s 0s 1 ease normal none;
+    }
+
+    @-moz-keyframes demo {
+        0% {
+            opacity: 0;
+        }
+
+        54% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .type_date {
+        background-color: #f5f5f5;
+        position: fixed;
+        top: 44px;
+        width: 100%;
+        z-index: 299;
+        /*border: solid 1px #ccc;*/
+    }
+
+
+    .tpye_bar {
+        /*  border-bottom: 1px solid #cfcfcf;*/
+        background-color: #f5f5f5;
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+        z-index: 299;
+        height: 43px;
+        -webkit-transform: translateY(0);
+        -ms-transform: translateY(0);
+        -o-transform: translateY(0);
+        /*
+        -webkit-transition: all .5s ease 0;
+        -ms-transition: all .5s ease 0;
+        -o-transition: all .5s ease 0;
+        transition: all .5s ease 0;
+            */
+    }
+
+        .tpye_bar.hide {
+            -webkit-transform: translateY(100px);
+            -ms-transform: translateY(100px);
+            -o-transform: translateY(100px);
+            transform: translateY(100px);
+            /*
+            -webkit-transition: all .5s ease 0;
+            -ms-transition: all .5s ease 0;
+            -o-transition: all .5s ease 0;
+            transition: all .5s ease 0;
+                 */
+        }
+</style>
+
+<header style="position: fixed; top: 0px; z-index: 2000">
+    <a class="js_home"><b class="icon_home i_bef" id="js_home"></b></a>
+    <a href="tel:4000086666" class="icon_phone i_bef __hreftel__" id="js_phone"></a>
+    <h1 class="twotitle"><span id="title">机票预订</span><p class="result">共<span id="flightTotal">0</span>个结果</p></h1>
+    <i class="returnico" id="js_return"></i>
+</header>
+
+
+<div id="js_FlightMenuFrame2" class="type_date">
+    <ul class="tab_time flight-listdate">
+        <li class="yesterday t1">
+            <div>前一天</div>
+            <div class="price"></div>
+        </li>
+        <li class="today t2">
+            <div class="date">
+                <i class="flight-cheap-calendar">低</i>
+                <label id="js_CurDate">2014-05-30 周三</label>
+            </div>
+            <div class="price"></div>
+        </li>
+        <li class="tomorrow t3">
+            <div>后一天</div>
+            <div class="price"></div>
+        </li>
+    </ul>
+</div>
+
+
+
+<menu style="margin-top: 88px" id="js_FlightListFrame">
+
+    <!--机票查询列表-->
+    <section class="f_list" style="padding-bottom:45px"></section>
+
+</menu>
+
+<div id="js_FlightMenuFrame" class="tpye_bar">
+    <ul class="tab_by" style="background-color: #f5f5f5">
+        <li data-type="time" class="bytime" style="width:33%">
+            时间
+            <em class="flight-icon-pxu">↑</em>
+        </li>
+        <li data-type="filter" class="byfilter" style="width: 34%">
+            筛选
+            <em class="flight-icon-sx"></em>
+        </li>
+        <li data-type="price" class="byprice hover" style="width: 33%">
+            价格
+            <em class="flight-icon-pxu">↑</em>
+        </li>
+       
+    </ul>
+</div>
+
+
+<script type="text/template" id="flightlisttpl">
+    <div>
+        <%_.each(list,function(v,k){%>
+        <%
+        if(v.flightNo){
+        var cabin =  _viewfilterfirst(v.cabins,filterClass)|| {} ;
+        var ckind = v.ctinfo?v.ctinfo.ckind:'N';
+
+        %>
+        <ul class="f_list_tab js_flight_item" data-key="<%=k%>" style="z-index:100;"  data-ckey="<%=cabin.ckey%>" >
+
+            <li class="f_info" style="box-sizing: border-box;width:100%;">
+                <div class="flight-list-start">
+                    <p>
+                        <span class="fnt-18"><%=(cDate.parse(v.dTime).format('H:i'))%></span>
+                    </p>
+                    <p><%=v.daname %><%=(v.dTerminal!=null)?v.dTerminal:"" %></p>
+                </div>
+                <div class="flight-list-middle">
+                    <i class="flight-icon-fx"></i>
+                    <%if((v.flag & 2) === 2 && v.stopCities && v.stopCities.length>0){ %>
+                    <% for( var c=0;c< v.stopcities.length;c++){%>
+                    <span class="flight-list-jt">
+                        <%=v.stopCities[0]["name"] %>
+                    </span>
+                    <%  }%>
+                    <%  }%>
+                </div>
+                <div class="flight-list-end">
+                    <p>
+                        <span class="fnt-18"><%=(cDate.parse(v.aTime).format('H:i'))%></span>
+                    </p>
+                    <p><%=v.aaname %><%=(v.aTerminal!=null)?v.aTerminal:"" %></p>
+                </div>
+                <div class="flight-list-hs" style="width:95%;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+
+                    <!-- <span class="pubFlights_<%=v.airlineCode%>"></span> -->
+
+                    <img src='<%="http://pic.c-ctrip.com/flight_intl/airline_logo/40x35/"+v.airlineCode+".png" %>' />
+
+                    <span><%=v.aname %><%=v.flightNo %></span>
+                    <span class="clr-eee">|</span>
+                    <span><%=(v.ctinfo)?v.ctinfo.ctname:v.planeType %><%=(ckind === 'M' ? '(中)' : (ckind === 'L' ? '(大)' : '' ))%></span>
+                </div>
+            </li>
+
+
+            <li class="f_price">
+
+
+                <%if(cabin["rebateAmt"]){
+                if(!_sales || !_sales.sid || (+_sales.sid != 1575 && +_sales.sid != 1867)){
+                %>
+                <span class="fantxt2">返&yen;<%=cabin.rebateAmt %></span>
+                <%} }%>
+
+                <dfn>&yen;</dfn>
+                <strong>
+                    <%=cabin.price %>
+                </strong>
+
+
+
+                <p>
+                    <%if(cabin.discount &&  cabin.discount < 0){ %>
+                       旅行套餐
+                    <%}else{%>
+
+                     <%=_viewBuildSeatTitlt(cabin.classForDisp,cabin.class)%>
+                    <%}%>
+
+                    <% var strDis = "" %>
+                    <% if(cabin.discount >= 10) {%>
+                    <% strDis = "全价"; %>
+                    <%}else if(cabin.discount >0 && cabin.discount < 10){%>
+                    <% strDis = cabin.discount+"折"; %>
+                    <%}else{ %>
+                    <% strDis =  ""; %>
+                    <%}%>
+                    <%=strDis %>
+                </p>
+
+
+
+                <p>
+                    <em class="f_num">
+                        <%if(cabin.qty<=3){%>
+                        <span class="clr-red"><%=cabin.qty %>张</span>
+                        <%}else if(cabin.qty<=9){%>
+
+                        <%}else if(cabin.qty>9){%>
+
+                        <%} %>
+                    </em>
+                </p>
+            </li>
+
+
+
+            <%if(v.cabins && v.cabins.length){ %>
+            <li class="flight-listfold flight-packdown js_subswitch"></li>
+            <%} %>
+
+        </ul>
+        <!--展开详情-->
+
+        <ul class="js_sublist f_detail" style="display:none;background:#f5f5f5;">
+            <% for(var i=0 ;i
+            <v.cabins.length; i++ ){ %>
+                <% var cabin = v.cabins[i]; %>
+                <li class="js_flight_seat" data-flightno="<%=v.flightNo %>" data-classfordisp="<%=cabin.classForDisp %>" data-parent-key="<%=k %>" data-key="<%=i %>" data-class="c<%=cabin.class %>">
+                    <span class="xq_info">
+                        <%if(cabin.discount &&  cabin.discount < 0){ %>
+                        旅行套餐
+                        <%}else{%>
+                        <%=_viewBuildSeatTitlt(cabin.classForDisp,cabin.class)%>
+                        <%}%>
+                        <% if(cabin.discount && cabin.discount < 10 && cabin.discount >0){%><%=cabin.discount %>折<%}else if(cabin.discount == 10){%>全价<%} %>
+                    </span>
+
+
+
+                    <span class="xq_price">
+
+
+
+                        <%if(cabin.rebateAmt){%>
+                        <% if(!_sales || !_sales.sid || (+_sales.sid != 1575 && +_sales.sid != 1867)){ %>
+                        <span class="fantxt2">返&yen;<%=cabin.rebateAmt %></span>
+                        <%} %>
+                        <%}%>
+
+                        <em class="xq-yp">
+                            <%if(cabin.qty<=3){%>
+                            <span style="color:#f00">
+                                <%=cabin.qty %>张
+                            </span>
+                            <%}else if(cabin.qty<=9){%>
+
+                            <%}else if(cabin.qty>9){%>
+
+                            <%} %>
+                        </em>
+                        <button class="flight-btn-price">
+                            <dfn>&yen;</dfn>
+                            <strong><%=cabin.price %></strong>
+                        </button>
+                    </span>
+                </li>
+                <%} %>
+        </ul>
+
+
+        <%}}) %>
+    </div>
+</script>
+<script type="text/template" id="emptylisttpl">
+    <div class="cui-load-error">
+        <div class="cui-i cui-wifi cui-exclam">
+        </div>
+        请修改条件重新查询
+    </div>
+</script>

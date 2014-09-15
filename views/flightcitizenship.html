@@ -1,0 +1,33 @@
+<style type="text/css">
+    #city_list ul li{ display:block; }
+    #city_list ul.sub-city-box{ display:none; }
+</style>
+<header>
+    <h1>选择国籍</h1><i id="js_return" class="returnico"></i>
+</header>
+<section id="p_citizenship_wrap" class="city_box cont_wrap"> 
+</section>
+<script type="text/template" id="p_citizenship_tpl">
+    <ul id="city_list">
+        <li class="cityli citylistclick">
+            <div class="city-group-title arr_down">热门国家</div>
+            
+            <ul class="sub-city-box"  style="display:block">
+              <%for(var o=0,olen=hotcitys.length,Item;o<olen;o++){ Item=hotcitys[o];%>
+                <li class="<%if(scode && scode === Item.scode){%> citylistcrt<%} %>" data-scode="<%=Item.scode %>" data-id="<%=Item.id %>" data-name="<%=Item.name %>"><%=Item.name %></li>
+              <%} %>
+            </ul>
+        </li>
+        <%for(var i=0,len=keys.length,Key,Item;i<len;i++){ Key = keys[i]; Item = datalist[Key]; if(!Item) continue;%>
+         <li class="cityli">
+            <div class="city-group-title arr_down"><%=Key %></div>
+            <ul class="sub-city-box">
+                <%for(var t=0,tlen=Item.length;t<tlen;t++){ %>
+                <li class="<%if(scode && scode === Item[t].scode){%> citylistcrt<%} %>" data-scode="<%=Item[t].scode %>" data-id="<%=Item[t].id %>" data-name="<%=Item[t].name %>" ><%=Item[t].name %></li>
+                <%} %>
+            </ul>
+        </li>
+        <%} %>
+        
+    </ul>
+</script>

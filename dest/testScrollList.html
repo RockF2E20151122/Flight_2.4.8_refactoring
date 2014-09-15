@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Test ScrollList</title>
+     <link rel="Stylesheet" type="text/css" href="http://webresource.c-ctrip.com/styles/h5/common/main.css">
+    <script src="http://webresource.c-ctrip.com/code/lizard/1.1/web/3rdlibs/require.min.js"></script>
+<script type="text/javascript" src="http://webresource.c-ctrip.com/code/lizard/1.1/web/3rdlibs/include.libs.js"></script>
+<script type="text/javascript" src="http://webresource.c-ctrip.com/code/lizard/1.1/web/common.js"></script>
+</head>
+<body>
+    <input type="button" value="选择地区" id="selectAreaBtn">
+</body>
+<script>
+    $(function () {
+        document.getElementById("selectAreaBtn").addEventListener('click', function (e) {
+            require.config({
+                paths: {
+                    "FlightStore": "flight/models/FlightStore"
+                }
+            });
+            require(['/webapp/flight/common/MultipleScrollList.js'], function (MultipleScrollList) {
+                var provinces = JSON.parse(localStorage.getItem('CAR_POST_CITY_DATA')).value;
+                var citiesOfPrvn = provinces[0].citys;
+                var contriesOfCity = citiesOfPrvn[0].contries;
+                var prvnIndex = 0, cityIndex = 0, contryIndex = 0;
+                provinces.forEach(function (item, index) {
+                    item.key = item.prvn;
+                    item.value = item.name;
+                    if (item.prvn == 31 && item.name == '上海市') {
+                        prvnIndex = index;
+                        citiesOfPrvn = item.citys;
+                        item.citys.forEach(function (item, index) {
+                            if (item.cty == 3101 && item.name == '上海市') {
+                                contriesOfCity = citiesOfPrvn[index].contries;
+                                cityIndex = index;
+                            }
+                        });
+                    }
+                });
+                citiesOfPrvn.forEach(function (item, index) {
+                    item.key = item.cty;
+                    item.value = item.name;
+                });
+                contriesOfCity.forEach(function (item, index) {
+                    item.key = item.treeKey;
+                    item.value = item.name;
+                });
+                console.log(provinces);
+                console.log(citiesOfPrvn);
+                console.log(contriesOfCity);
+                var provinceChange = function (item) {
+                    citiesOfPrvn = item.citys;
+                    contriesOfCity = item.citys[0].contries;
+                    mutipleScrollList.updateScrollListByIndex(1, citiesOfPrvn);
+                    mutipleScrollList.updateScrollListByIndex(2, contriesOfCity);
+                };
+                var cityChange = function (item) {
+                    contriesOfCity = item.contries;
+                    mutipleScrollList.updateScrollListByIndex(2, contriesOfCity);
+                };
+                var contryChange = function (item) {
+
+                };
+                var mutipleScrollList = new MultipleScrollList({
+                    title: '选择日期',
+                    data: [provinces, citiesOfPrvn, contriesOfCity],
+                    index: [prvnIndex, cityIndex, contryIndex],
+                    changed: [
+                        provinceChange,
+                        cityChange,
+                        contryChange
+                    ],
+                    disItemNum: 8,
+                    cancel: '取消',
+                    ok: '确定',
+                    okClick: function (item) {
+                        var t1 = item[0],
+                            t2 = item[1],
+                            t3 = item[2];
+                        console.log(item);
+                    }.bind(this)
+                });
+                mutipleScrollList.show();
+            });
+        });
+    });
+</script>
+</html>

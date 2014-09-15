@@ -1,0 +1,175 @@
+<style>
+    .flight-fail i{border-color:#f00;}
+    .flight-fail i:before,
+    .flight-fail i:after{height:27px;left: 21px;top: 10px;background:#f00;}
+    
+    .succeed_icon {
+    position: absolute;
+    left: 0;
+    top: -5px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 4px solid #12b319;
+    }
+    .succeed_icon:before {
+    left: 14px;
+    top: 20px;
+    height: 15px;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    }
+
+    .succeed_icon:after {
+    left: 26px;
+    top: 10px;
+    height: 25px;
+    -webkit-transform: rotate(40deg);
+    -moz-transform: rotate(40deg);
+    -ms-transform: rotate(40deg);
+    -o-transform: rotate(40deg);
+    transform: rotate(40deg);
+    }
+
+
+    .flight-success {
+    position: relative;
+    width: 180px;
+    min-height: 50px;
+    margin: 20px auto 10px auto;
+    padding: 10px 0 0 80px;
+    font-size: 16px;
+    }
+</style>
+
+<header>
+    <b class="icon_home i_bef" id="js_home"></b>
+    <a href="tel:4000086666" class="icon_phone i_bef __hreftel__" id="js_phone"></a>
+    <h1>订单结果</h1><i id="js_return" class="returnico"></i>
+</header>
+<menu class="cont_pd_wrap" id="infobox"></menu>
+<script type="text/template" id="infotpl">
+ <div class="pd5"> 
+<% if(orderId && +orderId>0){ %>
+ <%  if (rc==0 || rc==2) {   %>
+ 
+      <div class="flight-bkrst  ">
+             <i class="flight-icon-scs">&nbsp;</i>
+             <%if(isK==true){%>
+               <p>恭喜您，预订成功！该价格需要向航空公司申请，但不能确保一定申请成功。</p>
+             <%}else{%>
+              <%  if(rc==0){ %>
+                    <p>您的订单已经成功提交！我们将尽快处理。</p> 
+               <%    }else if(rc==2){ %>
+                     <p style="margin-top: 10px;">恭喜您预定成功！</p>
+                <%  } %>
+             <%}%>
+
+        <%  if(rc==0){ 
+            rmsg = rmsg.replace("|","<br/>")
+        %>
+           <p class="flight-bkrst-tips" style="color:#999"><%= rmsg %></p>
+        <%} %>
+        
+        </div>
+
+
+        <ul class="flight-bkrst-list">
+            <li class="title">
+                <div class="f-r">订单总额：
+                    <dfn class="clr-ff9a14">&yen;</dfn>
+                    <span class="fnt-b clr-ff9a14"><%=price%></span>
+                </div>
+                <%= (typeof(dcityName)!="undefined" && dcityName!=null && dcityName!="" )? dcityName:""%>&nbsp;-&nbsp;<%= (typeof(acityName)!="undefined" && acityName!=null && acityName!="" )? acityName:""%>
+                <%if(typeof(tripType)!="undefined" && (tripType==2)){%>
+                    &nbsp;&nbsp;往返
+                <%}else{%>
+                    &nbsp;&nbsp;单程
+                <%} %>
+            </li>
+             
+           <% for(var i=0;i<orders.length;i++){
+                var psgTyp;
+                switch(orders[i].otype){
+                    case 0: 
+                     psgTyp='未知'; 
+                     break;
+                    case 1: 
+                      psgTyp='成人';
+                      break;
+                    case 2:
+                        psgTyp='儿童';
+                        break;
+                    case 3:
+                        psgTyp='婴儿';
+                        break;
+                    case 4:
+                        psgTyp='老人';
+                        break;
+                    default:
+                        psgTyp='';
+                        break;
+                }
+            %>
+             <li class="orderid" data-id="<%=orders[i].oid%>">
+               <%=psgTyp%>订单：<%=orders[i].oid%>
+              </li>
+            <%  }  %>
+
+        </ul>
+
+
+   <%if( (paytype & 1)!= 1  &&   typeof(ext)!="undefined" && ext!=null && ext!="" && typeof(app)!="undefined" && app!=null && days && user && !user.IsNonUser && (!_sales || !_sales.sid || (+_sales.sid!=1575 && +_sales.sid != 1867))){%>
+        
+        <!--<ul class="fanxian apply-fanxian">
+            <li class="bold">申请返现</li>
+            <li>发送验证码<i class="cblue">"<i><%=ext %></i>"</i>给<i class="cblue">"携程旅行网"</i>微信账号申请返现</li>
+            <li class="bold sq">返现提示<i class="sqbtn"><input type="button" class="btn_fx"  data-app="<%=app %>"  value="下载微信" /></i></li>
+            <li>
+                <p>1. 在微信中查找“携程旅行网”加关注</p>
+                <p>2. 在聊天输入框中输入验证码<i class="cblue">"<i><%=ext %></i>"</i>后发送</p><br />
+                <h5>您还可以在机票订单详情页查看返现状态</h5>
+                <h5>注意：请在航班起飞后<i><%=days %></i>天内完成申请</h5>
+            </li>
+        </ul>-->
+       
+         <div class="flight-bkrst-wx">
+            <i class="flight-icon-wxfx" data-app="<%=app %>">申请返现</i>
+            <p class="fnt-b">发送验证码"<%=ext %>"给"携程旅行网"微信账号申请返现</p>
+            <div class="blk10">&nbsp;</div>
+            <p>您还可以在机票订单详情页提交返现申请</p>
+            <p>注意：请在航班起飞后<%=days %>天内完成申请</p>
+         </div>
+     
+
+    <%  }  %>
+
+<% if(isCCB==false){%>
+     <%if(!user || user.IsNonUser==true  ) { %>
+        <%   if(!_sales || !_sales.sid || (+_sales.sid!=1575 && +_sales.sid != 1867)){  %>
+            <div id="reg" data-href="/webapp/myctrip/index.html#account/reg?from=/webapp/myctrip/" class="cont_box mt10">
+                    仅需一步，注册携程会员，即可享受<i class="corange">1000</i>积分和<i class="corange">800</i>携程消费券哦。
+                <button class="btn_blue mt10"  data-href="/webapp/myctrip/index.html#account/reg?from=/webapp/myctrip/">立即注册</button>
+            </div>
+          <% } %>
+     <%  }  %>
+<%}%>
+
+
+
+
+<!--------------------------------------------黄金分割线------------------------->
+ 
+  <%}else{%>
+      <div class="flight-success flight-fail"  >
+        <i class="succeed_icon"></i>
+        <%=(typeof(errorMsg)!="undefined" && errorMsg!="" && errorMsg!=null)?errorMsg:"提交订单失败，请重新查询航班后再预定。" %>
+     </div>
+  <%}%>
+
+<%} %>
+</div>
+</script>

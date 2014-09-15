@@ -1,0 +1,104 @@
+<header>
+    <h1>订单详情</h1><i class="returnico" id="js_return"></i>
+</header>
+  <!--订单详情-->
+<section class="flight fcmt fltdetail" id="orderinfobox">
+    
+</section>
+<article>
+    <section class="flight fltgr">
+        <div class="infobox b_people fbgf" id="flightdetailbox"></div>
+    </section>
+    <section class="flight fltgr">
+    <!--登机人-->
+    <div class="infobox b_people fbgf" id="passengerbox"></div>
+    </section>
+</article>
+ <script type="text/template" id="orderinfotpl">
+ <ul class="ofont fbgf">
+        <li><span>订单总额</span><em class="cmoney"><dfn>&yen;</dfn><%=amt %></em></li>
+        <%if((flag & 16)==16 && rebateAmt>0) {%>
+        <li><span>可享返现</span> 现金&yen;<%=rebateAmt %><input data-code="<%=ext %>" data-rebate="<%=rebateAmt %>" type="button" class="btn_fx jsbtnfx" value="立即申请返现" /></li>
+        <%} %>
+        <li><span>订单状态</span><%=statusRmk %></li>
+        <li><span>订单编号</span><%=id %></li>
+        <li><span>预定日期</span><%=cDate.parse(time).format('Y-m-d') %> <%=cDate.weekday(cDate.parse(time)) %></li>
+        <li><span>配送方式</span><%=delivery %></li>
+         <%if(rebateAmt>0) {%>
+        <li><span>返现申请</span><%=(flag & 16)==16?"未完成":"已完成" %></li>
+        <%} %></ul>
+ </script>
+  <script type="text/template" id="flightdetailtpl">
+     <hgroup class="ftx" data-type="<%=tripType %>">
+        <h2>航班信息</h2>
+        <h2 class="yel"><%=cDate.parse(flightInfos[0].dTime).format('Y年m月d日') %>&nbsp;<%=tripType==4?"行程一":"去程" %></h2>
+        <h4><%=flightInfos[0].airline.trim() %>/<%=flightInfos[0].flightNo.trim()%>/<%if(aircraft && aircraft[flightInfos[0].planeType] && aircraft[flightInfos[0].planeType].kind){
+        var k=aircraft[flightInfos[0].planeType].kind;
+        var kName = k=="S"?"小型机":k=="M"?"中型机":k=="L"?"大型机":"";
+        %><%=kName%><%}%><%=flightInfos[0].planeType %></h4>
+    </hgroup>
+    <ul class="place">
+        <li>
+            <span class="addr"><%=flightInfos[0].dCty %></span>
+            <span class="time"><%=cDate.parse(flightInfos[0].dTime).format('H:i') %></span>
+            <span class="site"><%=flightInfos[0].dTerminal?flightInfos[0].dTerminal:flightInfos[0].dPort%></span>
+        </li>
+        <li class="icosj"></li>
+        <li>
+            <span class="addr"><%=flightInfos[0].aCty %></span>
+            <span class="time"><%=cDate.parse(flightInfos[0].aTime).format('H:i') %></span>
+            <span class="site"><%=flightInfos[0].aTerminal?flightInfos[0].aTerminal:flightInfos[0].aPort%></span>
+        </li> 
+    </ul>
+    <p class="ctr_value">携程价格:<span>&yen;<%=flightInfos[0].price %></span><del>原价:&yen;<%=flightInfos[0].sPrice %></del><br />机建/燃油:<span>&yen;<%=flightInfos[0].tax %></span><span>/</span><span>&yen;<%=flightInfos[0].fuelCost %></span></p>
+    <p class="tickterm"><b>退票条件：</b><%=flightInfos[0].refNote %></p>
+    <p class="tickterm"><b>更改条件：</b><%=flightInfos[0].rerNote %></p>
+    <p class="tickterm"><b>转签条件：</b><%=flightInfos[0].endNote %></p>
+    <%if(tripType>1 && flightInfos.length>0){%>
+    <hgroup class="ftx">
+        <h2 class="yel"><%=cDate.parse(flightInfos[1].dTime).format('Y年m月d日') %>&nbsp;<%=tripType==4?"行程二":"返程" %></h2>
+        <h4><%=flightInfos[1].airline %>/<%=flightInfos[1].flightNo%>/<%=flightInfos[1].planeType %><%=flightInfos[1].planeType %></h4>
+    </hgroup>
+    <ul class="place">
+        <li>
+            <span class="addr"><%=flightInfos[1].dCty %></span>
+            <span class="time"><%=cDate.parse(flightInfos[1].dTime).format('H:i') %></span>
+            <span class="site"><%=flightInfos[1].dTerminal?flightInfos[1].dTerminal:flightInfos[1].dPort%></span>
+        </li>
+        <li class="icosj"></li>
+        <li>
+            <span class="addr"><%=flightInfos[1].aCty %></span>
+            <span class="time"><%=cDate.parse(flightInfos[1].aTime).format('H:i') %></span>
+            <span class="site"><%=flightInfos[1].aPort%></span>
+        </li> 
+    </ul>
+    <p class="ctr_value">携程价格:<span>&yen;<%=flightInfos[1].price %></span><del>原价:&yen;<%=flightInfos[1].sPrice %></del><br />机建/燃油:<span>&yen;<%=flightInfos[1].tax %></span><span>/</span><span>&yen;<%=flightInfos[1].fuelCost %></span></p>
+    <p class="tickterm"><b>退票条件：</b><%=flightInfos[1].refNote %></p>
+    <p class="tickterm"><b>更改条件：</b><%=flightInfos[1].rerNote %></p>
+    <p class="tickterm"><b>转签条件：</b><%=flightInfos[1].endNote %></p>
+   <% } %>
+  </script>
+ <script type="text/template" id="passengertpl">
+   <hgroup class="ftx">
+        <h2>旅客信息</h2>
+    </hgroup>
+    <dl class="fltboarinfo">
+    <dt>登机人</dt>
+    <%if(passengers){%><dd>
+        <%for(var p in passengers){%>
+            <span><%=passengers[p].name %></span>
+        <%} %></dd>
+    <%} %>
+    <dt>联系人</dt>
+    <dd><span><%=contact %></span><span><%=contactMphone %></span></dd>
+      <%if(passengers){
+      var insuranceAmt=passengers[0].insuranceAmt
+      var qty=(passengers.length *passengers[0].insuranceQty) ;
+      if(insuranceAmt && +insuranceAmt>0){
+      %>
+    <dt>保险</dt>
+    <dd><span class="cmoney">&yen;<%=passengers[0].insurancePrice %><%=passengers[0].insuranceNo.toLowerCase()=="t"?"航意险":passengers[0].insuranceNo.toLowerCase()=="d"?"航延险 ":"" %>×<%=qty %>份</span></dd>
+     <%} 
+     }%>
+     </dl>
+ </script>

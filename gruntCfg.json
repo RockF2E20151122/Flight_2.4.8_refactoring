@@ -1,0 +1,70 @@
+{
+  "requirejs": {
+    "main": {
+      "options": {
+        "replace": true,
+        "baseUrl": "<%= config.srcDir %>",
+        "paths":   {
+          "text":            "../../../../Resource/Product/WebApp-productline/Webapp/libs/require.text",
+          "libs":            "http://m.ctrip.com/libs.js",
+          "c":               "http://m.ctrip.com/c.js",
+          "cModel":          "http://m.ctrip.com/cModel.js",
+          "cBase":           "http://m.ctrip.com/cBase.js",
+          "cWidgetFactory":  "http://m.ctrip.com/cWidgetFactory.js",
+          "cStore":          "http://m.ctrip.com/cStore.js",
+          "cUtility":        "http://m.ctrip.com/cUtility.js",
+          "App":             "http://m.ctrip.com/App.js",
+          "CommonStore":     "http://m.ctrip.com/CommonStore.js",
+          "cDataSource":     "http://m.ctrip.com/cDataSource.js",
+          "cCitylist":       "http://m.ctrip.com/cCitylist.js",
+          "cSales":          "http://m.ctrip.com/cSales.js",
+          "cMultipleDate":   "http://m.ctrip.com/cMultipleDate.js",
+          "cWidgetCalendar": "http://m.ctrip.com/cWidgetCalendaar.js",
+		      "cHolidayPriceCalendar": "http://m.ctrip.com/cHolidayPriceCalendar.js",
+          "FlightModel": "models/flightmodel",
+          "FlightStore": "models/flightstore",
+		   "mapping":"mapping/mapping",
+		  "relationship":"mapping/relationship",
+		  "cAjax":"http://m.ctrip.com/cAjax.js",
+		  "flight/utility/utility":"utility/utility",
+		  "lowpricecalendar":"views/lowpricecalendar",
+		  "adLoad":"utility/adLoad",
+		  "adLayer":"utility/adLayer",
+		  "cUIAbstractView":"http://m.ctrip.com/cUIAbstractView.js",
+		  "cUIMask":"http://m.ctrip.com/cUIMask.js",
+		  "flight/utility/swipe":"utility/swipe",
+		  "BusinessModel":"models/BusinessModel",
+		  "vFlightInfo":"flight/modules/bookingInfo/views/vFlightInfo",
+		  "vPassenger":"flight/modules/bookingInfo/views/vPassenger",
+		  "vVouchers":"flight/modules/bookingInfo/views/vVouchers",
+		  "vInsurance":"flight/modules/bookingInfo/views/vInsurance",
+		  "vTravelPackages":"flight/modules/bookingInfo/views/vTravelPackages",
+		  "vParentCorporate":"flight/modules/bookingInfo/views/vParentCorporate",
+		  "vPayment":"flight/modules/bookingInfo/views/vPayment",
+		  "vOrder":"flight/modules/bookingInfo/views/vOrder",
+		  "widgetHidden":"flight/widgets/c.widget.Hidden",
+		  "widgetForm":"flight/widgets/c.widget.form"
+        },
+        "web":{
+          "include": [
+            "FlightModel",
+            "FlightStore",
+
+            "dest/views/index",
+            "dest/views/list",
+
+            "text!dest/views/list.html",
+            "text!dest/views/index.html",
+            
+            "main_r"
+          ],
+          "out":"<%= config.destDir %>/main.js"
+        },
+        "app":{
+          "include": [],
+          "out":""
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+<article class="p10" id="ticketRefund_selectpassenger_box">
+</article>
+
+<script type="text/template" id="ticketRefund_selectpassenger_tpl">
+        <ul class="list_st_border mb10">
+                <li class="flt_tit"><small>第<%=cnId %>程</small><%=passengerInfo.dcity %>--<%=passengerInfo.acity %></li>
+                <%for(var passengerIndex=0;passengerIndex<passengerInfo.psgs.length;passengerIndex++) { %>
+                <li class="js_checkbox js_passengerContainer <%= (passengerInfo.psgs[passengerIndex].uiflag & 1) == 1 ? '': 'flt_discheck' %>">
+                    <label  class="checkbox_wrap_b js_passenger <%=(passengerInfo.psgs[passengerIndex].uiflag & 1) == 1 && selected[passengerIndex] ? "checkbox_b_checked" : "" %>" data-passengerIndex="<%=passengerIndex %>">                   
+                    <i></i>
+                         <%=passengerInfo.psgs[passengerIndex].name  %>
+                   </label > 
+                   <mark class="fr"><%= passengerInfo.psgs[passengerIndex].status%></mark>
+                </li>
+                <% } %>
+        </ul>
+        
+        <button id="ticketRefund_selectpassenger_submit" class="btn_blue mtb" value="">完成</button>
+</script>

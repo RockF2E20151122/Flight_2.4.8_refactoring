@@ -1,0 +1,73 @@
+<header>
+    <h1>航班详情</h1><i class="returnico" id="js_return"></i>
+</header>
+<section class="flight fltgr fcmt">
+    <div class="infobox b_people fbgf" id="flightInfo"></div>
+</section>
+<script type="text/template" id="flightdetailtpl">
+    <%
+    var basicInfo = items[0].basicInfo,
+    ckind = (basicInfo.ctinfo && basicInfo.ctinfo.ckind)?basicInfo.ctinfo.ckind: 'N';
+    %>
+<hgroup class="ftx">
+    <h2>航班信息</h2>
+    <h2 class="yel"><%=cDate.parse(items[0].basicInfo.dTime).format('Y年m月d日') %>&nbsp;去程</h2>
+    <h4><%= basicInfo.aname %>/<%=items[0].basicInfo.flightNo %>/<%= (ckind=='S'?"小型机":ckind=='M'?"中型机":ckind=='L'?"大型机":"") %><%=items[0].basicInfo.planeType %>&nbsp;<%=items[0].policy.classForDisp==1?"高端":items[0].policy.classForDisp==2?"超值":items[0].policy.classForDisp==3?"豪华":""%><%=items[0].policy.class==3?"头等舱":items[0].policy.class==2?"商务舱":"经济舱"%></h4>
+</hgroup>
+<ul class="place">
+    <li>
+        <span class="addr"><%=flightSearch.dcityName %></span>
+        <span class="time"><%=cDate.parse(items[0].basicInfo.dTime).format('H:i') %></span>
+        <span class="site"><%=basicInfo.daname %><%=items[0].basicInfo.dTerminal%></span>
+    </li>
+    <li class="icosj"></li>
+    <li>
+        <span class="addr"><%=flightSearch.acityName %></span>
+        <span class="time"><%=cDate.parse(items[0].basicInfo.aTime).format('H:i') %></span>
+        <span class="site"><%=basicInfo.aaname %><%=items[0].basicInfo.aTerminal%></span>
+    </li>
+</ul>
+<p class="ctr_value">携程价格：<span>&yen;<%=items[0].policy.price %></span><br />机建/燃油：<span>&yen;<%=items[0].policy.tax %></span></span><span>/</span><span>&yen;<%=items[0].policy.fuelCost %></span></span></p>
+<p class="tickterm"><b>退票条件：</b><%=items[0].rmk.refNote%></span></p>
+<p class="tickterm"><b>更改条件：</b><%=items[0].rmk.rerNote%></p>
+<p class="tickterm"><b>转签条件：</b><%=items[0].rmk.endNote%></p>
+<%if((+items[0].basicInfo.flag & 2) ==2){%>
+ <p class="tickterm"><b>K位说明：</b>携程会为您向航空公司申请该价格。<br />
+1.申请的舱位受航班销售情况随时可能发生变化，不能保证一定有座位<br />
+2.申请的舱位不可下暂缓订单，确认时间和送票时间增加1小时左右<br />
+3.非工作时间内（周一~周五 9:00前、16:30后，法定假日）预订机票，需要等待到工作时间进行确认<br />
+4.申请的舱位退改签方面的限制更多，具体请查看相应的退改签规则" 。</p>
+<%}%>
+<%if(items.length>1){
+    var bckind = ( items[1].basicInfo.ctinfo && items[1].basicInfo.ctinfo.ckind) ? items[1].basicInfo.ctinfo.ckind: 'N';
+    %>
+<!--返程-->
+<hgroup class="ftx">
+    <h2 class="yel f_return"><%=cDate.parse(items[1].basicInfo.dTime).format('Y年m月d日') %>&nbsp;返程</h2>
+    <h4><%= items[1].basicInfo.aname %>/<%=items[1].basicInfo.flightNo %>/<%=(!selectedFlight.arrive.aircraft || bckind =='S'?"小型机":bckind =='M'?"中型机":bckind =='L'?"大型机":"") %><%=items[1].basicInfo.planeType %>&nbsp;<%=items[1].policy.classForDisp==1?"高端":items[1].policy.classForDisp==2?"超值":items[1].policy.classForDisp==3?"豪华":""%><%=items[1].policy.class==3?"头等舱":items[1].policy.class==2?"商务舱":"经济舱"%></h4>
+</hgroup>
+<ul class="place">
+    <li>
+        <span class="addr"><%=flightSearch.acityName %></span>
+        <span class="time"><%=cDate.parse(items[1].basicInfo.dTime).format('H:i') %></span>
+        <span class="site"><%=items[1].basicInfo.daname %><%=items[1].basicInfo.dTerminal%></span>
+    </li>
+    <li class="icosj"></li>
+    <li>
+        <span class="addr"><%=flightSearch.dcityName %></span>
+        <span class="time"><%=cDate.parse(items[1].basicInfo.aTime).format('H:i') %></span>
+        <span class="site"><%=items[1].basicInfo.aaname %><%=items[1].basicInfo.aTerminal%></span>
+    </li>
+</ul>
+<p class="ctr_value">&nbsp;携程价格：<span>&yen;<%=items[1].policy.price %></span><br />机建/燃油：<span>&yen;<%=items[1].policy.tax %></span></span><span>/</span><span>&yen;<%=items[1].policy.fuelCost %></span></span></p>
+<p class="tickterm"><b>退票条件：</b><%=items[1].rmk.refNote%></span></p>
+<p class="tickterm"><b>更改条件：</b><%=items[1].rmk.rerNote%></p>
+<p class="tickterm"><b>转签条件：</b><%=items[1].rmk.endNote%></p>
+<%if((+items[1].basicInfo.flag & 2) ==2){%>
+ <p class="tickterm"><b>K位说明</b>：携程会为您向航空公司申请该价格。<br />
+1.申请的舱位受航班销售情况随时可能发生变化，不能保证一定有座位<br />
+2.申请的舱位不可下暂缓订单，确认时间和送票时间增加1小时左右<br />
+3.非工作时间内（周一~周五 9:00前、16:30后，法定假日）预订机票，需要等待到工作时间进行确认<br />
+4.申请的舱位退改签方面的限制更多，具体请查看相应的退改签规则" 。</p>
+<%}} %>
+</script>

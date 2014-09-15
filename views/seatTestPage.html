@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!--
+测试css代码后面删除
+-->
+    <style>
+        .flight-seat header{ position: relative; background: #f5f5f5;}
+        .flight-seat .hide{ display: none}
+        .flight-seat .selected{ background: #ccc; }
+        .flight-seat .seat-list .selected{background: blue;}
+        .tips-single-mode .seat-multiple-mode, .flight-seat .seat-single-mode{display: none;}
+        .tips-single-mode .seat-single-mode{display: block;}
+
+        /*seat*/
+        .flight-seat .seat-x-axis, .flight-seat .seat-area,
+        .flight-seat .seat-list, .flight-seat .seat-select-area,
+        .flight-seat .seat-y-axis{ display: -webkit-flex; }
+        .flight-seat .seat-area{position: relative; z-index: 5;}
+        .flight-seat .seat-x-axis li, .flight-seat .seat-area ul,
+        .flight-seat .seat-area div, .flight-seat .seat-y-axis li{ -webkit-flex: 1; text-align: center; }
+        .flight-seat .seat-list, .flight-seat .seat-select-area .seat-main,
+        .flight-seat .seat-y-axis{ -webkit-flex-direction: column; align-items: center}
+        .flight-seat .seat-select-area .seat-y-axis{ width: 50px;}
+        .flight-seat .seat-select-area .seat-main{ -webkit-flex: 1;}
+        .flight-seat .seat-x-axis{ height: 30px; line-height: 30px; position: relative; z-index: 10;background: #f5f5f5}
+        .flight-seat .seat-y-axis li{ background: none;}
+
+
+        #selectSeat {
+            width: 100%;
+        }
+        body {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="selectSeat" ></div>
+
+</body>
+</html>

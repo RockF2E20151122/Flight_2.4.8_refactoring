@@ -1,0 +1,1 @@
+define(function(a){var b=a(""),b=function(){};return b.prototype={init:function(){},constructor:b},b});

@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<profile>
+  <environments>
+    <add name="dev" dataCenter="sh,sh2,nt" target="dev" iis="IIS6,IIS7" net="Net2,Net4" />
+    <add name="test" dataCenter="sh,sh2,nt" target="test" iis="IIS6,IIS7" net="Net2,Net4" />
+    <add name="testx" dataCenter="sh,sh2,nt" target="testx" iis="IIS6,IIS7" net="Net2,Net4" />
+    <add name="uat" dataCenter="sh,sh2,nt" target="uat" iis="IIS6,IIS7" net="Net2,Net4" />
+    <add name="prd" dataCenter="sh,sh2,nt" target="prd" iis="IIS6,IIS7" net="Net2,Net4" />
+    <add name="fat" dataCenter="sh,sh2,nt" target="fat" iis="IIS6,IIS7" net="Net2,Net4" />
+    <add name="fws" dataCenter="sh,sh2,nt" target="fws" iis="IIS6,IIS7" net="Net2,Net4" />
+    <add name="lpt" dataCenter="sh,sh2,nt" target="lpt" iis="IIS6,IIS7" net="Net2,Net4" />
+    <add name="UAT_NT" dataCenter="nt" target="UAT_NT" iis="IIS7" net="NET4" />
+  </environments>
+
+
+  <dev>
+    <AppID>340202</AppID>
+    <authTicketEncryptionKey>17BC1F13B0C4F1E3FE2EC4B480A36862F22267D78517648CAC3A364DA2A3B1A3</authTicketEncryptionKey>
+    <authTicketSlidingExpiration>true</authTicketSlidingExpiration>
+    <authTicketTimeout>1440</authTicketTimeout>
+    <authTicketVersion>1</authTicketVersion>
+    <CityExpiredTime>1800</CityExpiredTime>
+    <ClientValidationEnabled>true</ClientValidationEnabled>
+    <ESBUrl>http://soa.testu.sh.ctriptravel.com/SOA.ESB/Ctrip.SOA.ESB.asmx</ESBUrl>
+    <IsLogAction>true</IsLogAction>
+    <IsLogNonUser>false</IsLogNonUser>
+    <LoggingServer.V2.IP>192.168.82.58</LoggingServer.V2.IP>
+    <LoggingServer.V2.Port>63100</LoggingServer.V2.Port>
+    <PayHost>https://wapsecuretest.ctrip.com/wapSecurity/</PayHost>
+    <ReleaseNo>J19071_2013_07_20_00_17_15</ReleaseNo>
+    <RestfulUrl>https://10.168.147.4/restapi2/</RestfulUrl>
+    <SOAExpiredTime>1440</SOAExpiredTime>
+    <UnobtrusiveJavaScriptEnabled>true</UnobtrusiveJavaScriptEnabled>
+    <UseRemoteLog>true</UseRemoteLog>
+    <UserLoginAllowedTryInterval>10</UserLoginAllowedTryInterval>
+    <UserLoginLockInterval>30</UserLoginLockInterval>
+    <UserLoginMaxTryCount>5</UserLoginMaxTryCount>
+    <VerifyCodeMessage>验证码{0}，感谢您使用携程旅行手机号查询订单功能。如有疑问请致电4000086666</VerifyCodeMessage>
+  </dev>
+
+  <test>
+    <AppID>340202</AppID>
+    <authTicketEncryptionKey>17BC1F13B0C4F1E3FE2EC4B480A36862F22267D78517648CAC3A364DA2A3B1A3</authTicketEncryptionKey>
+    <authTicketSlidingExpiration>true</authTicketSlidingExpiration>
+    <authTicketTimeout>1440</authTicketTimeout>
+    <authTicketVersion>1</authTicketVersion>
+    <CityExpiredTime>1800</CityExpiredTime>
+    <ClientValidationEnabled>true</ClientValidationEnabled>
+    <ESBUrl>http://soa.testu.sh.ctriptravel.com/SOA.ESB/Ctrip.SOA.ESB.asmx</ESBUrl>
+    <IsLogAction>true</IsLogAction>
+    <IsLogNonUser>false</IsLogNonUser>
+    <LoggingServer.V2.IP>192.168.82.58</LoggingServer.V2.IP>
+    <LoggingServer.V2.Port>63100</LoggingServer.V2.Port>
+    <PayHost>https://wapsecuretest.ctrip.com/wapSecurity/</PayHost>
+    <ReleaseNo>J19071_2013_07_20_00_17_15</ReleaseNo>
+    <RestfulUrl>https://10.168.147.4/restapi2/</RestfulUrl>
+    <SOAExpiredTime>1440</SOAExpiredTime>
+    <UnobtrusiveJavaScriptEnabled>true</UnobtrusiveJavaScriptEnabled>
+    <UseRemoteLog>true</UseRemoteLog>
+    <UserLoginAllowedTryInterval>10</UserLoginAllowedTryInterval>
+    <UserLoginLockInterval>30</UserLoginLockInterval>
+    <UserLoginMaxTryCount>5</UserLoginMaxTryCount>
+    <VerifyCodeMessage>验证码{0}，感谢您使用携程旅行手机号查询订单功能。如有疑问请致电4000086666</VerifyCodeMessage>
+
+  </test>
+
+  <testx>
+    <AppID>340202</AppID>
+    <authTicketEncryptionKey>17BC1F13B0C4F1E3FE2EC4B480A36862F22267D78517648CAC3A364DA2A3B1A3</authTicketEncryptionKey>
+    <authTicketSlidingExpiration>true</authTicketSlidingExpiration>
+    <authTicketTimeout>1440</authTicketTimeout>
+    <authTicketVersion>1</authTicketVersion>
+    <CityExpiredTime>1800</CityExpiredTime>
+    <ClientValidationEnabled>true</ClientValidationEnabled>
+    <ESBUrl>http://soa.testu.sh.ctriptravel.com/SOA.ESB/Ctrip.SOA.ESB.asmx</ESBUrl>
+    <IsLogAction>true</IsLogAction>
+    <IsLogNonUser>false</IsLogNonUser>
+    <LoggingServer.V2.IP>192.168.82.58</LoggingServer.V2.IP>
+    <LoggingServer.V2.Port>63100</LoggingServer.V2.Port>
+    <PayHost>https://wapsecuretest.ctrip.com/wapSecurity/</PayHost>
+    <ReleaseNo>J19071_2013_07_20_00_17_15</ReleaseNo>
+    <RestfulUrl>https://10.168.147.4/restapi2/</RestfulUrl>
+    <SOAExpiredTime>1440</SOAExpiredTime>
+    <UnobtrusiveJavaScriptEnabled>true</UnobtrusiveJavaScriptEnabled>
+    <UseRemoteLog>true</UseRemoteLog>
+    <UserLoginAllowedTryInterval>10</UserLoginAllowedTryInterval>
+    <UserLoginLockInterval>30</UserLoginLockInterval>
+    <UserLoginMaxTryCount>5</UserLoginMaxTryCount>
+    <VerifyCodeMessage>验证码{0}，感谢您使用携程旅行手机号查询订单功能。如有疑问请致电4000086666</VerifyCodeMessage>
+
+  </testx>
+
+  <uat>
+    <AppID>340202</AppID>
+    <authTicketEncryptionKey>17BC1F13B0C4F1E3FE2EC4B480A36862F22267D78517648CAC3A364DA2A3B1A3</authTicketEncryptionKey>
+    <authTicketSlidingExpiration>true</authTicketSlidingExpiration>
+    <authTicketTimeout>1440</authTicketTimeout>
+    <authTicketVersion>1</authTicketVersion>
+    <CityExpiredTime>1800</CityExpiredTime>
+    <ClientValidationEnabled>true</ClientValidationEnabled>
+    <ESBUrl>http://soa.testu.sh.ctriptravel.com/SOA.ESB/Ctrip.SOA.ESB.asmx</ESBUrl>
+    <IsLogAction>true</IsLogAction>
+    <IsLogNonUser>false</IsLogNonUser>
+    <LoggingServer.V2.IP>192.168.82.58</LoggingServer.V2.IP>
+    <LoggingServer.V2.Port>63100</LoggingServer.V2.Port>
+    <PayHost>https://wapsecuretest.ctrip.com/wapSecurity/</PayHost>
+    <ReleaseNo>J19071_2013_07_20_00_17_15</ReleaseNo>
+    <RestfulUrl>https://10.168.147.4/restapi/</RestfulUrl>
+    <SOAExpiredTime>1440</SOAExpiredTime>
+    <UnobtrusiveJavaScriptEnabled>true</UnobtrusiveJavaScriptEnabled>
+    <UseRemoteLog>true</UseRemoteLog>
+    <UserLoginAllowedTryInterval>10</UserLoginAllowedTryInterval>
+    <UserLoginLockInterval>30</UserLoginLockInterval>
+    <UserLoginMaxTryCount>5</UserLoginMaxTryCount>
+    <VerifyCodeMessage>验证码{0}，感谢您使用携程旅行手机号查询订单功能。如有疑问请致电4000086666</VerifyCodeMessage>
+
+  </uat>
+
+  <UAT_NT>
+    <AppID>340202</AppID>
+    <authTicketEncryptionKey>17BC1F13B0C4F1E3FE2EC4B480A36862F22267D78517648CAC3A364DA2A3B1A3</authTicketEncryptionKey>
+    <authTicketSlidingExpiration>true</authTicketSlidingExpiration>
+    <authTicketTimeout>1440</authTicketTimeout>
+    <authTicketVersion>1</authTicketVersion>
+    <CityExpiredTime>1800</CityExpiredTime>
+    <ClientValidationEnabled>true</ClientValidationEnabled>
+    <ESBUrl>http://soa.testu.sh.ctriptravel.com/SOA.ESB/Ctrip.SOA.ESB.asmx</ESBUrl>
+    <IsLogAction>true</IsLogAction>
+    <IsLogNonUser>false</IsLogNonUser>
+    <LoggingServer.V2.IP>192.168.82.58</LoggingServer.V2.IP>
+    <LoggingServer.V2.Port>63100</LoggingServer.V2.Port>
+    <PayHost>https://wapsecuretest.ctrip.com/wapSecurity/</PayHost>
+    <ReleaseNo>J19071_2013_07_20_00_17_15</ReleaseNo>
+    <RestfulUrl>https://10.168.147.4/restapi/</RestfulUrl>
+    <SOAExpiredTime>1440</SOAExpiredTime>
+    <UnobtrusiveJavaScriptEnabled>true</UnobtrusiveJavaScriptEnabled>
+    <UseRemoteLog>true</UseRemoteLog>
+    <UserLoginAllowedTryInterval>10</UserLoginAllowedTryInterval>
+    <UserLoginLockInterval>30</UserLoginLockInterval>
+    <UserLoginMaxTryCount>5</UserLoginMaxTryCount>
+    <VerifyCodeMessage>验证码{0}，感谢您使用携程旅行手机号查询订单功能。如有疑问请致电4000086666</VerifyCodeMessage>
+
+  </UAT_NT>
+
+  <prd>
+    <AppID>340202</AppID>
+    <authTicketEncryptionKey>A2F2E8A8EF1579951C786495D5DB7214AA28807E322E688EDAD4A7A1E909CC3E</authTicketEncryptionKey>
+    <authTicketSlidingExpiration>true</authTicketSlidingExpiration>
+    <authTicketTimeout>1440</authTicketTimeout>
+    <authTicketVersion>1</authTicketVersion>
+    <CityExpiredTime>1800</CityExpiredTime>
+    <ClientValidationEnabled>true</ClientValidationEnabled>
+    <ESBUrl>http://soa.sh.ctriptravel.com/SOA.ESB/Ctrip.SOA.ESB.asmx</ESBUrl>
+    <IsLogAction>false</IsLogAction>
+    <IsLogNonUser>false</IsLogNonUser>
+    <LoggingServer.V2.IP>collector.logging.sh.ctriptravel.com</LoggingServer.V2.IP>
+    <LoggingServer.V2.Port>63100</LoggingServer.V2.Port>
+    <PayHost>https://secure.ctrip.com/wapSecurity/</PayHost>
+    <ReleaseNo>J19071_2013_07_20_00_17_15</ReleaseNo>
+    <RestfulUrl>https://10.8.0.64/restapi/</RestfulUrl>
+    <SOAExpiredTime>1440</SOAExpiredTime>
+    <UnobtrusiveJavaScriptEnabled>true</UnobtrusiveJavaScriptEnabled>
+    <UseRemoteLog>true</UseRemoteLog>
+    <UserLoginAllowedTryInterval>10</UserLoginAllowedTryInterval>
+    <UserLoginLockInterval>30</UserLoginLockInterval>
+    <UserLoginMaxTryCount>5</UserLoginMaxTryCount>
+    <VerifyCodeMessage>验证码{0}，感谢您使用携程旅行手机号查询订单功能。如有疑问请致电4000086666</VerifyCodeMessage>
+
+  </prd>
+
+  <fat>
+    <AppID>340202</AppID>
+    <authTicketEncryptionKey>17BC1F13B0C4F1E3FE2EC4B480A36862F22267D78517648CAC3A364DA2A3B1A3</authTicketEncryptionKey>
+    <authTicketSlidingExpiration>true</authTicketSlidingExpiration>
+    <authTicketTimeout>1440</authTicketTimeout>
+    <authTicketVersion>1</authTicketVersion>
+    <CityExpiredTime>1800</CityExpiredTime>
+    <ClientValidationEnabled>true</ClientValidationEnabled>
+    <ESBUrl>http://soa.testu.sh.ctriptravel.com/SOA.ESB/Ctrip.SOA.ESB.asmx</ESBUrl>
+    <IsLogAction>true</IsLogAction>
+    <IsLogNonUser>false</IsLogNonUser>
+    <LoggingServer.V2.IP>192.168.82.58</LoggingServer.V2.IP>
+    <LoggingServer.V2.Port>63100</LoggingServer.V2.Port>
+    <PayHost>https://wapsecuretest.ctrip.com/wapSecurity/</PayHost>
+    <ReleaseNo>J19071_2013_07_20_00_17_15</ReleaseNo>
+    <RestfulUrl>https://10.168.147.4/restapi/</RestfulUrl>
+    <SOAExpiredTime>1440</SOAExpiredTime>
+    <UnobtrusiveJavaScriptEnabled>true</UnobtrusiveJavaScriptEnabled>
+    <UseRemoteLog>true</UseRemoteLog>
+    <UserLoginAllowedTryInterval>10</UserLoginAllowedTryInterval>
+    <UserLoginLockInterval>30</UserLoginLockInterval>
+    <UserLoginMaxTryCount>5</UserLoginMaxTryCount>
+    <VerifyCodeMessage>验证码{0}，感谢您使用携程旅行手机号查询订单功能。如有疑问请致电4000086666</VerifyCodeMessage>
+
+  </fat>
+
+  <fws>
+    <AppID>340202</AppID>
+    <authTicketEncryptionKey>17BC1F13B0C4F1E3FE2EC4B480A36862F22267D78517648CAC3A364DA2A3B1A3</authTicketEncryptionKey>
+    <authTicketSlidingExpiration>true</authTicketSlidingExpiration>
+    <authTicketTimeout>1440</authTicketTimeout>
+    <authTicketVersion>1</authTicketVersion>
+    <CityExpiredTime>1800</CityExpiredTime>
+    <ClientValidationEnabled>true</ClientValidationEnabled>
+    <ESBUrl>http://soa.testu.sh.ctriptravel.com/SOA.ESB/Ctrip.SOA.ESB.asmx</ESBUrl>
+    <IsLogAction>true</IsLogAction>
+    <IsLogNonUser>false</IsLogNonUser>
+    <LoggingServer.V2.IP>192.168.82.58</LoggingServer.V2.IP>
+    <LoggingServer.V2.Port>63100</LoggingServer.V2.Port>
+    <PayHost>https://wapsecuretest.ctrip.com/wapSecurity/</PayHost>
+    <ReleaseNo>J19071_2013_07_20_00_17_15</ReleaseNo>
+    <RestfulUrl>https://10.168.147.4/restapi/</RestfulUrl>
+    <SOAExpiredTime>1440</SOAExpiredTime>
+    <UnobtrusiveJavaScriptEnabled>true</UnobtrusiveJavaScriptEnabled>
+    <UseRemoteLog>true</UseRemoteLog>
+    <UserLoginAllowedTryInterval>10</UserLoginAllowedTryInterval>
+    <UserLoginLockInterval>30</UserLoginLockInterval>
+    <UserLoginMaxTryCount>5</UserLoginMaxTryCount>
+    <VerifyCodeMessage>验证码{0}，感谢您使用携程旅行手机号查询订单功能。如有疑问请致电4000086666</VerifyCodeMessage>
+
+  </fws>
+
+
+  <lpt>
+    <AppID>340202</AppID>
+    <authTicketEncryptionKey>17BC1F13B0C4F1E3FE2EC4B480A36862F22267D78517648CAC3A364DA2A3B1A3</authTicketEncryptionKey>
+    <authTicketSlidingExpiration>true</authTicketSlidingExpiration>
+    <authTicketTimeout>1440</authTicketTimeout>
+    <authTicketVersion>1</authTicketVersion>
+    <CityExpiredTime>1800</CityExpiredTime>
+    <ClientValidationEnabled>true</ClientValidationEnabled>
+    <ESBUrl>http://soa.testu.sh.ctriptravel.com/SOA.ESB/Ctrip.SOA.ESB.asmx</ESBUrl>
+    <IsLogAction>true</IsLogAction>
+    <IsLogNonUser>false</IsLogNonUser>
+    <LoggingServer.V2.IP>192.168.82.58</LoggingServer.V2.IP>
+    <LoggingServer.V2.Port>63100</LoggingServer.V2.Port>
+    <PayHost>https://wapsecuretest.ctrip.com/wapSecurity/</PayHost>
+    <ReleaseNo>J19071_2013_07_20_00_17_15</ReleaseNo>
+    <RestfulUrl>https://10.168.147.4/restapi/</RestfulUrl>
+    <SOAExpiredTime>1440</SOAExpiredTime>
+    <UnobtrusiveJavaScriptEnabled>true</UnobtrusiveJavaScriptEnabled>
+    <UseRemoteLog>true</UseRemoteLog>
+    <UserLoginAllowedTryInterval>10</UserLoginAllowedTryInterval>
+    <UserLoginLockInterval>30</UserLoginLockInterval>
+    <UserLoginMaxTryCount>5</UserLoginMaxTryCount>
+    <VerifyCodeMessage>验证码{0}，感谢您使用携程旅行手机号查询订单功能。如有疑问请致电4000086666</VerifyCodeMessage>
+  </lpt>
+
+</profile>

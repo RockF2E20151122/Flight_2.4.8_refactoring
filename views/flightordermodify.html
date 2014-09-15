@@ -1,0 +1,90 @@
+﻿<article  class="p10" id="flightordermodify_box">
+
+</article>
+<script type="text/template" id="flightordermodify_tpl">
+    <%if(tktinfo.triptype & 1 == 1){%>
+        
+        <section class="list_st_border mb10">
+                <h3 class="flt_tit"><small>第一程</small><%=segs[0].dcity %>--<%=segs[segs.length-1].acity%></h3>
+                <dl class="p10 flt_dl">
+                    <dt class="greyfont">更改条件</dt>
+                    <%if(segs[0] && segs[0].psgs[0]) {%>
+                    <dd><%=segs[0].psgs[0].chgpolicy %></dd>
+                    <%} %>
+                </dl>
+        </section>
+
+        <ul class="list_st_border mb10" id="js_psgslist">
+                <li class="flt_greytit greyfont">选择改签登机人</li>
+                <%for(var j=0;j<segs[0].psgs.length;j++) {%>
+                  <%if((segs[0].psgs[j].uiflag & 2)==2) {%>
+                    <li class="js_psgs" data-index=" <%= j %> ">
+                        <label  class="checkbox_wrap_b">
+                        <i></i>
+                            <%=segs[0].psgs[j].name %>
+                        </label > 
+                                      
+                    </li>
+					
+                  <%}else {%>
+                    <li class="flt_discheck" data-index=" <%= j %> ">
+                        <label class="checkbox_wrap_b">
+							<i></i>
+                            <%=segs[0].psgs[j].name %>
+                        </label >         
+						<%if(segs[0].psgs[j].status){%>
+							<mark class="fr"><%=segs[0].psgs[j].status %></mark>
+						<%} %>
+                    </li>
+                   <%} %>
+                <%} %>
+        </ul>
+         <ul class="list_st_border mb10">
+                <li class="flt_greytit greyfont">目标航班起飞日期</li>
+                <li class="greyfont arr_r js_departDate">起飞日期<mark class="fr flt_rlink">选择改签后的航班起飞日期</mark></li>
+        </ul>
+    <%}else{ %>
+
+        <%for(var i=0;i<segs.length;i++){ %>
+        <section class="list_st_border mb10">
+                <h3 class="<%= !!(i % 2)? "flt_tit1" : "flt_tit" %>"><small>第<%=num2Chnum(i+1)%>程</small><%=segs[i].dcity %>--<%=segs[i].acity %><%if(!segs[i].canChange) {%><small class="flt_posr">不得更改</small><%} %></h3>
+                <dl class="p10 flt_dl">
+                    <dt class="greyfont">更改条件</dt>
+                    <%if(segs[i].psgs[0]) {%>
+                    <dd><%=segs[i].psgs[0].chgpolicy %></dd>
+                    <%} %>
+                </dl>
+        </section>
+         <%if(segs[i].canChange) {%>
+        <ul class="list_st_border mb10">
+                
+                <%if(selectp && selectp.passengerList && selectp.passengerList[i]) {%>
+                <li class="arr_r  greyfont flt_greytit changeplist" data-index="<%=i %>">改签的登机人</li>
+                 <li class="flt_multline">
+                    <%for(j in selectp.passengerList[i]) {%>
+                        <p><%= selectp.passengerList[i][j].chgseg.psgname%></p>
+                    <%} %>                   
+                </li>
+                <li>目标航班起飞日期：<time class="greyfont"><%=cDate.parse(selectp.changeTime[i].takedate).format('Y-m-d') %></time></li>
+                <%}else{ %>
+                <li class="arr_r  greyfont changeplist" data-index="<%=i %>">改签的登机人</li>
+                <%} %>
+        </ul>
+         <%} %>
+        <%} %>
+        
+
+    <%} %>
+        <textarea placeholder="其他处理要求（选填）" class="flt_textarea abs_size" id="flighticketchangermk" maxlength="100"></textarea>
+        <%if(ticketdaytimeshow) {%>
+        <p class="flt_p ticketdaytime">
+             <label  class="checkbox_wrap_bs">
+                  <i></i>
+                  白天联系
+             </label >
+        </p>
+        <%} %>
+        <p class="flt_p greyfont2"><i class="icon_hint">i</i>提交改签申请成功后，我们会在30分钟内与您确认改签事宜，请保持电话畅通。</p>
+
+        <button id="ticketchangesumbit" class="btn_blue mtb" value="">提交</button>
+</script>
